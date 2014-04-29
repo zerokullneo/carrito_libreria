@@ -1,0 +1,1 @@
+./Debug/main.o ./Debug/Cadena_cadena.o ./Debug/Fecha_fecha.o
