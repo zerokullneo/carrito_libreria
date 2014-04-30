@@ -57,12 +57,10 @@ Cadena::Cadena(const char* texto)
 	for(i = 0; texto[i] != '\0' ; i++);
 
 	tamano_= i;
-	texto_ = new char;//[tamano_+1];
-
-	for(i = 0; i < tamano_; i++)
-		texto_[i] = texto[i];
-
-	texto_[i] = '\0';
+	cout << tamano_ << "-constructor.\n";
+	texto_ = new char;
+	strncpy(texto_,texto,i);
+	cout << texto_ << "-" << endl;
 }
 
 Cadena::Cadena(unsigned int tamano)
@@ -257,7 +255,7 @@ unsigned int Cadena::longitudC(Cadena& c) const
 {
 	unsigned int i;
 
-	for(i=0;i <= c.longitudE(); i++ );
+	for(i=0; c.texto_[i]!='\0'; i++);
 
 	return i;
 }

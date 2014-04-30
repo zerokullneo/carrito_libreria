@@ -14,6 +14,7 @@ int main()
 	cad.imprimirP();
 	cout << "." << endl << "Fecha de Nacimiento: ";
 	fec.visualizar();
+	cout << cad.longitudE() << endl;
 
 	return 0;
 }
