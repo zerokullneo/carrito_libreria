@@ -4,17 +4,16 @@
 
 int main()
 {
-	Fecha fec;
-	Cadena cad;
-
-	fec = Fecha (21,2,1982);
-	cad = Cadena("Jose M. Barba");
+	Fecha fecM(21,2,1982), f;
+	Cadena cadM("Jose M. Barba");
+	istringstream is("14/10/2000");
+	cout << "---" << endl;
+	is >> f;
 	
-	cout << "Nombre: ";
-	cad.imprimirP();
+	cout << "Main\n" << cadM;
 	cout << "." << endl << "Fecha de Nacimiento: ";
-	fec.visualizar();
-	cout << cad.longitudE() << endl;
+	fecM.visualizar();
+	f.visualizar();
 
 	return 0;
 }

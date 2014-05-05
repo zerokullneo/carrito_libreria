@@ -37,6 +37,8 @@ class Fecha
 	public:
 		explicit Fecha ();
 		Fecha(int dia, int mes, int year);
+		//Constructor de conversión de Cadena a Fecha.
+		Fecha(char* string_fecha);
 
 		//operadores sobrecargados
 		Fecha& operator += (int incremento);
@@ -122,6 +124,6 @@ bool operator !=(const Fecha& fec1, const Fecha& fec2);
 //Sobrecarga el operador Flujo de Salida para que la fecha sea legible por pantalla.
 ostream& operator <<(ostream& os, const Fecha& fec);
 
-//Sobrecarga el operador Flujo de Entrada para que .
-istream& operator >>(istream& is, Cadena& cad);
+//Sobrecarga el operador Flujo de Entrada para construir una Fecha de forma directa.
+istream& operator >>(istream& is, Fecha& fec);
 #endif	/* _FECHA_H_ */

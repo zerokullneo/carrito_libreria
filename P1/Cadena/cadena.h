@@ -37,7 +37,7 @@ class Cadena
 		//Constructor de conversión
 		Cadena (unsigned int longitud, const char caracter);
 		Cadena (const Cadena& frase);
-		explicit Cadena(const char* texto);
+		Cadena (const char* texto);
 		explicit Cadena(unsigned int tamano);
 
 		//operadores sobrecargados

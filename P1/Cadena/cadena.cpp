@@ -39,28 +39,16 @@ Cadena::Cadena(unsigned int longitud, const char caracter)
 
 Cadena::Cadena(const Cadena& frase)
 {
-	unsigned int i;
-
 	tamano_ = frase.tamano_;
 	texto_ = new char[tamano_+1];
-
-	for(i = 0; i < tamano_; i++)
-		texto_[i] = frase[i];
-
-	texto_[i+1] = '\0';
+	strncpy(texto_,frase.texto_,tamano_);
 }
 
 Cadena::Cadena(const char* texto)
 {
-	unsigned int i;
-
-	for(i = 0; texto[i] != '\0' ; i++);
-
-	tamano_= i;
-	cout << tamano_ << "-constructor.\n";
-	texto_ = new char;
-	strncpy(texto_,texto,i);
-	cout << texto_ << "-" << endl;
+	tamano_= strlen(texto);
+	texto_ = new char[tamano_+1];
+	strncpy(texto_,texto,tamano_);
 }
 
 Cadena::Cadena(unsigned int tamano)
@@ -235,7 +223,7 @@ char& Cadena::at(unsigned int i)throw(out_of_range)
 /*OPERADORES DE FLUJO*/
 ostream& operator <<(ostream& out,const Cadena& texto)
 {
-	out << texto.c_str();
+	out << "Nombre: " << texto.texto_;
 	return out;
 }
 

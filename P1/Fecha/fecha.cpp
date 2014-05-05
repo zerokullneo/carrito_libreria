@@ -49,6 +49,18 @@ Fecha::Fecha (int dia, int mes, int year)
 		cout<<"FIncorrecta"<<endl;
 }
 
+//Constructor de conversión de Cadena a Fecha.
+Fecha::Fecha(char* string_fecha)
+{
+	char *fecha;
+	fecha = strtok(string_fecha,"/-");
+	d_ = atoi(fecha);
+	fecha = strtok(NULL, "/-");
+	m_ = atoi(fecha);
+	fecha = strtok(NULL, "/-");
+	a_ = atoi(fecha);
+}
+
 Fecha::FIncorrecta::FIncorrecta(enum tipo_ t)
 {
 	tp_ = t;
@@ -321,19 +333,16 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 
 ostream& operator << (ostream& os, const Fecha& fec)
 {
-    os << "Fecha actual: " << fec.visualizar_dia() << "/" << fec.visualizar_mes() << "/" << fec.visualizar_anyo() << endl;
+    os << "Fecha etiquetada: " << fec.visualizar_dia() << "/" << fec.visualizar_mes() << "/" << fec.visualizar_anyo() << endl;
     return os;
 }
 
 istream& operator >>(istream& is, Fecha& fec)
 {
-	int d,m,a;
-	char *fecha;
-	fecha = strtok("1/1/1970","/");
-	d = atoi(fecha);
-	m = atoi(fecha);
-	a = atoi(fecha);
-	printf("Dia %i, mes %i, ano %i.", d, m, a);
-	//is = ;
+	char fc[21];
+	is.width(21);
+	is >> fc;
+	//strcpy(fc,is);
+	fec = Fecha(fc);
 	return is;
 }
