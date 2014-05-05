@@ -27,8 +27,8 @@
 #include "../../cabeceras.h"
 #include "../Cadena/cadena.h"
 
-#define YEARMINIMO 1000;
-#define YEARMAXIMO 2500;
+#define YEAR_MINIMO 1000
+#define YEAR_MAXIMO 2500
 
 #ifndef _FECHA_H_
 #define _FECHA_H_

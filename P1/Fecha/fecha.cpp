@@ -59,6 +59,9 @@ Fecha::Fecha(char* string_fecha)
 	m_ = atoi(fecha);
 	fecha = strtok(NULL, "/-");
 	a_ = atoi(fecha);
+
+	if(comprueba_fecha(d_, m_, a_) != true)
+		cout<<"FIncorrecta"<<endl;
 }
 
 Fecha::FIncorrecta::FIncorrecta(enum tipo_ t)
@@ -262,7 +265,7 @@ void Fecha::visualizar() const
 
 bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 {
-    if ((year < 1000) || (year > 2500))
+    if ((year < YEAR_MINIMO) || (year > YEAR_MAXIMO))
 	{
 		cout << "año\n";
         throw FIncorrecta(ANYO);//year
