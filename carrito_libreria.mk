@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Jose M Barba Gonzalez
-Date                   :=05/05/14
+Date                   :=05/07/14
 CodeLitePath           :="/home/zerokullneo/.codelite"
 LinkerName             :=g++
 SharedObjectLinkerName :=g++ -shared -fPIC
@@ -60,7 +60,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main$(ObjectSuffix) $(IntermediateDirectory)/Cadena_cadena$(ObjectSuffix) $(IntermediateDirectory)/Fecha_fecha$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main$(ObjectSuffix) $(IntermediateDirectory)/Cadena_cadena$(ObjectSuffix) $(IntermediateDirectory)/Fecha_fecha$(ObjectSuffix) $(IntermediateDirectory)/P4_articulo$(ObjectSuffix) $(IntermediateDirectory)/P4_tarjeta$(ObjectSuffix) $(IntermediateDirectory)/P4_usuario$(ObjectSuffix) 
 
 
 
@@ -111,6 +111,30 @@ $(IntermediateDirectory)/Fecha_fecha$(DependSuffix): P1/Fecha/fecha.cpp
 $(IntermediateDirectory)/Fecha_fecha$(PreprocessSuffix): P1/Fecha/fecha.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Fecha_fecha$(PreprocessSuffix) "P1/Fecha/fecha.cpp"
 
+$(IntermediateDirectory)/P4_articulo$(ObjectSuffix): P4/articulo.cpp $(IntermediateDirectory)/P4_articulo$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/zerokullneo/github/codelite/carrito_libreria/P4/articulo.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/P4_articulo$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/P4_articulo$(DependSuffix): P4/articulo.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/P4_articulo$(ObjectSuffix) -MF$(IntermediateDirectory)/P4_articulo$(DependSuffix) -MM "P4/articulo.cpp"
+
+$(IntermediateDirectory)/P4_articulo$(PreprocessSuffix): P4/articulo.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/P4_articulo$(PreprocessSuffix) "P4/articulo.cpp"
+
+$(IntermediateDirectory)/P4_tarjeta$(ObjectSuffix): P4/tarjeta.cpp $(IntermediateDirectory)/P4_tarjeta$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/zerokullneo/github/codelite/carrito_libreria/P4/tarjeta.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/P4_tarjeta$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/P4_tarjeta$(DependSuffix): P4/tarjeta.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/P4_tarjeta$(ObjectSuffix) -MF$(IntermediateDirectory)/P4_tarjeta$(DependSuffix) -MM "P4/tarjeta.cpp"
+
+$(IntermediateDirectory)/P4_tarjeta$(PreprocessSuffix): P4/tarjeta.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/P4_tarjeta$(PreprocessSuffix) "P4/tarjeta.cpp"
+
+$(IntermediateDirectory)/P4_usuario$(ObjectSuffix): P4/usuario.cpp $(IntermediateDirectory)/P4_usuario$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/zerokullneo/github/codelite/carrito_libreria/P4/usuario.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/P4_usuario$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/P4_usuario$(DependSuffix): P4/usuario.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/P4_usuario$(ObjectSuffix) -MF$(IntermediateDirectory)/P4_usuario$(DependSuffix) -MM "P4/usuario.cpp"
+
+$(IntermediateDirectory)/P4_usuario$(PreprocessSuffix): P4/usuario.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/P4_usuario$(PreprocessSuffix) "P4/usuario.cpp"
+
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
 ##
@@ -126,6 +150,15 @@ clean:
 	$(RM) $(IntermediateDirectory)/Fecha_fecha$(ObjectSuffix)
 	$(RM) $(IntermediateDirectory)/Fecha_fecha$(DependSuffix)
 	$(RM) $(IntermediateDirectory)/Fecha_fecha$(PreprocessSuffix)
+	$(RM) $(IntermediateDirectory)/P4_articulo$(ObjectSuffix)
+	$(RM) $(IntermediateDirectory)/P4_articulo$(DependSuffix)
+	$(RM) $(IntermediateDirectory)/P4_articulo$(PreprocessSuffix)
+	$(RM) $(IntermediateDirectory)/P4_tarjeta$(ObjectSuffix)
+	$(RM) $(IntermediateDirectory)/P4_tarjeta$(DependSuffix)
+	$(RM) $(IntermediateDirectory)/P4_tarjeta$(PreprocessSuffix)
+	$(RM) $(IntermediateDirectory)/P4_usuario$(ObjectSuffix)
+	$(RM) $(IntermediateDirectory)/P4_usuario$(DependSuffix)
+	$(RM) $(IntermediateDirectory)/P4_usuario$(PreprocessSuffix)
 	$(RM) $(OutputFile)
 	$(RM) ".build-debug/carrito_libreria"
 

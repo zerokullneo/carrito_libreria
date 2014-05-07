@@ -43,7 +43,7 @@ class Cadena
 		//operadores sobrecargados
 		Cadena& operator +=(const Cadena& frase);
 		const char* operator =(const char* texto);
-		char* operator =(const Cadena& frase);
+		Cadena& operator =(const Cadena& frase);
 		char operator[](unsigned int i) const;
 		char& operator[](unsigned int i);
 

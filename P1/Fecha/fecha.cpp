@@ -34,7 +34,7 @@ Fecha::Fecha()
 
 //inline Fecha::Fecha(int dia, int mes, int year){ Fecha.d_ = dia; Fecha.m_ = mes; Fecha.a_ = year;}
 
-Fecha::Fecha (int dia, int mes, int year)
+Fecha::Fecha(int dia, int mes, int year)
 {
 	if(!dia) d_ = getd_;
 	d_ = dia;

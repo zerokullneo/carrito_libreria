@@ -5,7 +5,8 @@
 int main()
 {
 	Fecha fecM(21,2,1982), f;
-	Cadena cadM("Jose M. Barba");
+	const char *user = "Jose M. Barba";
+	Cadena cadM(user);
 	istringstream is("14/10/2000");
 	cout << "---" << endl;
 	is >> f;

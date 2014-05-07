@@ -97,5 +97,11 @@
     <File Name="P1/Cadena/cadena.h"/>
     <File Name="P1/Fecha/fecha.cpp"/>
     <File Name="P1/Fecha/fecha.h"/>
+    <File Name="articulo.h"/>
+    <File Name="usuario.h"/>
+    <File Name="tarjeta.h"/>
+    <File Name="P4/articulo.cpp"/>
+    <File Name="P4/tarjeta.cpp"/>
+    <File Name="P4/usuario.cpp"/>
   </VirtualDirectory>
 </CodeLite_Project>

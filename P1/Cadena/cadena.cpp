@@ -92,10 +92,11 @@ const char* Cadena::operator =(const char* texto)
 	return texto;
 }
 
-char* Cadena::operator = (const Cadena& frase)
+Cadena& Cadena::operator =(const Cadena& frase)
 {
-	//this->~Cadena();
-	return frase.texto_;
+	this->~Cadena();
+	strcpy(texto_, frase.texto_);
+	return *this;
 }
 
 char Cadena::operator[](unsigned int i) const

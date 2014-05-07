@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace>
+  <WorkspaceParserPaths>
+    <Include Path="/home/zerokullneo/github/codelite/carrito_libreria/P4"/>
+  </WorkspaceParserPaths>
   <SubversionPath>
     <![CDATA[/home/zerokullneo/github/codelite/carrito_libreria]]>
   </SubversionPath>
