@@ -74,26 +74,15 @@ class Fecha
 
 		bool comprueba_fecha(int& dia, int& mes, int& year);
 		void observadorPrivado()const{cout << "%i/" << d_ << "%i/" << m_ << "%i" << a_ << endl;}
-		enum tipo_{ANYO, MES, DIA};
-		class FIncorrecta
+
+		class Invalida
 		{
 			public:
-				//enum tipo_ {ANYO, MES, DIA};
-				FIncorrecta(enum tipo_ t);
-				Cadena yearincorrecto(){ return Cadena("Año incorrecto.\n");}
-				Cadena mesincorrecto(){ return Cadena("Mes incorrecto.\n");}
-				Cadena diaincorrecto(){ return Cadena("Día incorrecto.\n");}
+				Invalida(const char* t);
+				
+				const char* por_que(const char* t)const{return tp_;}
 			private:
-				tipo_ tp_;
-				inline void porque(tipo_ tp)
-				{
-					if(tp == ANYO)
-						yearincorrecto();
-					if(tp == MES)
-						mesincorrecto();
-					if(tp == DIA)
-						diaincorrecto();
-				}
+				const char* tp_;
 		};
 	protected:
 		bool operator + (int incremento);

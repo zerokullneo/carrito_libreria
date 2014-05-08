@@ -26,7 +26,5 @@
 
 #include "tarjeta.h"
 
-Tarjeta::Tarjeta(Cadena tjt)
-{
-	tarjeta_ = Cadena(tjt);
-}
+Tarjeta::Tarjeta(Cadena tjt):tarjeta_(tjt)
+{}

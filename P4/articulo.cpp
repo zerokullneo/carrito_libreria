@@ -26,17 +26,13 @@
 
 #include "articulo.h"
 
-Articulo::Articulo(Cadena ref, Cadena tit, Fecha fec, double pvp, unsigned stk)
+Articulo::Articulo(const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned stk):
+referencia_(ref), titulo_(tit), f_publi_(fec), precio_(pvp), stock_(stk)
 {
-	referencia_ = ref;
-	titulo_ = tit;
-	f_publi_ = fec;
-	precio_ = pvp;
-	stock_ = stk;
 }
 
 ostream& operator <<(ostream& out, const Articulo& art)
 {
-	out << "[" << art.referencia() << "] " << "\"" << art.titulo() << "\", " << art.f_publi().visualizar_anyo() << ". " << art.precio() << "€" << endl;
+	out << "[" << art.referencia() << "] \"" << art.titulo() << "\", " << art.f_publi().visualizar_anyo() << ". " << art.precio() << "€" << endl;
 	return out;
 }

@@ -64,10 +64,10 @@ Fecha::Fecha(char* string_fecha)
 		cout<<"FIncorrecta"<<endl;
 }
 
-Fecha::FIncorrecta::FIncorrecta(enum tipo_ t)
+Fecha::Invalida::Invalida(const char* t)
 {
 	tp_ = t;
-	porque(tp_);
+	cerr << por_que(tp_);
 }
 //FIN CONSTRUCTORES
 
@@ -267,8 +267,7 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 {
     if ((year < YEAR_MINIMO) || (year > YEAR_MAXIMO))
 	{
-        throw FIncorrecta(ANYO);//year
-		cout << "año\n";
+        throw Invalida("Año Incorrecto\n");//year
 	}
 
     if (mes > 0 && mes < 13)
@@ -282,10 +281,9 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
                             case 10:
                                 case 12:
                                 {
-                                    if (dia < 1 && dia > 31)
+                                    if (dia < 1 || dia > 31)
 									{
-                                        throw FIncorrecta(DIA);//dia
-										cout << "dia31\n";
+                                        throw Invalida("dia31\n");//dia
 									}
 									break;
                                 }
@@ -294,41 +292,36 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
                 case 9:
                     case 11:
                     {
-                        if (dia < 1 && dia > 30)
+                        if (dia < 1 || dia > 30)
                         {
-                            throw FIncorrecta(DIA);//dia
-							cout << "dia30\n";
-                        }
+                            throw Invalida("dia30");//dia
+						}
 						break;
                     }
         case 2:
         {
             if ((year % 4) == 0)
 			{
-				if (dia < 1 && dia > 29)
+				if (dia < 1 || dia > 29)
 				{
-					throw FIncorrecta(DIA);//dia
-					cout << "dia29\n";
+					throw Invalida("dia29\n");//dia
 				}
 			}
             else
-                if (dia < 1 && dia > 28)
+                if (dia < 0 || dia > 28)
                 {
-                    throw FIncorrecta(DIA);//dia
-					cout << "dia28\n";
+                    throw Invalida("dia28\n");//dia
                 }
 			break;
         }
 		default:
 		{
-			cout << "defmes\n";
-			throw FIncorrecta(MES);//mes
+			throw Invalida("defmes\n");//mes
 		}
     }
 	else
 	{
-		cout << "mes\n";
-		throw FIncorrecta(MES);//mes
+		throw Invalida("mes\n");//mes
 	}
 	
 	return true;

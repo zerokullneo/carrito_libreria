@@ -5,16 +5,16 @@
 
 int main()
 {
-	Fecha fecM(21,2,1982), fpubli(1,1,1970), f;
+	Fecha fecM(28,2,2002), fpubli(1,1,1970), f;
 	const char *user = "Jose M. Barba";
-	Cadena artid("110");
-	Cadena artnom("Programación C");
+	Cadena art_id("110");
+	Cadena art_nom("Programación C");
 	Cadena cadM(user);
 	istringstream is("14/10/2000");
 	cout << "---" << endl;
 	is >> f;
 
-	Articulo artM(artid,artnom,fpubli,50,100);
+	Articulo artM(art_id,art_nom,fpubli,50,100);
 	
 	cout << "Main\n" << cadM;
 	cout << "." << endl << "Fecha de Nacimiento: ";

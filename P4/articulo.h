@@ -32,7 +32,7 @@ class Articulo
 {
 	public:
 		//Constructores
-		Articulo(Cadena ref, Cadena tit, Fecha fec, double pvp, unsigned stk);
+		Articulo(const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned stk);
 
 		//Métodos observadores
 		Cadena referencia()const{return referencia_;}
@@ -47,6 +47,7 @@ class Articulo
 		//modifica el atributo stock_ con el nuevo valor indicado en stk.
 		unsigned& stock(unsigned& stk){return stock_ = stk;}
 
+		virtual ~Articulo(){};
 
 	private:
 		Cadena referencia_;
