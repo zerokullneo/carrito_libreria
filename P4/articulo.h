@@ -47,6 +47,7 @@ class Articulo
 		//modifica el atributo stock_ con el nuevo valor indicado en stk.
 		unsigned& stock(unsigned& stk){return stock_ = stk;}
 
+
 	private:
 		Cadena referencia_;
 		Cadena titulo_;
@@ -54,3 +55,6 @@ class Articulo
 		double precio_;
 		unsigned stock_;
 };
+
+//Operadores sobrecargados
+ostream& operator <<(ostream& out, const Articulo& art);

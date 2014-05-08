@@ -224,7 +224,7 @@ char& Cadena::at(unsigned int i)throw(out_of_range)
 /*OPERADORES DE FLUJO*/
 ostream& operator <<(ostream& out,const Cadena& texto)
 {
-	out << "Nombre: " << texto.texto_;
+	out << texto.texto_;
 	return out;
 }
 

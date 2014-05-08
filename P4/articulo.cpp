@@ -21,16 +21,22 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this protitgram. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "articulo.h"
 
 Articulo::Articulo(Cadena ref, Cadena tit, Fecha fec, double pvp, unsigned stk)
 {
-	referencia_ = Cadena(ref);
-	titulo_ = Cadena(tit);
-	f_publi_ = Fecha(fec);
+	referencia_ = ref;
+	titulo_ = tit;
+	f_publi_ = fec;
 	precio_ = pvp;
 	stock_ = stk;
+}
+
+ostream& operator <<(ostream& out, const Articulo& art)
+{
+	out << "[" << art.referencia() << "] " << "\"" << art.titulo() << "\", " << art.f_publi().visualizar_anyo() << ". " << art.precio() << "€" << endl;
+	return out;
 }

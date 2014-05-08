@@ -267,11 +267,11 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 {
     if ((year < YEAR_MINIMO) || (year > YEAR_MAXIMO))
 	{
-		cout << "año\n";
         throw FIncorrecta(ANYO);//year
+		cout << "año\n";
 	}
 
-    if (mes > 1 && mes < 12)
+    if (mes > 0 && mes < 13)
     switch (mes)
     {
         case 1:
@@ -284,8 +284,8 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
                                 {
                                     if (dia < 1 && dia > 31)
 									{
-										cout << "dia31\n";
                                         throw FIncorrecta(DIA);//dia
+										cout << "dia31\n";
 									}
 									break;
                                 }
@@ -296,8 +296,8 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
                     {
                         if (dia < 1 && dia > 30)
                         {
-							cout << "dia30\n";
                             throw FIncorrecta(DIA);//dia
+							cout << "dia30\n";
                         }
 						break;
                     }
@@ -307,15 +307,15 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 			{
 				if (dia < 1 && dia > 29)
 				{
-					cout << "dia29\n";
 					throw FIncorrecta(DIA);//dia
+					cout << "dia29\n";
 				}
 			}
             else
                 if (dia < 1 && dia > 28)
                 {
-					cout << "dia28\n";
                     throw FIncorrecta(DIA);//dia
+					cout << "dia28\n";
                 }
 			break;
         }
@@ -334,7 +334,7 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 	return true;
 }
 
-ostream& operator << (ostream& os, const Fecha& fec)
+ostream& operator <<(ostream& os, const Fecha& fec)
 {
     os << "Fecha etiquetada: " << fec.visualizar_dia() << "/" << fec.visualizar_mes() << "/" << fec.visualizar_anyo() << endl;
     return os;
