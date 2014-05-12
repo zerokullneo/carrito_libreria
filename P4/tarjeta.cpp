@@ -26,5 +26,47 @@
 
 #include "tarjeta.h"
 
-Tarjeta::Tarjeta(Cadena tjt):tarjeta_(tjt)
+/*VALIDACIÓN DEL NÚMERO DE TARJETA*/
+static int isValidNumber(const char *number)
+{
+	int n, i, alternate, sum;
+
+	if (!number)
+		return 0;
+
+	n = strlen(number);
+
+	if (n < 13 || n > 19)
+		return 0;
+
+	for (alternate = 0, sum = 0, i = n - 1; i > -1; --i)
+	{
+		if (!isdigit(number[i]))
+			return 0;
+
+		n = number[i] - '0';
+
+		if (alternate)
+		{
+			n *= 2;
+			if (n > 9)
+			n = (n % 10) + 1;
+		}
+		alternate = !alternate;
+
+		sum += n;
+	}
+
+	return (sum % 10 == 0);
+}
+/*FIN VALIDACIÓN*/
+
+/*CLASE TARJETA*/
+Tarjeta::Tarjeta(const Numero& tjt):tarjeta_(tjt)
 {}
+/*FIN CLASE TARJETA*/
+
+/*CLASE NUMERO*/
+Numero::Numero(const Cadena& n):numero_(n)
+{}
+/*FIN CLASE NUMERO*/

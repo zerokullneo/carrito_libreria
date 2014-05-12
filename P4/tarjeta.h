@@ -25,16 +25,53 @@
  */
 
 #include "../cabeceras.h"
+#include "usuario.h"
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
+
+class Numero
+{
+	public:
+		//constructor del numero de tarjeta
+		Numero(const Cadena& n);
+
+		//operador de conversión a cadena de bajo nivel
+		operator const char*()const{return numero_.c_str();}
+		
+		static int isValidNumber(const char *number);
+
+	private:
+		Cadena numero_;
+		//Clase de verificación de número incorrecto.
+		class Incorrecto
+		{
+			public:
+				//Atributo que indica la no validez del número.
+				enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
+				//constructor de la clase Incorrecto.
+				Incorrecto(Razon r):razon_(r){};
+				//Método observador del atributo de razon_.
+				Razon razon()const {return razon_;}
+			private:
+				Razon razon_;
+		};
+};
 
 class Tarjeta
 {
 	public:
-		Tarjeta(Cadena tjt);
+		Tarjeta(const Numero& tjt);
 
-		Cadena tarjeta()const{return tarjeta_;}
+		//Métodos observadores de los atributos de Tarjeta.
+		Numero tarjeta()const{return tarjeta_;}
+		Fecha caducidad()const{return f_caducidad_;}
+		Cadena titular_facial()const{return titular_facial_;}
+		const Usuario* titular()const{return titular_;}
+		void anula_titular();
 
 	private:
-		Cadena tarjeta_;
+		Numero tarjeta_;
+		const Usuario* titular_;
+		Fecha f_caducidad_;
+		Cadena titular_facial_;
 };
