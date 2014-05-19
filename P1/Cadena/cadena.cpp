@@ -248,7 +248,7 @@ unsigned int Cadena::longitudC(Cadena& c) const
 
 	return i;
 }
-//const char*
+
 void Cadena::imprimirP()const
 {
 	cout << texto_;

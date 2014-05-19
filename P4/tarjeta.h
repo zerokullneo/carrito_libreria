@@ -38,7 +38,11 @@ class Numero
 		//operador de conversión a cadena de bajo nivel
 		operator const char*()const{return numero_.c_str();}
 		
-		static int isValidNumber(const char *number);
+		//Validación del número de tarjeta, según el algoritmo de Lhun.static
+		int isValidNumber(char* number);
+
+		//Atributo que indica la no validez del número.
+		enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
 
 	private:
 		Cadena numero_;
@@ -46,8 +50,6 @@ class Numero
 		class Incorrecto
 		{
 			public:
-				//Atributo que indica la no validez del número.
-				enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
 				//constructor de la clase Incorrecto.
 				Incorrecto(Razon r):razon_(r){};
 				//Método observador del atributo de razon_.

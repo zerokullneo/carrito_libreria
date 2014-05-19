@@ -28,26 +28,44 @@
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
 
+class Clave
+{
+	public:
+		Clave(Cadena clav):clave_(clav){};
+		
+		Cadena clave()const{return clave_;}
+		
+		bool verifica(const char* pass);
+	private:
+		Cadena clave_;
+		Cadena encriptar();
+		class Incorrecta
+		{
+			public:
+				enum Razon{CORTA, ERROR_CRYPT};
+				Incorrecta(enum Razon);
+				Razon razon()const{return r_;}
+			private:
+				Razon r_;
+		};
+};
+
 class Usuario
 {
 	public:
-		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir);
+		//Constructor
+		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass);
 		
+		//Métodos observadores de los atributos.
 		Cadena nombre()const{return nombre_;}
+		Cadena apellidos()const{return apellidos_;}
+		Cadena direccion()const{return direccion_;}
 
 	private:
 		Cadena identificador_;
 		Cadena nombre_;
 		Cadena apellidos_;
 		Cadena direccion_;
-};
-
-class Clave
-{
-	public:
-		Clave();
-		
-		Cadena clave()const{return clave_;}
-	private:
-		Cadena clave_;
+		Clave contrasenia_;
+		//map<Numero, Tarjeta*> Tarjetas;
 };

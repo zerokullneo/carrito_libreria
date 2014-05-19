@@ -36,6 +36,7 @@ class Fecha
 {	
 	public:
 		explicit Fecha ();
+		//Constructor de enteros.
 		Fecha(int dia, int mes, int year);
 		//Constructor de conversión de Cadena a Fecha.
 		Fecha(char* string_fecha);

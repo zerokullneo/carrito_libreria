@@ -36,8 +36,11 @@ class Cadena
 		Cadena ():tamano_(0){texto_=new char[1];texto_[0]='\0';}
 		//Constructor de conversión
 		Cadena (unsigned int longitud, const char caracter);
+		//Constructor de copia de un objeto
 		Cadena (const Cadena& frase);
+		//Constructor de copia de una cadena a bajo nivel.
 		Cadena (const char* texto);
+		//Constructor de espacios vacíos.
 		explicit Cadena(unsigned int tamano);
 
 		//operadores sobrecargados
@@ -56,7 +59,10 @@ class Cadena
 		char& at(unsigned int i)throw(out_of_range);
 
 		//funciones observadoras
+		char* imprimir()const{return texto_;}
+		//devuelve un objeto Cadena para verificar su longitud
 		unsigned int longitudC(Cadena& c)const;
+		//devuelve el atributo tamano_ del objeto cadena actual
 		unsigned int longitudE()const{return tamano_;}
 		//const char* imprimirP()const;
 		void imprimirP()const;

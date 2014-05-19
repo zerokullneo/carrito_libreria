@@ -26,6 +26,6 @@
 
 #include "usuario.h"
 
-Usuario::Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir):
-identificador_(id), nombre_(nom), apellidos_(apll), direccion_(dir)
+Usuario::Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass):
+identificador_(id), nombre_(nom), apellidos_(apll), direccion_(dir), contrasenia_(pass)
 {}
