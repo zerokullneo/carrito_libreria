@@ -6,7 +6,9 @@
 
 int main()
 {
-	Fecha fecM(22,2,1982), fpubli(1,1,1970), f;
+	Fecha fecM(1);
+	Fecha fpubli(1,1,1970);
+	Fecha f;
 	const char *user = "Jose M. Barba";
 	Cadena art_id("110");
 	Cadena art_nom("Programación C");

@@ -69,13 +69,13 @@ Tarjeta::Tarjeta(const Numero& tjt):tarjeta_(tjt)
 /*CLASE NUMERO*/
 Numero::Numero(const Cadena& n):numero_(n)
 {
-	if(n.longitudE() < 5)
+	/*if(n.longitudE() < 5)
 		throw Incorrecto(LONGITUD);
 
 	if(isValidNumber(n.imprimir()) == -1)
 		throw Incorrecto(DIGITOS);
 
 	if(isValidNumber(n.imprimir()) == 0)
-		throw Incorrecto(NO_VALIDO);
+		throw Incorrecto(NO_VALIDO);*/
 }
 /*FIN CLASE NUMERO*/

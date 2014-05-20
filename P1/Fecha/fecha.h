@@ -36,8 +36,12 @@ class Fecha
 {	
 	public:
 		explicit Fecha ();
-		//Constructor de enteros.
+		//Constructor de enteros con los 3 parámetros.
 		Fecha(int dia, int mes, int year);
+		//Constructor de enteros con los 2 parámetros.
+		Fecha(int dia, int mes);
+		//Constructor de enteros con los 1 parámetro.
+		Fecha(int dia);
 		//Constructor de conversión de Cadena a Fecha.
 		Fecha(char* string_fecha);
 
@@ -66,12 +70,13 @@ class Fecha
 
 	private:
 		int d_, m_, a_;
+		int getd_, getm_, geta_;
 		time_t get_fecha_;
 		struct tm * info_fecha_;
-		int getd_, getm_, geta_;
 		inline void unix_secs(){time(&get_fecha_);};
 		inline void unix_tm(){info_fecha_ = localtime(&get_fecha_);};
-		inline void fecha_default(){getd_ = info_fecha_->tm_mday, getm_ = info_fecha_->tm_mon, geta_ = info_fecha_->tm_year;}
+		inline void fecha_default(){getd_ = info_fecha_->tm_mday, getm_ = ((info_fecha_->tm_mon) + 1), geta_ = ((info_fecha_->tm_year) + 1900);}
+		inline void defecto_(){unix_secs();unix_tm();fecha_default();};
 
 		bool comprueba_fecha(int& dia, int& mes, int& year);
 		void observadorPrivado()const{cout << "%i/" << d_ << "%i/" << m_ << "%i" << a_ << endl;}

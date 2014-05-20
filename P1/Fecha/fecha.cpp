@@ -27,26 +27,58 @@ using namespace std;
 
 Fecha::Fecha()
 {
-	d_ = 1;
-	m_ = 1;
-	a_ = 1970;
+	defecto_();
+	d_ = getd_;
+	m_ = getm_;
+	a_ = geta_;
 }
 
 //inline Fecha::Fecha(int dia, int mes, int year){ Fecha.d_ = dia; Fecha.m_ = mes; Fecha.a_ = year;}
 
 Fecha::Fecha(int dia, int mes, int year)
 {
-	if(!dia) d_ = getd_;
-	d_ = dia;
+	defecto_();
+	if(!dia || dia == 0) d_ = getd_;
+	else d_ = dia;
 
-	if(!mes) m_ = getm_;
-	m_ = mes;
+	if(!mes || mes == 0) m_ = getm_;
+	else m_ = mes;
 
-	if(!year) a_ = geta_;
-	a_ = year;
+	if(!year || year == 0) a_ = geta_;
+	else a_ = year;
 
-	if(comprueba_fecha(d_, m_, a_) != true)
-		cout<<"FIncorrecta"<<endl;
+	//if(comprueba_fecha(d_, m_, a_) != true)
+		//cout<<"FIncorrecta"<<endl;
+}
+
+Fecha::Fecha(int dia, int mes)
+{
+	defecto_();
+
+	if(!dia || dia == 0) d_ = getd_;
+	else d_ = dia;
+
+	if(!mes || mes == 0) m_ = getm_;
+	else m_ = mes;
+
+	a_ = geta_;
+
+	//if(comprueba_fecha(d_, m_, a_) != true)
+		//cout<<"FIncorrecta"<<endl;
+}
+
+Fecha::Fecha(int dia)
+{
+	defecto_();
+
+	if(!dia || dia == 0) d_ = getd_;
+	else d_ = dia;
+
+	m_ = getm_;
+	a_ = geta_;
+
+	//if(comprueba_fecha(d_, m_, a_) != true)
+		//cout<<"FIncorrecta"<<endl;
 }
 
 //Constructor de conversión de Cadena a Fecha.

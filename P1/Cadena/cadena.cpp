@@ -40,14 +40,14 @@ Cadena::Cadena(unsigned int longitud, const char caracter)
 Cadena::Cadena(const Cadena& frase)
 {
 	tamano_ = frase.tamano_;
-	texto_ = new char[tamano_+1];
+	texto_ = new char[tamano_];
 	strncpy(texto_,frase.texto_,tamano_);
 }
 
 Cadena::Cadena(const char* texto)
 {
 	tamano_= strlen(texto);
-	texto_ = new char[tamano_+1];
+	texto_ = new char[tamano_];
 	strncpy(texto_,texto,tamano_);
 }
 
