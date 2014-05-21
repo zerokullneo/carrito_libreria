@@ -28,9 +28,9 @@ Cadena::Cadena(unsigned int longitud, const char caracter)
 {
 	unsigned int i;
 
-	tamano_ = longitud;
+	tamano_ = longitud + 1;
 
-	texto_= new char[tamano_ + 1];
+	texto_= new char[tamano_];
 	for(i=0; i<tamano_; i++)
 		texto_[i]=caracter;
 
@@ -42,19 +42,21 @@ Cadena::Cadena(const Cadena& frase)
 	tamano_ = frase.tamano_;
 	texto_ = new char[tamano_];
 	strncpy(texto_,frase.texto_,tamano_);
+	//texto_[tamano_ + 1] = '\0';
 }
 
 Cadena::Cadena(const char* texto)
 {
-	tamano_= strlen(texto);
+	tamano_= strlen(texto) + 1;
 	texto_ = new char[tamano_];
 	strncpy(texto_,texto,tamano_);
+	texto_[tamano_ + 1] = '\0';
 }
 
 Cadena::Cadena(unsigned int tamano)
 {
-	tamano_ = tamano;
-	texto_= new char[tamano_ + 1];
+	tamano_ = tamano + 1;
+	texto_= new char[tamano_];
 
 	for(unsigned int i =0; i<tamano; i++)
 		texto_[i]=' ';

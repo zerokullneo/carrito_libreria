@@ -6,7 +6,7 @@
 
 int main()
 {
-	Fecha fecM(1);
+	Fecha fecM(1,1,2010);
 	Fecha fpubli(1,1,1970);
 	Fecha f;
 	const char *user = "Jose M. Barba";
@@ -15,16 +15,19 @@ int main()
 	Cadena cadM(user);
 	Numero Num_tjtM("1234 9840 9482 3847");
 	Tarjeta TjtM(Num_tjtM);
-	istringstream is("14/10/2000");
+	istringstream is("4/10/2000");
 	cout << "---" << endl;
 	is >> f;
 
-	Articulo artM(art_id,art_nom,fpubli,50,100);
+	Articulo artM(art_id,art_nom,fpubli,50.55,100);
 	
 	cout << "Main\n" << cadM;
-	cout << "." << endl << "Fecha de Nacimiento: ";
-	fecM.visualizar();
+	cout << "." << endl << "Fecha de Nacimiento: "; fecM.visualizar();
+Fecha g(--fecM);g.visualizar();
+	cout << "---" << endl;
 	f.visualizar();
+	cout << f;
+
 	cout << "\n---Articulo---\n" << artM;
 	cout << "\n---Tarjeta---\n" << TjtM.tarjeta() << endl;
 

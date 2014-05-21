@@ -47,8 +47,7 @@ Fecha::Fecha(int dia, int mes, int year)
 	if(!year || year == 0) a_ = geta_;
 	else a_ = year;
 
-	//if(comprueba_fecha(d_, m_, a_) != true)
-		//cout<<"FIncorrecta"<<endl;
+	comprueba_fecha(d_, m_, a_);
 }
 
 Fecha::Fecha(int dia, int mes)
@@ -63,8 +62,7 @@ Fecha::Fecha(int dia, int mes)
 
 	a_ = geta_;
 
-	//if(comprueba_fecha(d_, m_, a_) != true)
-		//cout<<"FIncorrecta"<<endl;
+	comprueba_fecha(d_, m_, a_);
 }
 
 Fecha::Fecha(int dia)
@@ -77,8 +75,7 @@ Fecha::Fecha(int dia)
 	m_ = getm_;
 	a_ = geta_;
 
-	//if(comprueba_fecha(d_, m_, a_) != true)
-		//cout<<"FIncorrecta"<<endl;
+	comprueba_fecha(d_, m_, a_);
 }
 
 //Constructor de conversión de Cadena a Fecha.
@@ -92,8 +89,7 @@ Fecha::Fecha(char* string_fecha)
 	fecha = strtok(NULL, "/-");
 	a_ = atoi(fecha);
 
-	if(comprueba_fecha(d_, m_, a_) != true)
-		cout<<"FIncorrecta"<<endl;
+	comprueba_fecha(d_, m_, a_);
 }
 
 Fecha::Invalida::Invalida(const char* t)
@@ -119,14 +115,26 @@ Fecha& Fecha::operator -=(int decremento)
 
 Fecha& Fecha::operator ++()
 {
-        this->d_ ++;
-        return *this;
+	this->sumadias(1);
+	return *this;
+}
+
+Fecha Fecha::operator ++(int)
+{
+	this->sumadias(1);
+	return *this;
 }
 
 Fecha& Fecha::operator --()
 {
-       this->d_ -=1;
-        return *this;
+	this->restadias(1);
+	return *this;
+}
+
+Fecha Fecha::operator --(int)
+{
+	this->restadias(1);
+	return *this;
 }
 
 Fecha& Fecha::operator =(const Fecha& fec)
@@ -215,10 +223,61 @@ Fecha& Fecha::sumadias(int incmt_d)
     //for(incmt_d; incmt_d > 0; incmt_d--)
 	while(incmt_d > 0)
 	{
-		if((d_ + incmt_d) > 31)
+		switch(d_ + incmt_d)
 		{
-			m_=m_ + (incmt_d%12);
-			d_=(incmt_d - d_)%31;
+			case 32:
+			{
+				if(m_ + (incmt_d % 12) > 12)
+				{
+					sumayear(1);
+					sumames(1);
+				}
+				else
+					m_ = m_ + (incmt_d % 12);
+				d_ = (d_ + incmt_d) % 31;
+				break;
+			}
+			case 31:
+			{
+				if(m_ + (incmt_d % 12) > 12)
+				{	
+					sumayear(1);
+					sumames(1);
+				}
+				else
+					m_ = m_ + (incmt_d % 12);
+				d_ = (d_ + incmt_d) % 30;
+				break;
+			}
+			case 30:
+			{
+				if(m_ + (incmt_d % 12) > 12)
+				{	
+					sumayear(1);
+					sumames(1);
+				}
+				else
+					m_ = m_ + (incmt_d % 12);
+				d_ = (d_ + incmt_d) % 29;
+				break;
+			}
+			case 29:
+			{
+				if(m_ + (incmt_d % 12) > 12)
+				{	
+					sumayear(1);
+					sumames(1);
+				}
+				else
+					m_ = m_ + (incmt_d % 12);
+				d_ = (d_ + incmt_d) % 28;
+				break;
+			}
+			default:
+			{
+				d_ = d_ + incmt_d;
+				break;
+			}
 		}
 		incmt_d --;
 	}
@@ -227,15 +286,44 @@ Fecha& Fecha::sumadias(int incmt_d)
 
 Fecha& Fecha::restadias(int decmt_d)
 {
-	//for(decmt_d; decmt_d > 0; decmt_d--)
-	while(decmt_d > 0)
+	while(decmt_d >= 0)
 	{
 		if((d_ - decmt_d) < 1)
 		{
-			m_ = m_ - (decmt_d%12);
-			d_ = (decmt_d - d_)%31;
+			if(m_ - (decmt_d % 12) < 1)
+			{
+				restayear(1);
+				restames(1);
+			}
+			else
+			{
+				m_ = m_ - (decmt_d % 12);
+				switch(m_)
+				{
+					case 1:case 3:case 5:case 7:case 8:case 10:case 12:
+					{
+						d_ = 31;
+						break;
+					}
+					case 4:case 6:case 9:case 11:
+					{
+						d_ = 30;
+						break;
+					}
+					case 2:
+					{
+						if ((a_ % 4) == 0) d_ = 29;
+						else d_ = 28;
+						break;
+					}
+				}
+			}
+			//d_ = d_ % 31;
 		}
-		decmt_d --;
+		else
+			d_ = d_ - decmt_d;
+
+		decmt_d--;
 	}
 	return *this;
 }
@@ -245,7 +333,7 @@ Fecha& Fecha::sumames(int incmt_m)
     if (incmt_m == 12)
     {
         this->m_ = 1;
-        this->a_ ++;
+       // this->a_ ++;
     }
     else
         this->m_ = incmt_m;
@@ -258,7 +346,7 @@ Fecha& Fecha::restames(int decmt_m)
     if (decmt_m == 1)
     {
         this->m_ = 12;
-        this->a_ --;
+        //this->a_ --;
     }
     else
         this->m_ = decmt_m;
@@ -268,13 +356,13 @@ Fecha& Fecha::restames(int decmt_m)
 
 Fecha& Fecha::sumayear(int incmt_a)
 {
-    this->a_ += incmt_a;
+    this->a_ = a_ + incmt_a;
     return *this;
 }
 
 Fecha& Fecha::restayear(int decmt_a)
 {
-    this->a_ -= decmt_a;
+    this->a_ = a_ - decmt_a;
     return *this;
 }
 /*-----------------FIN MODIFICADORAS--------------------*/
@@ -291,7 +379,7 @@ void Fecha::observadorPublico() const
 
 void Fecha::visualizar() const
 {
-    cout << d_ << "/" << m_ << "/" << a_ << endl;
+   if(d_ > 0 && d_ < 10) cout << "0"; cout << d_ << "/";if(m_ > 0 && m_ < 10) cout << "0"; cout << m_ << "/" << a_ << endl;
 }
 /*------------------FIN OBSERVADORAS---------------------*/
 
@@ -361,7 +449,12 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 
 ostream& operator <<(ostream& os, const Fecha& fec)
 {
-    os << "Fecha etiquetada: " << fec.visualizar_dia() << "/" << fec.visualizar_mes() << "/" << fec.visualizar_anyo() << endl;
+	
+    os << "Fecha etiquetada: ";
+		if(fec.visualizar_dia() > 0 && fec.visualizar_dia() < 10) os << "0";
+	os << fec.visualizar_dia() << "/";
+		if(fec.visualizar_mes() > 0 && fec.visualizar_mes() < 10) os << "0";
+	os << fec.visualizar_mes() << "/" << fec.visualizar_anyo() << endl;
     return os;
 }
 
@@ -370,7 +463,6 @@ istream& operator >>(istream& is, Fecha& fec)
 	char fc[21];
 	is.width(21);
 	is >> fc;
-	//strcpy(fc,is);
 	fec = Fecha(fc);
 	return is;
 }
