@@ -36,7 +36,7 @@ class Cadena
 		Cadena ():tamano_(0){texto_=new char[1];texto_[0]='\0';}
 		//Constructor de conversión
 		Cadena (unsigned int longitud, const char caracter);
-		//Constructor de copia de un objeto
+		//Constructor de copia de un objeto Cadena
 		Cadena (const Cadena& frase);
 		//Constructor de copia de una cadena a bajo nivel.
 		Cadena (const char* texto);

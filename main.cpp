@@ -23,7 +23,8 @@ int main()
 	
 	cout << "Main\n" << cadM;
 	cout << "." << endl << "Fecha de Nacimiento: "; fecM.visualizar();
-Fecha g(--fecM);g.visualizar();
+Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
+++g;g.visualizar();g.sumadias(2);g.visualizar();
 	cout << "---" << endl;
 	f.visualizar();
 	cout << f;

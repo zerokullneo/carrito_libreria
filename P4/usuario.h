@@ -28,6 +28,10 @@
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
 
+class Articulo;
+class Numero;
+class Tarjeta;
+
 class Clave
 {
 	public:
@@ -55,11 +59,19 @@ class Usuario
 	public:
 		//Constructor
 		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass);
-		
+		//Constructor de copia de un objeto Usuario
+		Usuario(const Usuario& user);
+
 		//Métodos observadores de los atributos.
-		Cadena nombre()const{return nombre_;}
-		Cadena apellidos()const{return apellidos_;}
-		Cadena direccion()const{return direccion_;}
+		Cadena id()const {return identificador_;}
+		Cadena nombre()const {return nombre_;}
+		Cadena apellidos()const {return apellidos_;}
+		Cadena direccion()const {return direccion_;}
+		const map<Numero, Tarjeta*>& tarjetas(Numero& t)const; //{return &Tarjetas;}
+		
+		//Métodos modificadores
+		void es_titular_de(Tarjeta&);
+		void no_es_titular_de(Tarjeta&);
 
 	private:
 		Cadena identificador_;
@@ -67,5 +79,6 @@ class Usuario
 		Cadena apellidos_;
 		Cadena direccion_;
 		Clave contrasenia_;
-		//map<Numero, Tarjeta*> Tarjetas;
+		typedef map<Numero, Tarjeta*> Tarjetas;
+		typedef map<Articulo*, unsigned> Articulos;
 };

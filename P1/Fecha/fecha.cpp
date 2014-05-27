@@ -275,7 +275,7 @@ Fecha& Fecha::sumadias(int incmt_d)
 			}
 			default:
 			{
-				d_ = d_ + incmt_d;
+				d_ += 1;
 				break;
 			}
 		}
@@ -286,7 +286,7 @@ Fecha& Fecha::sumadias(int incmt_d)
 
 Fecha& Fecha::restadias(int decmt_d)
 {
-	while(decmt_d >= 0)
+	while(decmt_d > 0)
 	{
 		if((d_ - decmt_d) < 1)
 		{
@@ -321,7 +321,7 @@ Fecha& Fecha::restadias(int decmt_d)
 		//d_ = d_ % 31;
 		}
 		else
-			d_ = d_ - decmt_d;
+			d_ -= 1;
 
 		decmt_d--;
 	}
