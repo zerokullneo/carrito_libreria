@@ -6,7 +6,7 @@
 
 int main()
 {
-	Fecha fecM(1,1,2010);
+	Fecha fecM(21,2,1982);
 	Fecha fpubli(1,1,1970);
 	Fecha f;
 	const char *user = "Jose M. Barba";

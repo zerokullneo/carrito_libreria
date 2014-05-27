@@ -295,30 +295,30 @@ Fecha& Fecha::restadias(int decmt_d)
 				restayear(1);
 				restames(1);
 			}
-			else
+
+			else m_ = m_ - (decmt_d % 12);
+
+			switch(m_)
 			{
-				m_ = m_ - (decmt_d % 12);
-				switch(m_)
+				case 1:case 3:case 5:case 7:case 8:case 10:case 12:
 				{
-					case 1:case 3:case 5:case 7:case 8:case 10:case 12:
-					{
-						d_ = 31;
-						break;
-					}
-					case 4:case 6:case 9:case 11:
-					{
-						d_ = 30;
-						break;
-					}
-					case 2:
-					{
-						if ((a_ % 4) == 0) d_ = 29;
-						else d_ = 28;
-						break;
-					}
+					d_ = 31;
+					break;
+				}
+				case 4:case 6:case 9:case 11:
+				{
+					d_ = 30;
+					break;
+				}
+				case 2:
+				{
+					if ((a_ % 4) == 0) d_ = 29;
+					else d_ = 28;
+					break;
 				}
 			}
-			//d_ = d_ % 31;
+
+		//d_ = d_ % 31;
 		}
 		else
 			d_ = d_ - decmt_d;

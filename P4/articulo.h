@@ -39,13 +39,13 @@ class Articulo
 		Cadena titulo()const{return titulo_;}
 		Fecha f_publi()const{return f_publi_;}
 		double precio()const{return precio_;}
-		unsigned stock()const{return stock_;}
+		unsigned int stock()const{return stock_;}
 		
 		//Métodos modificadores
 		//modifica el atributo precio_ con el nuevo valor indicado en pvp.
 		double& precio(double& pvp){return precio_ = pvp;}
 		//modifica el atributo stock_ con el nuevo valor indicado en stk.
-		unsigned& stock(unsigned& stk){return stock_ = stk;}
+		unsigned int& stock(unsigned int& stk){return stock_ = stk;}
 
 		virtual ~Articulo(){};
 
@@ -54,7 +54,7 @@ class Articulo
 		Cadena titulo_;
 		Fecha f_publi_;
 		double precio_;
-		unsigned stock_;
+		unsigned int stock_;
 };
 
 //Operadores sobrecargados

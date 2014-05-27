@@ -26,7 +26,7 @@
 
 #include "articulo.h"
 
-Articulo::Articulo(const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned stk):
+Articulo::Articulo(const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned int stk):
 referencia_(ref), titulo_(tit), f_publi_(fec), precio_(pvp), stock_(stk)
 {
 }
