@@ -35,19 +35,20 @@ class Tarjeta;
 class Clave
 {
 	public:
-		Clave(Cadena clav):clave_(clav){};
+		Clave(Cadena clav);
 		
-		Cadena clave()const{return clave_;}
+		Cadena clave()const{return clave_crypt_.c_str();}
 		
-		bool verifica(const char* pass);
+		bool verifica(Cadena pass);
 	private:
 		Cadena clave_;
-		Cadena encriptar();
+		Cadena clave_crypt_;
+		void encriptar();
 		class Incorrecta
 		{
 			public:
 				enum Razon{CORTA, ERROR_CRYPT};
-				Incorrecta(enum Razon);
+				Incorrecta(Razon r);
 				Razon razon()const{return r_;}
 			private:
 				Razon r_;
@@ -81,4 +82,16 @@ class Usuario
 		Clave contrasenia_;
 		typedef map<Numero, Tarjeta*> Tarjetas;
 		typedef map<Articulo*, unsigned> Articulos;
+		class Id_duplicado
+		{
+			public:
+				//Constructor predeterminado
+				Id_duplicado(const Cadena& id_d);
+
+				//Método observador
+				Cadena idd()const {return idd_;}
+
+			private:
+				Cadena idd_;
+		};
 };

@@ -27,6 +27,7 @@
 #include "../cabeceras.h"
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
+#include "autor.h"
 
 class Articulo
 {

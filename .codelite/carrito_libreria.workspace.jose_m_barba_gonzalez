@@ -3,6 +3,8 @@
   <WorkspaceParserPaths>
     <Include Path="/home/zerokullneo/github/codelite/carrito_libreria/P4"/>
   </WorkspaceParserPaths>
+  <Environment Name="&lt;Use Defaults&gt;"/>
+  <WorkspaceParserFlags flags="0"/>
   <SubversionPath>
     <![CDATA[/home/zerokullneo/github/codelite/carrito_libreria]]>
   </SubversionPath>

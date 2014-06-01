@@ -15,14 +15,21 @@ int main()
 	Cadena cadM(user);
 	Numero Num_tjtM("1234 9840 9482 3847");
 	Tarjeta TjtM(Num_tjtM);
+	Cadena userid("001");
+	Cadena userNom("Jose M");
+	Cadena userApll("Barba Gonzalez");
+	Cadena userDir("su casa");
+	Clave userPass("holas");
 	istringstream is("4/10/2000");
 	cout << "---" << endl;
 	is >> f;
 
+	Usuario userM(userid,userNom,userApll,userDir,userPass);
 	Articulo artM(art_id,art_nom,fpubli,50.55,100);
 	
-	cout << "Main\n" << cadM;
-	cout << "." << endl << "Fecha de Nacimiento: "; fecM.visualizar();
+	cout << "Main\n" << cadM << "." << endl;
+	cout << "---Fecha---" << endl;
+	cout << "Fecha de Nacimiento: "; fecM.visualizar();
 Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
 ++g;g.visualizar();g.sumadias(2);g.visualizar();
 	cout << "---" << endl;
@@ -31,6 +38,12 @@ Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
 
 	cout << "\n---Articulo---\n" << artM;
 	cout << "\n---Tarjeta---\n" << TjtM.tarjeta() << endl;
+	cout << "\n---Usuario---\n" << userM.id() << "|" << userM.nombre() << " " << userM.apellidos() << "|" << userM.direccion() << "|" << userPass.clave() << endl;
+
+	if(userPass.verifica(userPass.clave()))
+		cout << "Verificada" << endl;
+	else
+		cout << "No Verificada" << endl;
 
 	return 0;
 }
