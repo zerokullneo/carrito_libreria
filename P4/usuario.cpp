@@ -29,34 +29,42 @@
 #include <unistd.h>
 
 /*Clase clave*/
-Clave::Clave(Cadena clav):clave_(clav)
+Clave::Clave(const char* clav)throw(Incorrecta)
 {
-	if(clave_.longitudE() < 5)throw Incorrecta(Incorrecta::CORTA);
+	if(strlen(clav) < 5)throw Incorrecta(Incorrecta::CORTA);
 
-	this->encriptar();
-	//if(encriptar(clave_))throw Incorrecta(Incorrecta::ERROR_CRYPT);
+	const char* c = crypt(clav,"@#");
+	clave_ = c;
+
+	if(!clave_.longitudE())throw Incorrecta(Incorrecta::ERROR_CRYPT);
 }
 
 Clave::Incorrecta::Incorrecta(Razon r):r_(r)
 {
 	cerr << "Clave: ";
-		if(razon()==0) cerr<<"CORTA";
-		if(razon()==1) cerr<<"ERROR_CRYPT";
+		switch(razon())
+		{
+			case 0:
+				cerr<<"CORTA";
+				break;
+			case 1:
+				cerr<<"ERROR_CRYPT";
+				break;
+		}
 	cerr << endl;
 }
 
-void Clave::encriptar()
+/*Cadena& Clave::encriptar(Cadena clav)
 {
-	cout << "<<<" << clave_.c_str() << ">>>" << endl;
-	const char* c = crypt(this->clave_.c_str(),"@#");
+	const char* c = crypt(clav.c_str(),"@#");
 	Cadena clave_crypt(c);
-	clave_crypt_ = clave_crypt;
-	cout << "<<<" << clave_crypt.c_str() << ">>>" << endl;
-}
+	return clave_crypt;
+}*/
 
-bool Clave::verifica(Cadena pass)
+bool Clave::verifica(const char* pass)
 {
-	if(pass.c_str() == clave_crypt_.c_str())
+	pass = crypt(pass,"@#");
+	if(0 == strcmp(pass, clave_.c_str()))
 		return true;
 	else
 		return false;

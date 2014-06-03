@@ -88,15 +88,18 @@ Cadena& Cadena::operator += (const Cadena& frase)
 	delete texto_aux;
 }
 
-const char* Cadena::operator =(const char* texto)
+Cadena& Cadena::operator =(const char* texto)
 {
-	//this->~Cadena();
-	return texto;
+	tamano_ = strlen(texto) + 1;
+	texto_ = (char*) realloc(texto_, tamano_);
+	strncpy(texto_, texto, tamano_);
+	return *this;
 }
 
 Cadena& Cadena::operator =(const Cadena& frase)
 {
-	this->~Cadena();
+	tamano_ = strlen(frase.c_str()) + 1;
+	texto_ = (char*) realloc(texto_, tamano_);
 	strcpy(texto_, frase.texto_);
 	return *this;
 }

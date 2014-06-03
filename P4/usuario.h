@@ -34,16 +34,8 @@ class Tarjeta;
 
 class Clave
 {
-	public:
-		Clave(Cadena clav);
-		
-		Cadena clave()const{return clave_crypt_.c_str();}
-		
-		bool verifica(Cadena pass);
 	private:
 		Cadena clave_;
-		Cadena clave_crypt_;
-		void encriptar();
 		class Incorrecta
 		{
 			public:
@@ -53,6 +45,13 @@ class Clave
 			private:
 				Razon r_;
 		};
+
+	public:
+		Clave(const char* clav)throw (Incorrecta);
+		
+		const char* clave()const{return clave_.c_str();}
+		
+		bool verifica(const char* pass);
 };
 
 class Usuario
