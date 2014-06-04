@@ -31,32 +31,31 @@
 
 class Numero
 {
-	public:
-		//constructor del numero de tarjeta
-		Numero(const Cadena& n);
-
-		//operador de conversión a cadena de bajo nivel
-		operator const char*()const{return numero_.c_str();}
-		
-		//Validación del número de tarjeta, según el algoritmo de Lhun.static
-		int isValidNumber(char* number);
-
-		//Atributo que indica la no validez del número.
-		enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
-
 	private:
 		Cadena numero_;
 		//Clase de verificación de número incorrecto.
 		class Incorrecto
 		{
 			public:
+				//Atributo que indica la no validez del número.
+				enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
+
 				//constructor de la clase Incorrecto.
-				Incorrecto(Razon r):razon_(r){};
+				Incorrecto(Razon r);
 				//Método observador del atributo de razon_.
 				Razon razon()const {return razon_;}
 			private:
 				Razon razon_;
 		};
+	public:
+		//constructor del numero de tarjeta
+		Numero(const Cadena& n)throw (Incorrecto);
+
+		//operador de conversión a cadena de bajo nivel
+		operator const char*()const{return numero_.c_str();}
+		
+		//Validación del número de tarjeta, según el algoritmo de Lhun.static
+		int isValidNumber(char* number);
 };
 
 class Tarjeta

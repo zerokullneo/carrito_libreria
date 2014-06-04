@@ -54,13 +54,6 @@ Clave::Incorrecta::Incorrecta(Razon r):r_(r)
 	cerr << endl;
 }
 
-/*Cadena& Clave::encriptar(Cadena clav)
-{
-	const char* c = crypt(clav.c_str(),"@#");
-	Cadena clave_crypt(c);
-	return clave_crypt;
-}*/
-
 bool Clave::verifica(const char* pass)
 {
 	pass = crypt(pass,"@#");

@@ -67,15 +67,44 @@ Tarjeta::Tarjeta(const Numero& tjt):tarjeta_(tjt)
 /*FIN CLASE TARJETA*/
 
 /*CLASE NUMERO*/
-Numero::Numero(const Cadena& n):numero_(n)
+Numero::Numero(const Cadena& n)throw (Incorrecto):numero_(n)
 {
-	/*if(n.longitudE() < 5)
-		throw Incorrecto(LONGITUD);
+	char digitos[19];
+	int i, j = 0;
+	
+	for(i = 0; numero_[i] != '\0'; i++)
+		if (isdigit(numero_[i]))
+		{
+			digitos[j] = numero_[i];
+			j++;
+		}
+	numero_ = digitos;
+	
+	if(numero_.longitudE() < 13 || numero_.longitudE() > 19)
+		throw Incorrecto(Incorrecto::LONGITUD);
 
-	if(isValidNumber(n.imprimir()) == -1)
-		throw Incorrecto(DIGITOS);
+	if(isValidNumber(numero_.imprimir()) == -1)
+		throw Incorrecto(Incorrecto::DIGITOS);
 
-	if(isValidNumber(n.imprimir()) == 0)
-		throw Incorrecto(NO_VALIDO);*/
+	if(isValidNumber(numero_.imprimir()) == 0)
+		throw Incorrecto(Incorrecto::NO_VALIDO);
+}
+
+Numero::Incorrecto::Incorrecto(Razon r):razon_(r)
+{
+	cerr << "Número: ";
+		switch(razon())
+		{
+			case 0:
+				cerr<<"LONGITUD";
+				break;
+			case 1:
+				cerr<<"DIGITOS";
+				break;
+			case 2:
+				cerr<<"NO_VALIDO";
+				break;
+		}
+	cerr << endl;
 }
 /*FIN CLASE NUMERO*/

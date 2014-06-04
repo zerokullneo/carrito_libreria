@@ -40,7 +40,7 @@ Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
 	cout << "\n---Tarjeta---\n" << TjtM.tarjeta() << endl;
 	cout << "\n---Usuario---\n" << userM.id() << "|" << userM.nombre() << " " << userM.apellidos() << "|" << userM.direccion() << "|" << userPass.clave() << endl;
 
-	if(userPass.verifica("holasss"))
+	if(userPass.verifica("holas"))
 		cout << "Verificada" << endl;
 	else
 		cout << "No Verificada" << endl;
