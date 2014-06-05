@@ -1,1 +1,1 @@
-./Debug/main.o ./Debug/Cadena_cadena.o ./Debug/Fecha_fecha.o ./Debug/P4_articulo.o ./Debug/P4_tarjeta.o ./Debug/P4_usuario.o ./Debug/P4_pedido.o
+./Debug/main.cpp.o ./Debug/Cadena_cadena.cpp.o ./Debug/Fecha_fecha.cpp.o ./Debug/P4_articulo.cpp.o ./Debug/P4_tarjeta.cpp.o ./Debug/P4_usuario.cpp.o ./Debug/P4_pedido.cpp.o

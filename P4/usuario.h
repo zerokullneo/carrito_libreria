@@ -57,6 +57,7 @@ class Clave
 class Usuario
 {
 	public:
+		typedef set<int*,Usuario*> Usuarios;
 		//Constructor
 		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass);
 		//Constructor de copia de un objeto Usuario

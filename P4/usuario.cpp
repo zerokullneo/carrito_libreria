@@ -74,3 +74,13 @@ Usuario::Id_duplicado::Id_duplicado(const Cadena& id_d)
 	idd_ = id_d;
 	cerr << idd();
 }
+
+void Usuario::es_titular_de(Tarjeta&)
+{
+	
+}
+
+void Usuario::no_es_titular_de(Tarjeta&)
+{
+	
+}
