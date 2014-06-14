@@ -60,8 +60,6 @@ class Usuario
 		typedef set<int*,Usuario*> Usuarios;
 		//Constructor
 		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass);
-		//Constructor de copia de un objeto Usuario
-		Usuario(const Usuario& user);
 
 		//Métodos observadores de los atributos.
 		Cadena id()const {return identificador_;}
@@ -75,6 +73,9 @@ class Usuario
 		void no_es_titular_de(Tarjeta&);
 
 	private:
+		//Evitar la copia de un objeto Usuario
+		Usuario(const Usuario&);
+
 		Cadena identificador_;
 		Cadena nombre_;
 		Cadena apellidos_;

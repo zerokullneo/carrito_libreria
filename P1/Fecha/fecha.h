@@ -61,7 +61,7 @@ class Fecha
 		Fecha& sumayear(int incmt_a);
 		Fecha& restayear(int decmt_a);
 		//funciones observadoras
-		void observadorPublico()const;
+		ostream& observadorPublico()const;
 		void visualizar()const;
 		int visualizar_anyo()const{return a_;}
 		int visualizar_mes()const{return m_;}

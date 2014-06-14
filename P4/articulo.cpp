@@ -46,9 +46,9 @@ InformeDigital::InformeDigital(const Autores& a,const Cadena& r,const Cadena& t,
 {
 }
 
-ostream& InformeDigital::imp_esp(ostream& out ) const
+ostream& InformeDigital::imp_esp(ostream& out) const
 {
-	out << "A la venta hasta el "; expiracion_.observadorPublico();
+	out << expiracion_.observadorPublico();
 	return out;
 }
 /*FIN CLASE INFORMEDIGITAL*/

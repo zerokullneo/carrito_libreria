@@ -69,10 +69,21 @@ class Tarjeta
 		Cadena titular_facial()const{return titular_facial_;}
 		const Usuario* titular()const{return titular_;}
 		void anula_titular();
+		~Tarjeta();
 
 	private:
+		//Evitar la copia de una Tarjeta
+		Tarjeta(const Tarjeta&);
+		//Evitar la asignacion de una Tarjeta
+		Tarjeta& operator=(const Tarjeta&);
+
 		Numero tarjeta_;
 		const Usuario* titular_;
 		Fecha f_caducidad_;
 		Cadena titular_facial_;
 };
+
+bool operator <(const Numero& n1,const Numero& n2);
+bool operator ==(const Numero& n1,const Numero& n2);
+bool operator < (const Tarjeta& t1, const Tarjeta& t2);
+//ostream& operator << (ostream& out, const Tarjeta& tjt);

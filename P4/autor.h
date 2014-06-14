@@ -38,8 +38,6 @@ class Autor
 		Cadena apellidos()const {return apellidos_;}
 		Cadena direccion()const {return direccion_;}
 
-		~Autor();
-
 	private:
 		Cadena nombre_;
 		Cadena apellidos_;

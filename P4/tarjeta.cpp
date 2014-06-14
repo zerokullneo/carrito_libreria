@@ -64,6 +64,19 @@ int Numero::isValidNumber(char* number)
 /*CLASE TARJETA*/
 Tarjeta::Tarjeta(const Numero& tjt):tarjeta_(tjt)
 {}
+
+void Tarjeta::anula_titular()
+{
+	titular_ = 0;
+}
+
+Tarjeta::~Tarjeta()
+{
+	Usuario *user = const_cast<Usuario*>(titular_);
+
+	if(user)
+		user->no_es_titular_de(*this);
+}
 /*FIN CLASE TARJETA*/
 
 /*CLASE NUMERO*/
@@ -108,3 +121,34 @@ Numero::Incorrecto::Incorrecto(Razon r):razon_(r)
 	cerr << endl;
 }
 /*FIN CLASE NUMERO*/
+
+/*OPERADORES*/
+bool operator <(const Numero& n1,const Numero& n2)
+{
+	if(n1.operator const char*() < n2.operator const char*())
+		return true;
+	else
+		return false;
+}
+
+bool operator ==(const Numero& n1,const Numero& n2)
+{
+	if(n1.operator const char*() == n2.operator const char*())
+		return true;
+	else
+		return false;
+}
+
+bool operator <(const Tarjeta& t1, const Tarjeta& t2)
+{
+	if(t1.tarjeta() < t2.tarjeta())
+		return true;
+	else
+		return false;
+}
+
+/*ostream& operator <<(ostream& out, const Tarjeta& tjt)
+{
+	
+	return out;
+}*/

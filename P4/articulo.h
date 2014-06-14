@@ -33,6 +33,7 @@ class Autor;
 
 class Articulo
 {
+
 	public:
 		typedef set<Autor*> Autores;
 		class Autores_vacios
@@ -40,9 +41,6 @@ class Articulo
 			public:
 				Autores_vacios(){};
 		};
-protected:
-		//Constructores
-		Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp);
 
 		//Métodos observadores
 		Cadena referencia()const{return referencia_;}
@@ -61,6 +59,10 @@ protected:
 
 
 		virtual ~Articulo(){};
+
+	protected:
+		//Constructores
+		Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp);
 
 	private:
 		Autores autores_;

@@ -4,10 +4,13 @@
 #include "P4/articulo.h"
 #include "P4/tarjeta.h"
 
+Articulo::Autores crea_autores(Autor& autor);
+
 int main()
 {
 	Fecha fecM(21,2,1982);
 	Fecha fpubli(1,1,1970);
+	Fecha fexp(31,12,2015);
 	Fecha f;
 	const char *user = "Jose M. Barba";
 	Cadena art_id("110");
@@ -21,12 +24,15 @@ int main()
 	Cadena userDir("su casa");
 	Clave userPass("holas");
 	istringstream is("4/10/2000");
+	ostringstream os("");
 	cout << "---" << endl;
 	is >> f;
 
 	Usuario userM(userid,userNom,userApll,userDir,userPass);
 	Autor autM(userNom,userApll,userDir);
-	Libro artM(autM,art_id,art_nom,fpubli,50.55,200,100);
+	Articulo::Autores autores = crea_autores(autM);
+	Libro artM(autores,art_id,art_nom,fpubli,50.55,200,100);
+	InformeDigital InfDigM(autores,art_id,art_nom,fpubli,50.55,fexp);
 	
 	cout << "Main\n" << cadM << "." << endl;
 	cout << "---Fecha---" << endl;
@@ -37,7 +43,8 @@ Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
 	f.visualizar();
 	cout << f;
 
-	cout << "\n---Articulo---\n" << artM;
+	cout << "\n---Articulo Libro---\n" << artM;
+	cout << "\n---Articulo InformeDigital---\n" << "A la venta hasta el "; InfDigM.imp_esp(os);
 	cout << "\n---Tarjeta---\n" << TjtM.tarjeta() << endl;
 	cout << "\n---Usuario---\n" << userM.id() << "|" << userM.nombre() << " " << userM.apellidos() << "|" << userM.direccion() << "|" << userPass.clave() << endl;
 
@@ -47,4 +54,10 @@ Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
 		cout << "No Verificada" << endl;
 
 	return 0;
+}
+
+Articulo::Autores crea_autores(Autor& autor) {
+  Articulo::Autores autores;
+  autores.insert(&autor);
+  return autores;
 }
