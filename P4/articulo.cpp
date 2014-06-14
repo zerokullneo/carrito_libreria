@@ -26,10 +26,56 @@
 
 #include "articulo.h"
 
-Articulo::Articulo(const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned int stk):
-referencia_(ref), titulo_(tit), f_publi_(fec), precio_(pvp), stock_(stk)
+/*CLASE ARTICULO*/
+Articulo::Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp):
+autores_(aut),referencia_(ref), titulo_(tit), f_publi_(fec), precio_(pvp)
+{
+	if(autores_.empty())
+		throw Autores_vacios();
+}
+/*FIN CLASE ARTICULO*/
+
+/*CLASE ARTICULOALMACENABLE*/
+ArticuloAlmacenable::ArticuloAlmacenable(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int s):Articulo(a,r,t,f,p),stockAA_(s)
 {
 }
+/*FIN CLASE ARTICULOALMACENABLE*/
+
+/*CLASE INFORMEDIGITAL*/
+InformeDigital::InformeDigital(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,const Fecha& e):Articulo(a,r,t,f,p),expiracion_(e)
+{
+}
+
+ostream& InformeDigital::imp_esp(ostream& out ) const
+{
+	out << "A la venta hasta el "; expiracion_.observadorPublico();
+	return out;
+}
+/*FIN CLASE INFORMEDIGITAL*/
+
+/*CLASE LIBRO*/
+Libro::Libro(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int pg,unsigned int s):ArticuloAlmacenable(a,r,t,f,p,s),paginas_(pg)
+{
+}
+
+ostream& Libro::imp_esp(ostream& out) const
+{
+	out << paginas_ << " págs., " << this->stock() << " unidades.";
+	return out;
+}
+/*FIN CLASE LIBRO*/
+
+/*CLASE CEDERRON*/
+Cederron::Cederron(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned tm,unsigned int s):ArticuloAlmacenable(a,r,t,f,p,s),tamano_(tm)
+{
+}
+
+ostream& Cederron :: imp_esp(ostream& out) const
+{
+	out << tamano_ << " MB, " << this->stock() << " unidades.";
+	return out;
+}
+/*FIN CLASE CEDERRON*/
 
 ostream& operator <<(ostream& out, const Articulo& art)
 {

@@ -374,7 +374,8 @@ void Fecha::observadorPublico() const
 	tm timeinfo = { 0, 0, 0, d_, m_ - 1, a_ - 1900, 0, 0, -1 };
 	mktime(&timeinfo);
 	const char* const weekday[7] = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
-	cout << "El día " << d_ << "/" << m_ << "/" << a_ << " fue " << weekday[timeinfo.tm_wday] << endl;
+	const char* const month[12] = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+	cout << "El día " << weekday[timeinfo.tm_wday] << " " << d_ << "de " << month[timeinfo.tm_mon] << " del " << a_ << "." << endl;
 }
 
 void Fecha::visualizar() const

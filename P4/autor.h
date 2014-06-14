@@ -23,6 +23,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+#include "../P1/Cadena/cadena.h"
 #ifndef AUTOR_H
 #define AUTOR_H
 
@@ -43,5 +45,4 @@ class Autor
 		Cadena apellidos_;
 		Cadena direccion_;
 };
-
 #endif // AUTOR_H

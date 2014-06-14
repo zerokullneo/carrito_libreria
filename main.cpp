@@ -25,7 +25,8 @@ int main()
 	is >> f;
 
 	Usuario userM(userid,userNom,userApll,userDir,userPass);
-	Articulo artM(art_id,art_nom,fpubli,50.55,100);
+	Autor autM(userNom,userApll,userDir);
+	Libro artM(autM,art_id,art_nom,fpubli,50.55,200,100);
 	
 	cout << "Main\n" << cadM << "." << endl;
 	cout << "---Fecha---" << endl;
