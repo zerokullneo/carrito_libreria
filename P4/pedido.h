@@ -24,6 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef PEDIDO_H
+#define PEDIDO_H
+
 #include "../cabeceras.h"
 #include "../P1/Fecha/fecha.h"
 #include "../P1/Cadena/cadena.h"
@@ -93,3 +96,5 @@ class Pedido
 };
 
 ostream& operator <<(ostream& out, const Pedido& P);
+
+#endif //PEDIDO_H

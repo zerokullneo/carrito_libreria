@@ -24,6 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef TARJETA_H
+#define TARJETA_H
+
 #include "../cabeceras.h"
 #include "usuario.h"
 #include "../P1/Cadena/cadena.h"
@@ -101,3 +104,5 @@ bool operator <(const Numero& n1,const Numero& n2);
 bool operator ==(const Numero& n1,const Numero& n2);
 bool operator < (const Tarjeta& t1, const Tarjeta& t2);
 ostream& operator << (ostream& out, const Tarjeta& tjt);
+
+#endif //TARJETA_H

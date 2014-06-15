@@ -24,6 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef PEDIDO_ARTICULO_H
+#define PEDIDO_ARTICULO_H
+
 #include "../cabeceras.h"
 #include "pedido.h"
 #include "articulo.h"
@@ -83,3 +86,5 @@ class Pedido_Articulo
 
 ostream& operator <<(ostream& out, const Pedido_Articulo::ItemsPedido& I);
 ostream& operator <<(ostream& out, const Pedido_Articulo::Pedidos& P);
+
+#endif //PEDIDO_ARTICULO_H

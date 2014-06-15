@@ -6,7 +6,7 @@ Debug/main.cpp.o: main.cpp cabeceras.h P1/Fecha/fecha.h \
  P4/../P1/Fecha/fecha.h P4/../P1/Fecha/../../cabeceras.h \
  P4/../P1/Fecha/../Cadena/cadena.h \
  P4/../P1/Fecha/../Cadena/../../cabeceras.h P4/autor.h P4/tarjeta.h \
- P4/usuario.h
+ P4/usuario.h P4/articulo.h P4/tarjeta.h
 
 cabeceras.h:
 
@@ -43,3 +43,7 @@ P4/autor.h:
 P4/tarjeta.h:
 
 P4/usuario.h:
+
+P4/articulo.h:
+
+P4/tarjeta.h:

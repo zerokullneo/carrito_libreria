@@ -28,6 +28,7 @@
 #include <unistd.h>
 #include "usuario.h"
 #include "articulo.h"
+#include "tarjeta.h"
 
 /*Clase clave*/
 Clave::Clave(const char* clav)throw(Incorrecta)
@@ -78,7 +79,7 @@ Usuario::Id_duplicado::Id_duplicado(const Cadena& id_d)
 
 void Usuario::es_titular_de(Tarjeta& T)
 {
-	tarjetas_.insert(pair<Numero,Tarjeta*>(T.tarjeta()),&T);
+	tarjetas_.insert(pair<Numero,Tarjeta*>(T.tarjeta(),&T));
 }
 
 void Usuario::no_es_titular_de(Tarjeta& T)
@@ -86,7 +87,7 @@ void Usuario::no_es_titular_de(Tarjeta& T)
 	tarjetas_.erase(T.tarjeta());
 }
 
-void compra(Articulo& A,unsigned i=1)
+void Usuario::compra(Articulo& A, unsigned int i)
 {
 	if(i == 0)
 		articulos_.erase(&A);

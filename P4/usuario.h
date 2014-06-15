@@ -23,11 +23,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
+#ifndef USUARIO_H
+#define USUARIO_H
+
 #include "../cabeceras.h"
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
 #include "articulo.h"
+#include "tarjeta.h"
 
 class Tarjeta;
 class Numero;
@@ -75,7 +79,7 @@ class Usuario
 		//Métodos modificadores
 		void es_titular_de(Tarjeta& T);
 		void no_es_titular_de(Tarjeta& T);
-		void compra(Articulo& A,unsigned i=1);
+		void compra(Articulo& A, unsigned int i);
 
 	private:
 		//Evitar la copia de un objeto Usuario
@@ -103,3 +107,4 @@ class Usuario
 				Cadena idd_;
 		};
 };
+#endif //USUARIO_H

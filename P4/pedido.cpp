@@ -29,9 +29,8 @@
 #include "pedido-articulo.h"
 #include "articulo.h"
 
-// ok
 int Pedido::N_pedidos= 0;
-// Falta
+
 Pedido::Pedido(Usuario_Pedido& U_P, Pedido_Articulo& P_A, Usuario& U, const Tarjeta& T,const Fecha& F)throw(Vacio,Impostor,SinStock,Tarjeta::Caducada):tarjeta_(const_cast<Tarjeta *>(&T)),fecha_(F)
 {
   if(tarjeta_->caducidad() < fecha_)
@@ -120,7 +119,7 @@ Fecha Pedido::fecha() const
   return fecha_;
 }// Fin fecha()
 
-ostream& operator << (ostream& out,const Pedido& P)
+ostream& operator <<(ostream& out,const Pedido& P)
 {
   out<<"Núm. pedido:\t"<<P.numero()<<endl;
   out<<"Fecha:\t"<< P.fecha().observadorPublico() <<endl;

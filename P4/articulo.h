@@ -24,6 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef ARTICULO_H
+#define ARTICULO_H
+
 #include "../cabeceras.h"
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
@@ -130,3 +133,4 @@ class Cederron:public ArticuloAlmacenable
 
 //Operadores sobrecargados
 ostream& operator <<(ostream& out, const Articulo& art);
+#endif //ARTICULO_H

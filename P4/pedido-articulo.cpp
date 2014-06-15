@@ -27,20 +27,20 @@
 #include "pedido-articulo.h"
 
 /*##########Clase LineaPedido##########*/
-LineaPedido :: LineaPedido(double p,unsigned c):precio_venta_(p),cantidad_(c)
+LineaPedido::LineaPedido(double p,unsigned c):precio_venta_(p),cantidad_(c)
 {}
 
-double LineaPedido :: precio_venta() const
+double LineaPedido::precio_venta() const
 {
   return precio_venta_;
 }
 
-unsigned LineaPedido :: cantidad() const
+unsigned LineaPedido::cantidad() const
 {
   return cantidad_;
 }
 
-ostream& operator << (ostream& out,const LineaPedido& L)
+ostream& operator <<(ostream& out,const LineaPedido& L)
 {
   out <<setprecision(2)<<fixed<<L.precio_venta()<<"€\t"<<L.cantidad();
   return out;
@@ -48,37 +48,37 @@ ostream& operator << (ostream& out,const LineaPedido& L)
 
 /*##########Clase OrdenaPedidos##########*/
 
-bool OrdenaPedidos :: operator ()(Pedido* P1,Pedido* P2)const
+bool OrdenaPedidos::operator ()(Pedido* P1,Pedido* P2)const
 { 
   return (P1->numero() < P2->numero());
 }
 
 /*##########Clase OrdenaArticulos##########*/
 
-bool OrdenaArticulos :: operator ()(Articulo* A1,Articulo* A2) const
+bool OrdenaArticulos::operator ()(Articulo* A1,Articulo* A2) const
 {
  return (A1->referencia() < A2->referencia());
 }// Fin operator()
 
 /*##########Clase Pedido_Articulo##########*/
 
-void Pedido_Articulo :: pedir(Pedido& pedido,Articulo& articulo,double precio, unsigned cantidad )
+void Pedido_Articulo::pedir(Pedido& pedido,Articulo& articulo,double precio, unsigned cantidad )
 {
   Pedido_Articulo_[&pedido].insert(std::make_pair(&articulo,LineaPedido(precio,cantidad)));
   Articulo_Pedido_[&articulo].insert(std::make_pair(&pedido,LineaPedido(precio,cantidad)));
 }
 
-void Pedido_Articulo :: pedir(Articulo& articulo,Pedido& pedido,double precio, unsigned cantidad)
+void Pedido_Articulo::pedir(Articulo& articulo,Pedido& pedido,double precio, unsigned cantidad)
 {
   pedir(pedido,articulo,precio,cantidad);
 }
 
-Pedido_Articulo :: ItemsPedido& Pedido_Articulo :: detalle(Pedido& P)
+Pedido_Articulo::ItemsPedido& Pedido_Articulo::detalle(Pedido& P)
 {
   return Pedido_Articulo_[&P];
 }
 
-Pedido_Articulo :: Pedidos& Pedido_Articulo :: ventas(Articulo& A)
+Pedido_Articulo::Pedidos& Pedido_Articulo::ventas(Articulo& A)
 {
   return Articulo_Pedido_[&A];
 }
@@ -125,13 +125,13 @@ ostream& operator <<(ostream& out, const Pedido_Articulo::Pedidos& P)
   return out;
 }
 
-void Pedido_Articulo :: mostrarDetallePedidos(ostream& out) const
+void Pedido_Articulo::mostrarDetallePedidos(ostream& out) const
 {
     double total_ventas = 0.0;
    // typedef map<Articulo*, LineaPedido,OrdenaArticulos> ItemsPedido
   for (map<Pedido*, ItemsPedido,OrdenaPedidos>::const_iterator i = Pedido_Articulo_.begin();i!=Pedido_Articulo_.end();++i) 
   {
-    out << "Pedido núm.\t"<<(i->first)->numero()<< " Cliente:\t"<<(i->first)->tarjeta()->titular_facial()<< "\tFecha:\t"<<(i->first)->fecha().cadena()<<endl;
+    out << "Pedido núm.\t"<<(i->first)->numero()<< " Cliente:\t"<<(i->first)->tarjeta()->titular_facial()<< "\tFecha:\t"<<(i->first)->fecha().observadorPublico()<<endl;
     out <<  i->second ;
     total_ventas+=(i->first)->total();
   }
@@ -139,7 +139,7 @@ void Pedido_Articulo :: mostrarDetallePedidos(ostream& out) const
     out << "TOTAL VENTA:\t" << total_ventas << "€";
 }
 
-void Pedido_Articulo :: mostrarVentasArticulos(ostream& out) const
+void Pedido_Articulo::mostrarVentasArticulos(ostream& out) const
 {
   for (map<Articulo*, Pedidos>::const_iterator  i = Articulo_Pedido_.begin();i!=Articulo_Pedido_.end();++i)
   {

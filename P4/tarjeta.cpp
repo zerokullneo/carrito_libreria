@@ -25,6 +25,7 @@
  */
 
 #include "tarjeta.h"
+#include "usuario.h"
 
 /*VALIDACIÓN DEL NÚMERO DE TARJETA*/ //static
 int Numero::isValidNumber(char* number)
