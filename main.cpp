@@ -17,7 +17,7 @@ int main()
 	Cadena art_nom("Programación C");
 	Cadena cadM(user);
 	Numero Num_tjtM("1234 9840 9482 3847");
-	Tarjeta TjtM(Num_tjtM);
+	
 	Cadena userid("001");
 	Cadena userNom("Jose M");
 	Cadena userApll("Barba Gonzalez");
@@ -29,6 +29,7 @@ int main()
 	is >> f;
 
 	Usuario userM(userid,userNom,userApll,userDir,userPass);
+	Tarjeta TjtM(Num_tjtM,userM,fexp);
 	Autor autM(userNom,userApll,userDir);
 	Articulo::Autores autores = crea_autores(autM);
 	Libro artM(autores,art_id,art_nom,fpubli,50.55,200,100);

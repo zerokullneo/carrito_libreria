@@ -25,8 +25,9 @@
  */
 
 #define _XOPEN_SOURCE
-#include "usuario.h"
 #include <unistd.h>
+#include "usuario.h"
+#include "articulo.h"
 
 /*Clase clave*/
 Clave::Clave(const char* clav)throw(Incorrecta)
@@ -75,12 +76,23 @@ Usuario::Id_duplicado::Id_duplicado(const Cadena& id_d)
 	cerr << idd();
 }
 
-void Usuario::es_titular_de(Tarjeta&)
+void Usuario::es_titular_de(Tarjeta& T)
 {
-	
+	tarjetas_.insert(pair<Numero,Tarjeta*>(T.tarjeta()),&T);
 }
 
-void Usuario::no_es_titular_de(Tarjeta&)
+void Usuario::no_es_titular_de(Tarjeta& T)
 {
-	
+	tarjetas_.erase(T.tarjeta());
+}
+
+void compra(Articulo& A,unsigned i=1)
+{
+	if(i == 0)
+		articulos_.erase(&A);
+	else
+	{
+		if(!articulos_.insert(pair<Articulo*,unsigned>(&A,i)).second)
+			articulos_[&A] = i;
+	}
 }

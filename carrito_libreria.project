@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="carrito_libreria" InternalType="Console">
   <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00010001N0005Debug000000000000]]>
+    </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
 		"name":	"Debug",
@@ -12,9 +15,6 @@
 		"arguments":	[],
 		"parentProject":	""
 	}]]]>
-    </Plugin>
-    <Plugin Name="qmake">
-      <![CDATA[00010001N0005Debug000000000000]]>
     </Plugin>
   </Plugins>
   <Description/>
@@ -35,6 +35,9 @@
     <File Name="P4/pedido.h"/>
     <File Name="P4/pedido.cpp"/>
     <File Name="P4/autor.h"/>
+    <File Name="P4/usuario-pedido.h"/>
+    <File Name="P4/pedido-articulo.cpp"/>
+    <File Name="P4/pedido-articulo.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

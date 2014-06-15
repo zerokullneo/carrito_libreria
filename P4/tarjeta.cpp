@@ -62,7 +62,7 @@ int Numero::isValidNumber(char* number)
 /*FIN VALIDACIÓN*/
 
 /*CLASE TARJETA*/
-Tarjeta::Tarjeta(const Numero& tjt):tarjeta_(tjt)
+Tarjeta::Tarjeta(const Numero& tjt,Usuario& usuario,const Fecha& cad)throw(Caducada):tarjeta_(tjt), titular_(&usuario)
 {}
 
 void Tarjeta::anula_titular()
@@ -147,8 +147,10 @@ bool operator <(const Tarjeta& t1, const Tarjeta& t2)
 		return false;
 }
 
-/*ostream& operator <<(ostream& out, const Tarjeta& tjt)
+ostream& operator <<(ostream& out, const Tarjeta& tjt)
 {
-	
-	return out;
-}*/
+	out << tjt.tarjeta() << endl;
+	out << tjt.titular_facial()<<endl;
+	out << "Caduca: " << setw(2) << setfill('0') << tjt.caducidad().visualizar_mes() << "/" << ((tjt.caducidad().visualizar_anyo())%100);
+  return out;
+}

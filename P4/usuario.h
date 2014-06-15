@@ -27,10 +27,10 @@
 #include "../cabeceras.h"
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
+#include "articulo.h"
 
-class Articulo;
-class Numero;
 class Tarjeta;
+class Numero;
 
 class Clave
 {
@@ -58,6 +58,8 @@ class Usuario
 {
 	public:
 		typedef set<int*,Usuario*> Usuarios;
+		typedef map<Numero, Tarjeta*> Tarjetas;
+		typedef map<Articulo*, unsigned> Articulos;
 		//Constructor
 		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass);
 
@@ -66,23 +68,28 @@ class Usuario
 		Cadena nombre()const {return nombre_;}
 		Cadena apellidos()const {return apellidos_;}
 		Cadena direccion()const {return direccion_;}
-		const map<Numero, Tarjeta*>& tarjetas(Numero& t)const; //{return &Tarjetas;}
-		
+		size_t n_articulos()const{return articulos_.size();}
+		const Tarjetas& tarjetas()const{return tarjetas_;}
+		const Articulos& compra()const{return articulos_;}
+
 		//Métodos modificadores
-		void es_titular_de(Tarjeta&);
-		void no_es_titular_de(Tarjeta&);
+		void es_titular_de(Tarjeta& T);
+		void no_es_titular_de(Tarjeta& T);
+		void compra(Articulo& A,unsigned i=1);
 
 	private:
 		//Evitar la copia de un objeto Usuario
 		Usuario(const Usuario&);
+		Usuario& operator =(const Usuario&);
 
 		Cadena identificador_;
 		Cadena nombre_;
 		Cadena apellidos_;
 		Cadena direccion_;
 		Clave contrasenia_;
-		typedef map<Numero, Tarjeta*> Tarjetas;
-		typedef map<Articulo*, unsigned> Articulos;
+		Articulos articulos_;
+		Tarjetas tarjetas_;
+
 		class Id_duplicado
 		{
 			public:

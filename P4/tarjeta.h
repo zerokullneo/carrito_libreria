@@ -29,6 +29,8 @@
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
 
+class Usuario;
+
 class Numero
 {
 	private:
@@ -61,7 +63,17 @@ class Numero
 class Tarjeta
 {
 	public:
-		Tarjeta(const Numero& tjt);
+		//Clase de excepcion Caducada
+		class Caducada
+		{
+			public:
+				Caducada(const Fecha& f):caducada_(f){};
+				Fecha cuando()const{return caducada_;};
+			private:
+				Fecha caducada_;
+		};
+
+		Tarjeta(const Numero& tjt,Usuario& usuario,const Fecha& cad)throw(Caducada);
 
 		//Métodos observadores de los atributos de Tarjeta.
 		Numero tarjeta()const{return tarjeta_;}
@@ -69,6 +81,8 @@ class Tarjeta
 		Cadena titular_facial()const{return titular_facial_;}
 		const Usuario* titular()const{return titular_;}
 		void anula_titular();
+		friend void caducar(Tarjeta& t, const Fecha& f);
+
 		~Tarjeta();
 
 	private:
@@ -86,4 +100,4 @@ class Tarjeta
 bool operator <(const Numero& n1,const Numero& n2);
 bool operator ==(const Numero& n1,const Numero& n2);
 bool operator < (const Tarjeta& t1, const Tarjeta& t2);
-//ostream& operator << (ostream& out, const Tarjeta& tjt);
+ostream& operator << (ostream& out, const Tarjeta& tjt);

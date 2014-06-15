@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Jose M Barba Gonzalez
-Date                   :=06/14/14
+Date                   :=06/16/14
 CodeLitePath           :="/home/zerokullneo/.codelite"
 LinkerName             :=/usr/bin/g++ 
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/Cadena_cadena.cpp$(ObjectSuffix) $(IntermediateDirectory)/Fecha_fecha.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_articulo.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_tarjeta.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_usuario.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_pedido.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/Cadena_cadena.cpp$(ObjectSuffix) $(IntermediateDirectory)/Fecha_fecha.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_articulo.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_tarjeta.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_usuario.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_pedido.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_pedido-articulo.cpp$(ObjectSuffix) 
 
 
 
@@ -143,6 +143,14 @@ $(IntermediateDirectory)/P4_pedido.cpp$(DependSuffix): P4/pedido.cpp
 $(IntermediateDirectory)/P4_pedido.cpp$(PreprocessSuffix): P4/pedido.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/P4_pedido.cpp$(PreprocessSuffix) "P4/pedido.cpp"
 
+$(IntermediateDirectory)/P4_pedido-articulo.cpp$(ObjectSuffix): P4/pedido-articulo.cpp $(IntermediateDirectory)/P4_pedido-articulo.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/zerokullneo/github/codelite/carrito_libreria/P4/pedido-articulo.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/P4_pedido-articulo.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/P4_pedido-articulo.cpp$(DependSuffix): P4/pedido-articulo.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/P4_pedido-articulo.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/P4_pedido-articulo.cpp$(DependSuffix) -MM "P4/pedido-articulo.cpp"
+
+$(IntermediateDirectory)/P4_pedido-articulo.cpp$(PreprocessSuffix): P4/pedido-articulo.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/P4_pedido-articulo.cpp$(PreprocessSuffix) "P4/pedido-articulo.cpp"
+
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
 ##
@@ -170,6 +178,9 @@ clean:
 	$(RM) $(IntermediateDirectory)/P4_pedido.cpp$(ObjectSuffix)
 	$(RM) $(IntermediateDirectory)/P4_pedido.cpp$(DependSuffix)
 	$(RM) $(IntermediateDirectory)/P4_pedido.cpp$(PreprocessSuffix)
+	$(RM) $(IntermediateDirectory)/P4_pedido-articulo.cpp$(ObjectSuffix)
+	$(RM) $(IntermediateDirectory)/P4_pedido-articulo.cpp$(DependSuffix)
+	$(RM) $(IntermediateDirectory)/P4_pedido-articulo.cpp$(PreprocessSuffix)
 	$(RM) $(OutputFile)
 	$(RM) ".build-debug/carrito_libreria"
 
