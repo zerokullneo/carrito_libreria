@@ -82,17 +82,17 @@ class Pedido
 
 		//Constructor
 		Pedido(Usuario_Pedido& U_P,Pedido_Articulo& P_A,Usuario& U,const Tarjeta& T,const Fecha& F=Fecha())throw(Vacio,Impostor,SinStock,Tarjeta::Caducada);
-  
-  // Metodos Observadores
-  static int n_total_pedidos() throw();
-  // El numero del pedido
-  int numero() const;
-  // Tarjeta de pago del pedido
-  const Tarjeta* tarjeta() const;
-  // El precio total del pedido
-  double total() const ;
-  // Fecha del pedido
-  Fecha fecha() const ;
+
+		//Metodos Observadores
+		static int n_total_pedidos()throw(){return N_pedidos;}
+		//El numero del pedido
+		int numero()const{return num_;}
+		//Tarjeta de pago del pedido
+		const Tarjeta* tarjeta()const{return tarjeta_;}
+		//El precio total del pedido
+		double total()const{return total_;}
+		//Fecha del pedido
+		Fecha fecha()const{return fecha_;}
 };
 
 ostream& operator <<(ostream& out, const Pedido& P);

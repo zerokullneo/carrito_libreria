@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Session Name="/home/zerokullneo/github/codelite/carrito_libreria/carrito_libreria.workspace">
-  <int Value="6" Name="m_selectedTab"/>
+  <int Value="7" Name="m_selectedTab"/>
   <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/carrito_libreria.workspace" Name="m_workspaceName"/>
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/main.cpp" Name="FileName"/>
-      <int Value="46" Name="FirstVisibleLine"/>
+      <int Value="49" Name="FirstVisibleLine"/>
       <int Value="47" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P4/articulo.h" Name="FileName"/>
-      <int Value="124" Name="FirstVisibleLine"/>
+      <int Value="122" Name="FirstVisibleLine"/>
       <int Value="135" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P4/articulo.cpp" Name="FileName"/>
-      <int Value="70" Name="FirstVisibleLine"/>
+      <int Value="49" Name="FirstVisibleLine"/>
       <int Value="50" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P4/pedido.h" Name="FileName"/>
-      <int Value="89" Name="FirstVisibleLine"/>
+      <int Value="86" Name="FirstVisibleLine"/>
       <int Value="99" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P4/pedido.cpp" Name="FileName"/>
-      <int Value="115" Name="FirstVisibleLine"/>
+      <int Value="116" Name="FirstVisibleLine"/>
       <int Value="121" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P4/pedido-articulo.h" Name="FileName"/>
-      <int Value="21" Name="FirstVisibleLine"/>
+      <int Value="29" Name="FirstVisibleLine"/>
       <int Value="27" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P4/pedido-articulo.cpp" Name="FileName"/>
-      <int Value="131" Name="FirstVisibleLine"/>
+      <int Value="135" Name="FirstVisibleLine"/>
       <int Value="133" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P1/Fecha/fecha.cpp" Name="FileName"/>
-      <int Value="359" Name="FirstVisibleLine"/>
+      <int Value="370" Name="FirstVisibleLine"/>
       <int Value="371" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P1/Fecha/fecha.h" Name="FileName"/>
-      <int Value="55" Name="FirstVisibleLine"/>
+      <int Value="65" Name="FirstVisibleLine"/>
       <int Value="63" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>

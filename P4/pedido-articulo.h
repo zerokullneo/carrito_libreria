@@ -38,53 +38,51 @@ class Pedido;
 /*##########Clase LineaPedido##########*/
 class LineaPedido
 {
- private:
-  double precio_venta_;
-  unsigned cantidad_;
- public:
-  explicit LineaPedido(double p,unsigned c=1);
-  double precio_venta() const;
-  unsigned cantidad() const;
+	public:
+		explicit LineaPedido(double p,unsigned c=1);
+		double precio_venta()const{return precio_venta_;}
+		unsigned cantidad()const{return cantidad_;}
+	private:
+		double precio_venta_;
+		unsigned cantidad_;
 };
- 
-ostream& operator << (ostream& out,const LineaPedido& L);
+
+ostream& operator <<(ostream& out, const LineaPedido& L);
 
 /*##########Clase OrdenaPedidos##########*/
 class OrdenaPedidos
 {
- public: 
-  bool operator ()(Pedido* P1,Pedido* P2)const;
+	public:
+		bool operator()(Pedido* P1,Pedido* P2)const;
 };
 
 /*##########Clase OrdenaArticulos##########*/
 class OrdenaArticulos
 {
- public:
-  bool operator ()(Articulo* A1,Articulo* A2) const;
+	public:
+		bool operator()(Articulo* A1, Articulo* A2)const;
 };
 
 /*##########Clase Pedido_Articulo##########*/
-
 class Pedido_Articulo
 {
- public:
-  typedef map<Articulo*, LineaPedido,OrdenaArticulos> ItemsPedido;
-  typedef map<Pedido*,LineaPedido,OrdenaPedidos> Pedidos;
-  void pedir(Pedido& pedido,Articulo& articulo,double precio, unsigned cantidad =1);
-  void pedir(Articulo& articulo,Pedido& pedido,double precio, unsigned cantidad =1);
-  ItemsPedido& detalle(Pedido& P);
-  Pedidos& ventas(Articulo& A);
-  void mostrarDetallePedidos(ostream& out)const;
-  void mostrarVentasArticulos(ostream& out)const;
-  friend ostream& operator <<(ostream& out, const Pedido_Articulo::ItemsPedido& I);
-  friend ostream& operator <<(ostream& out, const Pedido_Articulo::Pedidos& P);
- private:
-  map<Pedido*, ItemsPedido,OrdenaPedidos> Pedido_Articulo_;
-  map<Articulo*,Pedidos,OrdenaArticulos> Articulo_Pedido_;
-};
+	public:
+		typedef map<Articulo*,LineaPedido,OrdenaArticulos> ItemsPedido;
+		typedef map<Pedido*,LineaPedido,OrdenaPedidos> Pedidos;
+		void pedir(Pedido& pedido,Articulo& articulo,double precio, unsigned cantidad =1);
+		void pedir(Articulo& articulo,Pedido& pedido,double precio, unsigned cantidad =1);
+		ItemsPedido& detalle(Pedido& P);
+		Pedidos& ventas(Articulo& A);
+		void mostrarDetallePedidos(ostream& out)const;
+		void mostrarVentasArticulos(ostream& out)const;
+		friend ostream& operator <<(ostream& out, const Pedido_Articulo::ItemsPedido& I);
+		friend ostream& operator <<(ostream& out, const Pedido_Articulo::Pedidos& P);
 
+	private:
+		map<Pedido*,ItemsPedido,OrdenaPedidos> Pedido_Articulo_;
+		map<Articulo*,Pedidos,OrdenaArticulos> Articulo_Pedido_;
+};
 
 ostream& operator <<(ostream& out, const Pedido_Articulo::ItemsPedido& I);
 ostream& operator <<(ostream& out, const Pedido_Articulo::Pedidos& P);
-
 #endif //PEDIDO_ARTICULO_H
