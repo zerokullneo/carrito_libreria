@@ -72,6 +72,7 @@ class Usuario
 		Cadena nombre()const {return nombre_;}
 		Cadena apellidos()const {return apellidos_;}
 		Cadena direccion()const {return direccion_;}
+		Clave clave()const {return contrasenia_;}
 		size_t n_articulos()const{return articulos_.size();}
 		const Tarjetas& tarjetas()const{return tarjetas_;}
 		const Articulos& compra()const{return articulos_;}
@@ -107,4 +108,7 @@ class Usuario
 				Cadena idd_;
 		};
 };
+
+std::ostream& operator << (std::ostream& out , const Usuario& u);
+std::ostream& mostrar_carro (std::ostream& out , const Usuario& u);
 #endif //USUARIO_H

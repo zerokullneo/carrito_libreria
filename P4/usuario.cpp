@@ -97,3 +97,31 @@ void Usuario::compra(Articulo& A, unsigned i)
 			articulos_[&A] = i;
 	}
 }
+
+ostream& operator <<(ostream& out, const Usuario& u)
+{
+	out << u.id() << " [" << u.clave().clave() << "] " << u.nombre() << " " << u.apellidos() << std::endl;
+	out << u.direccion() << endl;
+	out << "Tarjetas:\n";
+	for(Usuario::Tarjetas::const_iterator it = u.tarjetas().begin(); it != u.tarjetas().end(); it++)
+		out << *((*it).second) << endl;
+
+	return out;
+}
+
+ostream& mostrar_carro(ostream& out, const Usuario& u)
+{
+	out << "Carrito de compras de " << u.id() << " [Artículos: " << u.n_articulos() << "]\n";
+	if(u.n_articulos() != 0)
+	{
+		out << " Cant. Artículo\n";
+		out << "=======================================================================\n";
+		for(Usuario::Articulos::const_iterator it = u.compra().begin(); it != u.compra().end(); it++)
+		{
+			out << (*it).second << " " << "[" << it->first->referencia() << "] \"" << it->first->titulo() << "\", " << it->first->f_publi().visualizar_anyo();
+			out << ". " << setprecision(2) << fixed << it->first->precio() << "€" << endl;
+		}
+	}
+
+	return out;
+}
