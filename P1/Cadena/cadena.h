@@ -64,6 +64,7 @@ class Cadena
 		unsigned int longitudC(Cadena& c)const;
 		//devuelve el atributo tamano_ del objeto cadena actual
 		unsigned int longitudE()const{return tamano_-1;}
+		unsigned int longitud()const{return tamano_-1;}
 		//const char* imprimirP()const;
 		void imprimirP()const;
 

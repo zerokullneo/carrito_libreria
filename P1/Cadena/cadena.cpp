@@ -203,8 +203,8 @@ Cadena Cadena::subcadena(unsigned int inicio, unsigned int num_caracteres)throw(
 	else
 	{
 		Cadena subtxt(num_caracteres);
-		for (unsigned int i = inicio; i < num_caracteres; i++)
-			subtxt[i]= texto_[i];
+		for (unsigned int i = inicio, j = 0; i < inicio + num_caracteres; i++, j++)
+			subtxt.texto_[j]= texto_[i];
 		return subtxt;
 	}
 }

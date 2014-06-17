@@ -55,7 +55,7 @@ class Articulo
 		
 		//Métodos modificadores
 		//modifica el atributo precio_ con el nuevo valor indicado en pvp.
-		double& precio(double& pvp){return precio_ = pvp;}
+		double& precio(){return precio_;}
 		//modifica el atributo stock_ con el nuevo valor indicado en stk.
 		unsigned int& stock(unsigned int& stk){return stock_ = stk;}
 		virtual ostream& imp_esp(ostream&) const =0;
