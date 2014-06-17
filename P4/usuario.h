@@ -79,7 +79,7 @@ class Usuario
 		//Métodos modificadores
 		void es_titular_de(Tarjeta& T);
 		void no_es_titular_de(Tarjeta& T);
-		void compra(Articulo& A, unsigned int i);
+		void compra(Articulo& A, unsigned i=1);
 
 	private:
 		//Evitar la copia de un objeto Usuario

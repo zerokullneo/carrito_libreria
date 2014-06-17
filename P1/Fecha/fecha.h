@@ -52,7 +52,7 @@ class Fecha
 		Fecha& operator -- ();//postdecremento
 		Fecha operator ++(int);//preincremento
 		Fecha operator --(int);//predecremento
-		Fecha& operator = (const Fecha& fec);
+		Fecha& operator =(const Fecha& fec);
 		//funciones modificadoras
 		Fecha& sumadias(int incmt_d);
 		Fecha& restadias(int decmt_d);
@@ -66,7 +66,8 @@ class Fecha
 		int visualizar_anyo()const{return a_;}
 		int visualizar_mes()const{return m_;}
 		int visualizar_dia()const{return d_;}
-		//~Fecha ();
+		bool operator + (int incremento);
+		bool operator - (int decremento);
 
 	private:
 		int d_, m_, a_;
@@ -90,9 +91,7 @@ class Fecha
 			private:
 				const char* tp_;
 		};
-	protected:
-		bool operator + (int incremento);
-		bool operator - (int decremento);
+//	protected:
 };
 
 /*operadores sobrecargados de mas de un argumento*/

@@ -87,7 +87,7 @@ void Usuario::no_es_titular_de(Tarjeta& T)
 	tarjetas_.erase(T.tarjeta());
 }
 
-void Usuario::compra(Articulo& A, unsigned int i)
+void Usuario::compra(Articulo& A, unsigned i)
 {
 	if(i == 0)
 		articulos_.erase(&A);
