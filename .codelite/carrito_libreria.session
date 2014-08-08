@@ -5,22 +5,22 @@
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/main.cpp" Name="FileName"/>
-      <int Value="49" Name="FirstVisibleLine"/>
+      <int Value="41" Name="FirstVisibleLine"/>
       <int Value="47" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P1/Cadena/cadena.h" Name="FileName"/>
-      <int Value="54" Name="FirstVisibleLine"/>
-      <int Value="66" Name="CurrentLine"/>
+      <int Value="56" Name="FirstVisibleLine"/>
+      <int Value="64" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
       <wxString Value="/home/zerokullneo/github/codelite/carrito_libreria/P1/Cadena/cadena.cpp" Name="FileName"/>
-      <int Value="195" Name="FirstVisibleLine"/>
-      <int Value="207" Name="CurrentLine"/>
+      <int Value="130" Name="FirstVisibleLine"/>
+      <int Value="138" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>

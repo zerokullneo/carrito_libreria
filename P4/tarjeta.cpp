@@ -94,7 +94,7 @@ Numero::Numero(const Cadena& n)throw (Incorrecto):numero_(n)
 		}
 	numero_ = digitos;
 	
-	if(numero_.longitudE() < 13 || numero_.longitudE() > 19)
+	if(numero_.longitud() < 13 || numero_.longitud() > 19)
 		throw Incorrecto(Incorrecto::LONGITUD);
 
 	if(isValidNumber(numero_.imprimir()) == -1)

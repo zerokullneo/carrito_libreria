@@ -168,7 +168,7 @@ bool Fecha::operator -(int decremento)
 
 bool operator ==(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_dia () == fec2.visualizar_dia ()) && (fec1.visualizar_mes () == fec2.visualizar_mes ()) && (fec1.visualizar_anyo () == fec2.visualizar_anyo ()))
+	if ((fec1.visualizar_dia() == fec2.visualizar_dia()) && (fec1.visualizar_mes() == fec2.visualizar_mes()) && (fec1.visualizar_anyo() == fec2.visualizar_anyo()))
 		return true;
 	else
 		return false;
@@ -176,7 +176,7 @@ bool operator ==(const Fecha& fec1, const Fecha& fec2)
 
 bool operator <(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_anyo () < fec2.visualizar_anyo ()) && (fec1.visualizar_mes () < fec2.visualizar_mes ()) && (fec1.visualizar_dia () < fec2.visualizar_dia ()))
+	if ((fec1.visualizar_anyo() < fec2.visualizar_anyo()) && (fec1.visualizar_mes() < fec2.visualizar_mes()) && (fec1.visualizar_dia() < fec2.visualizar_dia()))
 	    return true;
 	else
 	    return false;
@@ -184,7 +184,7 @@ bool operator <(const Fecha& fec1, const Fecha& fec2)
 
 bool operator >(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_dia () > fec2.visualizar_dia ()) && (fec1.visualizar_mes () > fec2.visualizar_mes ()) && (fec1.visualizar_anyo () > fec2.visualizar_anyo ()))
+	if ((fec1.visualizar_dia() > fec2.visualizar_dia()) && (fec1.visualizar_mes() > fec2.visualizar_mes()) && (fec1.visualizar_anyo() > fec2.visualizar_anyo()))
 	    return true;
 	else
 	    return false;
@@ -192,7 +192,7 @@ bool operator >(const Fecha& fec1, const Fecha& fec2)
 
 bool operator <=(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_anyo () <= fec2.visualizar_anyo ()) && (fec1.visualizar_mes () <= fec2.visualizar_mes ()) && (fec1.visualizar_dia () <= fec2.visualizar_dia ()))
+	if ( (fec1.visualizar_anyo() <= fec2.visualizar_anyo()) && (fec1.visualizar_mes() <= fec2.visualizar_mes()) && (fec1.visualizar_dia() <= fec2.visualizar_dia() ))
 	    return true;
 	else
 	    return false;
@@ -200,7 +200,7 @@ bool operator <=(const Fecha& fec1, const Fecha& fec2)
 
 bool operator >=(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_dia () >= fec2.visualizar_dia ()) && (fec1.visualizar_mes () >= fec2.visualizar_mes ()) && (fec1.visualizar_anyo () >= fec2.visualizar_anyo ()))
+	if ((fec1.visualizar_dia() >= fec2.visualizar_dia()) && (fec1.visualizar_mes() >= fec2.visualizar_mes()) && (fec1.visualizar_anyo() >= fec2.visualizar_anyo()))
 	    return true;
 	else
 	    return false;
@@ -208,7 +208,7 @@ bool operator >=(const Fecha& fec1, const Fecha& fec2)
 
 bool operator !=(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_dia () == fec2.visualizar_dia ()) && (fec1.visualizar_mes () == fec2.visualizar_mes ()) && (fec1.visualizar_anyo () == fec2.visualizar_anyo ()))
+	if ((fec1.visualizar_dia() == fec2.visualizar_dia()) && (fec1.visualizar_mes() == fec2.visualizar_mes()) && (fec1.visualizar_anyo() == fec2.visualizar_anyo()))
 	    return false;
 	else
 	    return true;

@@ -60,10 +60,9 @@ class Cadena
 
 		//funciones observadoras
 		char* imprimir()const{return texto_;}
-		//devuelve un objeto Cadena para verificar su longitud
-		unsigned int longitudC(Cadena& c)const;
+		//recibe un objeto Cadena para verificar su longitud
+		unsigned int longitud(Cadena& c)const;
 		//devuelve el atributo tamano_ del objeto cadena actual
-		unsigned int longitudE()const{return tamano_-1;}
 		unsigned int longitud()const{return tamano_-1;}
 		//const char* imprimirP()const;
 		void imprimirP()const;

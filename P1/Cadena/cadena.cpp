@@ -84,7 +84,6 @@ Cadena& Cadena::operator += (const Cadena& frase)
 
 	this->~Cadena();
 	return *this;
-	//Cadena(texto_aux);
 	delete texto_aux;
 }
 
@@ -123,9 +122,9 @@ Cadena operator+(const Cadena& texto1,const Cadena& texto2)
 
 bool operator ==(const Cadena& texto1,const Cadena& texto2)
 {
-	unsigned int tam_texto1 = texto1.longitudE();
+	unsigned int tam_texto1 = texto1.longitud();
 
-	unsigned int tam_texto2 = texto2.longitudE();
+	unsigned int tam_texto2 = texto2.longitud();
 
 	if(tam_texto1 == tam_texto2)
 		return true;
@@ -135,9 +134,9 @@ bool operator ==(const Cadena& texto1,const Cadena& texto2)
 
 bool operator !=(const Cadena& texto1,const Cadena& texto2)
 {
-	unsigned int tam_texto1 = texto1.longitudE();
+	unsigned int tam_texto1 = texto1.longitud();
 
-	unsigned int tam_texto2 = texto2.longitudE();
+	unsigned int tam_texto2 = texto2.longitud();
 
 	if(tam_texto1 != tam_texto2)
 		return true;
@@ -147,9 +146,9 @@ bool operator !=(const Cadena& texto1,const Cadena& texto2)
 
 bool operator >=(const Cadena& texto1,const Cadena& texto2)
 {
-	unsigned int tam_texto1 = texto1.longitudE();
+	unsigned int tam_texto1 = texto1.longitud();
 
-	unsigned int tam_texto2 = texto2.longitudE();
+	unsigned int tam_texto2 = texto2.longitud();
 
 	if(tam_texto1 >= tam_texto2)
 		return true;
@@ -159,9 +158,9 @@ bool operator >=(const Cadena& texto1,const Cadena& texto2)
 
 bool operator >(const Cadena& texto1,const Cadena& texto2)
 {
-	unsigned int tam_texto1 = texto1.longitudE();
+	unsigned int tam_texto1 = texto1.longitud();
 
-	unsigned int tam_texto2 = texto2.longitudE();
+	unsigned int tam_texto2 = texto2.longitud();
 
 	if(tam_texto1 > tam_texto2)
 		return true;
@@ -172,9 +171,9 @@ bool operator >(const Cadena& texto1,const Cadena& texto2)
 bool operator <=(const Cadena& texto1,const Cadena& texto2)
 {
 
-	unsigned int tam_texto1 = texto1.longitudE();
+	unsigned int tam_texto1 = texto1.longitud();
 
-	unsigned int tam_texto2 = texto2.longitudE();
+	unsigned int tam_texto2 = texto2.longitud();
 
 	if(tam_texto1 <= tam_texto2)
 		return true;
@@ -184,9 +183,9 @@ bool operator <=(const Cadena& texto1,const Cadena& texto2)
 
 bool operator <(const Cadena& texto1,const Cadena& texto2)
 {
-	unsigned int tam_texto1 = texto1.longitudE();
+	unsigned int tam_texto1 = texto1.longitud();
 
-	unsigned int tam_texto2 = texto2.longitudE();
+	unsigned int tam_texto2 = texto2.longitud();
 
 	if(tam_texto1 < tam_texto2)
 		return true;
@@ -211,7 +210,7 @@ Cadena Cadena::subcadena(unsigned int inicio, unsigned int num_caracteres)throw(
 
 char Cadena::at(unsigned int i)const throw(out_of_range)
 {
-	if((i>=tamano_) || (i<0))
+	if((i >= tamano_) || (i < 0))
 		throw out_of_range("El índice indicado está fuera de rango.\n");
 	else
 		return texto_[i];
@@ -235,8 +234,8 @@ ostream& operator <<(ostream& out,const Cadena& texto)
 
 istream& operator >>(istream& in,Cadena& texto)
 {
-	char* txt = new char[texto.longitudE()];
-	in.width(texto.longitudE());
+	char* txt = new char[texto.longitud()];
+	in.width(texto.longitud());
 	strcpy(txt,texto.texto_);
 	in >> txt;
 	return in;
@@ -245,7 +244,7 @@ istream& operator >>(istream& in,Cadena& texto)
 /*FIN OPERADORES DE FLUJO*/
 
 /*OBSERVADORAS*/
-unsigned int Cadena::longitudC(Cadena& c) const
+unsigned int Cadena::longitud(Cadena& c) const
 {
 	unsigned int i;
 

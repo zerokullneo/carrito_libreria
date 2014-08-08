@@ -38,7 +38,7 @@ Clave::Clave(const char* clav)throw(Incorrecta)
 	const char* c = crypt(clav,"@#");
 	clave_ = c;
 
-	if(!clave_.longitudE())throw Incorrecta(Incorrecta::ERROR_CRYPT);
+	if(!clave_.longitud())throw Incorrecta(Incorrecta::ERROR_CRYPT);
 }
 
 Clave::Incorrecta::Incorrecta(Razon r):r_(r)
