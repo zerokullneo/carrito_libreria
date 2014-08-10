@@ -24,44 +24,65 @@
 using namespace std;
 
 /*CONSTRUCTORES*/
-Cadena::Cadena(unsigned int longitud, const char caracter)
+//Constructor de conversión
+Cadena::Cadena(unsigned int longitud, char caracter)throw()
 {
 	unsigned int i;
 
 	tamano_ = longitud + 1;
 
 	texto_= new char[tamano_];
-	for(i=0; i<tamano_; i++)
-		texto_[i]=caracter;
+	if(texto_ == NULL)
+		cout << "Cadena: Predeterminado fallo de memoria." << endl;
+	else
+	{
+		for(i=0; i<tamano_; i++)
+			texto_[i]=caracter;
 
-	texto_[i+1]='\0';
+		texto_[tamano_]='\0';
+	}
 }
 
-Cadena::Cadena(const Cadena& frase)
+//Constructor de copia de un objeto Cadena
+Cadena::Cadena(const Cadena& frase)throw()
 {
 	tamano_ = frase.tamano_;
 	texto_ = new char[tamano_];
-	strncpy(texto_,frase.texto_,tamano_);
-	//texto_[tamano_ + 1] = '\0';
+	if(texto_ == NULL)
+		cout << "Cadena: Cadena& fallo de memoria." << endl;
+	else
+		strncpy(texto_,frase.texto_,tamano_);
 }
 
-Cadena::Cadena(const char* texto)
+//Constructor de copia de una cadena a bajo nivel.
+Cadena::Cadena(const char* texto)throw()
 {
-	tamano_= strlen(texto) + 1;
-	texto_ = new char[tamano_];
-	strncpy(texto_,texto,tamano_);
-	texto_[tamano_ + 1] = '\0';
+	tamano_= strlen(texto);
+	texto_ = new char[tamano_+1];
+	if(texto_ == NULL)
+		cout << "Cadena: const char* fallo de memoria." << endl;
+	else
+	{
+		strncpy(texto_,texto,tamano_);
+		texto_[tamano_] = '\0';	
+	}
 }
 
-Cadena::Cadena(unsigned int tamano)
+//Constructor de espacios vacíos.
+Cadena::Cadena(unsigned int tamano)throw()
 {
 	tamano_ = tamano + 1;
 	texto_= new char[tamano_];
 
-	for(unsigned int i =0; i<tamano; i++)
-		texto_[i]=' ';
+	if(texto_ == NULL)
+		cout << "Cadena: unsigned int fallo de memoria." << endl;
+	else
+	{
+		for(unsigned int i =0; i<tamano; i++)
+			texto_[i]=' ';
 
-	texto_[tamano_ + 1]='\0';
+		texto_[tamano_]='\0';
+	}
 }
 
 /*FIN CONSTRUCTORES*/
@@ -71,20 +92,22 @@ Cadena::Cadena(unsigned int tamano)
 //se suma al 'texto_' existente la nueva 'frase'
 Cadena& Cadena::operator += (const Cadena& frase)
 {
-	int i, n1 = tamano_, n2 = frase.tamano_;
+	unsigned int i, j=tamano_;
+	int tam = tamano_ + frase.tamano_ + 1;
 
-	char* texto_aux = new char[n1+n2+1];
+	char* texto_aux = new char[tam];
 
-	for(i = 0; i <= n1; i++)
+	for(i = 0; i <= tamano_; i++)
 		texto_aux[i] = texto_[i];
-	for(i++; i <= n2; i++)
-		texto_aux[i] = frase.texto_[i];
+	for(i = 0; i <= frase.tamano_; j++, i++)
+		texto_aux[j] = frase.texto_[i];
 
-	texto_aux[i+1] = '\0';
-
-	this->~Cadena();
-	return *this;
+	texto_aux[tam] = '\0';
+	texto_=new char[tam];
+	this->tamano_ = tam;
+	strncpy(texto_, texto_aux, tam);
 	delete texto_aux;
+	return *this;
 }
 
 Cadena& Cadena::operator =(const char* texto)
@@ -195,7 +218,7 @@ bool operator <(const Cadena& texto1,const Cadena& texto2)
 /*FIN OPERADORES*/
 
 /*SUBCADENA*/
-Cadena Cadena::subcadena(unsigned int inicio, unsigned int num_caracteres)throw(out_of_range)
+Cadena Cadena::subcadena(unsigned int inicio, unsigned int num_caracteres)const throw(out_of_range)
 {
 	if((inicio < 0) || (num_caracteres < 0) || ((inicio+num_caracteres) > tamano_) || (inicio > tamano_) || (num_caracteres > tamano_))
 		throw out_of_range("El indice de comienzo o el numero de caracteres indicado está fuera de rango.\n");

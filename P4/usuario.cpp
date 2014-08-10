@@ -31,14 +31,14 @@
 #include "tarjeta.h"
 
 /*Clase clave*/
-Clave::Clave(const char* clav)throw(Incorrecta)
+Clave::Clave(const char* clav)throw(Clave::Incorrecta)
 {
-	if(strlen(clav) < 5)throw Incorrecta(Incorrecta::CORTA);
+	if(strlen(clav) < 5)throw Incorrecta(CORTA);
 
 	const char* c = crypt(clav,"@#");
 	clave_ = c;
 
-	if(!clave_.longitud())throw Incorrecta(Incorrecta::ERROR_CRYPT);
+	if(!clave_.longitud())throw Incorrecta(ERROR_CRYPT);
 }
 
 Clave::Incorrecta::Incorrecta(Razon r):r_(r)
@@ -56,7 +56,7 @@ Clave::Incorrecta::Incorrecta(Razon r):r_(r)
 	cerr << endl;
 }
 
-bool Clave::verifica(const char* pass)
+bool Clave::verifica(const char* pass) const
 {
 	pass = crypt(pass,"@#");
 	if(0 == strcmp(pass, clave_.c_str()))

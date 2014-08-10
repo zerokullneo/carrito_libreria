@@ -28,30 +28,30 @@
 #include "usuario.h"
 
 /*VALIDACIÓN DEL NÚMERO DE TARJETA*/ //static
-int Numero::isValidNumber(char* number)
+int Numero::isValidNumber(char* number) throw()
 {
 	int n, i, alternate, sum;
 
-	if (!number)
+	if(!number)
 		return 0;
 
 	n = strlen(number);
 
-	if (n < 13 || n > 19)
+	if(n < 13 || n > 19)
 		return 0;
 
-	for (alternate = 0, sum = 0, i = n - 1; i > -1; --i)
+	for(alternate = 0, sum = 0, i = n - 1; i > -1; --i)
 	{
-		if (!isdigit(number[i]))
+		if(!isdigit(number[i]))
 			return -1;
 
 		n = number[i] - '0';
 
-		if (alternate)
+		if(alternate)
 		{
 			n *= 2;
-			if (n > 9)
-			n = (n % 10) + 1;
+			if(n > 9)
+				n = (n % 10) + 1;
 		}
 		alternate = !alternate;
 
@@ -81,27 +81,28 @@ Tarjeta::~Tarjeta()
 /*FIN CLASE TARJETA*/
 
 /*CLASE NUMERO*/
-Numero::Numero(const Cadena& n)throw (Incorrecto):numero_(n)
+Numero::Numero(const Cadena& n)throw (Numero::Incorrecto)
 {
-	char digitos[19];
+	char digitos[20];
 	int i, j = 0;
 	
-	for(i = 0; numero_[i] != '\0'; i++)
-		if (isdigit(numero_[i]))
+	for(i = 0; n[i] != '\0'; i++)
+		if (isdigit(n[i]))
 		{
-			digitos[j] = numero_[i];
+			digitos[j] = n[i];
 			j++;
 		}
-	numero_ = digitos;
 	
-	if(numero_.longitud() < 13 || numero_.longitud() > 19)
-		throw Incorrecto(Incorrecto::LONGITUD);
+	if(strlen(digitos) < 13 || strlen(digitos) > 19)
+		throw Incorrecto(LONGITUD);
 
-	if(isValidNumber(numero_.imprimir()) == -1)
-		throw Incorrecto(Incorrecto::DIGITOS);
+	if(isValidNumber(digitos) == -1)
+		throw Incorrecto(DIGITOS);
 
-	if(isValidNumber(numero_.imprimir()) == 0)
-		throw Incorrecto(Incorrecto::NO_VALIDO);
+	if(isValidNumber(digitos) == 0)
+		throw Incorrecto(NO_VALIDO);
+
+	numero_ = digitos;
 }
 
 Numero::Incorrecto::Incorrecto(Razon r):razon_(r)

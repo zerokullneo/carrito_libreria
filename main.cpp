@@ -8,25 +8,28 @@ Articulo::Autores crea_autores(Autor& autor);
 
 int main()
 {
+	const Cadena NombreM("Jose Manuel Barba Gonzalez");
 	Fecha fecM(21,2,1982);
 	Fecha fpubli(1,1,1970);
-	Fecha fexp(31,12,2015);
+	Fecha fexp(3,7,2015);
+	const Fecha fString("1/1/1970");
 	Fecha f;
 	const char *user = "Jose M. Barba";
 	Cadena art_id("110");
 	Cadena art_nom("Programación C");
 	Cadena cadM(user);
-	Numero Num_tjtM("1234 9840 9482 3847");
+	//Numero Num_tjtM("1234 9840 9482 3847");
+	Numero Num_tjtM("378282246310005");
 	
 	Cadena userid("001");
 	Cadena userNom("Jose M");
 	Cadena userApll("Barba Gonzalez");
 	Cadena userDir("su casa");
-	Clave userPass("holas");
-	istringstream is("4/10/2000");
+	const Clave userPass("holas");
+	istringstream isM("4/10/2000");
 	ostringstream os("");
 	cout << "---" << endl;
-	is >> f;
+	isM >> f;
 
 	Usuario userM(userid,userNom,userApll,userDir,userPass);
 	Tarjeta TjtM(Num_tjtM,userM,fexp);
@@ -35,9 +38,12 @@ int main()
 	Libro artM(autores,art_id,art_nom,fpubli,50.55,200,100);
 	InformeDigital InfDigM(autores,art_id,art_nom,fpubli,50.55,fexp);
 	
-	cout << "Main\n" << cadM << "." << endl;
+	cout << "Main\n" << NombreM << endl << cadM << "." << endl;
+	cout << "---Cadena---" << endl;
+	cout << fecM.cadena() << endl;
 	cout << "---Fecha---" << endl;
 	cout << "Fecha de Nacimiento: "; fecM.visualizar();
+	cout << "Fecha como cadena: "; fString.visualizar();
 Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
 ++g;g.visualizar();g.sumadias(2);g.visualizar();
 	cout << "---" << endl;

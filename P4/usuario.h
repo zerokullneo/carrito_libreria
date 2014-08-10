@@ -40,22 +40,26 @@ class Clave
 {
 	private:
 		Cadena clave_;
+
+	public:
+		//Atributo que indica la no validez de la clave.
+		enum Razon{CORTA, ERROR_CRYPT};
+		
+		//Clase de verificación de clave incorrecta.
 		class Incorrecta
 		{
 			public:
-				enum Razon{CORTA, ERROR_CRYPT};
 				Incorrecta(Razon r);
 				Razon razon()const{return r_;}
 			private:
 				Razon r_;
 		};
 
-	public:
 		Clave(const char* clav)throw (Incorrecta);
 		
-		const char* clave()const{return clave_.c_str();}
+		Cadena clave()const{return clave_;}
 		
-		bool verifica(const char* pass);
+		bool verifica(const char* pass) const;
 };
 
 class Usuario
@@ -64,6 +68,20 @@ class Usuario
 		typedef set<int*,Usuario*> Usuarios;
 		typedef map<Numero, Tarjeta*> Tarjetas;
 		typedef map<Articulo*, unsigned> Articulos;
+
+		class Id_duplicado
+		{
+			public:
+				//Constructor predeterminado
+				Id_duplicado(const Cadena& id_d);
+
+				//Método observador
+				Cadena idd()const {return idd_;}
+
+			private:
+				Cadena idd_;
+		};
+
 		//Constructor
 		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass);
 
@@ -95,18 +113,6 @@ class Usuario
 		Articulos articulos_;
 		Tarjetas tarjetas_;
 
-		class Id_duplicado
-		{
-			public:
-				//Constructor predeterminado
-				Id_duplicado(const Cadena& id_d);
-
-				//Método observador
-				Cadena idd()const {return idd_;}
-
-			private:
-				Cadena idd_;
-		};
 };
 
 std::ostream& operator << (std::ostream& out , const Usuario& u);

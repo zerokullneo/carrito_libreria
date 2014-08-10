@@ -43,7 +43,7 @@ class Fecha
 		//Constructor de enteros con los 1 parámetro.
 		Fecha(int dia);
 		//Constructor de conversión de Cadena a Fecha.
-		Fecha(char* string_fecha);
+		Fecha(const char* string_fecha);
 
 		//operadores sobrecargados
 		Fecha& operator += (int incremento);
@@ -62,12 +62,26 @@ class Fecha
 		Fecha& restayear(int decmt_a);
 		//funciones observadoras
 		ostream& observadorPublico()const;
+		const char* cadena()const;
 		void visualizar()const;
 		int visualizar_anyo()const{return a_;}
 		int visualizar_mes()const{return m_;}
 		int visualizar_dia()const{return d_;}
+		int anno()const{return a_;}
+		int mes()const{return m_;}
+		int dia()const{return d_;}
 		bool operator + (int incremento);
 		bool operator - (int decremento);
+
+		class Invalida
+		{
+			public:
+				Invalida(const char* t);
+				
+				const char* por_que(const char* t)const{return tp_;}
+			private:
+				const char* tp_;
+		};
 
 	private:
 		int d_, m_, a_;
@@ -81,17 +95,6 @@ class Fecha
 
 		bool comprueba_fecha(int& dia, int& mes, int& year);
 		void observadorPrivado()const{cout << "%i/" << d_ << "%i/" << m_ << "%i" << a_ << endl;}
-
-		class Invalida
-		{
-			public:
-				Invalida(const char* t);
-				
-				const char* por_que(const char* t)const{return tp_;}
-			private:
-				const char* tp_;
-		};
-//	protected:
 };
 
 /*operadores sobrecargados de mas de un argumento*/
@@ -112,8 +115,11 @@ bool operator >=(const Fecha& fec1, const Fecha& fec2);
 
 //Sobrecarga el operador Distinto para poder comparar dos clases Fecha.
 bool operator !=(const Fecha& fec1, const Fecha& fec2);
-//bool operator + (int incremento, const Fecha& fec);
-//bool operator - (int decremento, const Fecha& fec);
+
+Fecha operator + (int incremento, const Fecha& fec);
+Fecha operator + (const Fecha& fec, int incremento);
+Fecha operator - (int decremento, const Fecha& fec);
+Fecha operator - (const Fecha& fec, int decremento);
 
 //Sobrecarga el operador Flujo de Salida para que la fecha sea legible por pantalla.
 ostream& operator <<(ostream& os, const Fecha& fec);

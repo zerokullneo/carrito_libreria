@@ -79,10 +79,14 @@ Fecha::Fecha(int dia)
 }
 
 //Constructor de conversión de Cadena a Fecha.
-Fecha::Fecha(char* string_fecha)
+Fecha::Fecha(const char* string_fecha)
 {
-	char *fecha;
-	fecha = strtok(string_fecha,"/-");
+	char fech[11];
+	
+	strncpy(fech, string_fecha,strlen(string_fecha));
+	
+	char *fecha=fech;
+	fecha = strtok(fecha,"/-");
 	d_ = atoi(fecha);
 	fecha = strtok(NULL, "/-");
 	m_ = atoi(fecha);
@@ -164,54 +168,6 @@ bool Fecha::operator -(int decremento)
 
 	this->restadias(decremento);
 	return true;
-}
-
-bool operator ==(const Fecha& fec1, const Fecha& fec2)
-{
-	if ((fec1.visualizar_dia() == fec2.visualizar_dia()) && (fec1.visualizar_mes() == fec2.visualizar_mes()) && (fec1.visualizar_anyo() == fec2.visualizar_anyo()))
-		return true;
-	else
-		return false;
-}
-
-bool operator <(const Fecha& fec1, const Fecha& fec2)
-{
-	if ((fec1.visualizar_anyo() < fec2.visualizar_anyo()) && (fec1.visualizar_mes() < fec2.visualizar_mes()) && (fec1.visualizar_dia() < fec2.visualizar_dia()))
-	    return true;
-	else
-	    return false;
-}
-
-bool operator >(const Fecha& fec1, const Fecha& fec2)
-{
-	if ((fec1.visualizar_dia() > fec2.visualizar_dia()) && (fec1.visualizar_mes() > fec2.visualizar_mes()) && (fec1.visualizar_anyo() > fec2.visualizar_anyo()))
-	    return true;
-	else
-	    return false;
-}
-
-bool operator <=(const Fecha& fec1, const Fecha& fec2)
-{
-	if ( (fec1.visualizar_anyo() <= fec2.visualizar_anyo()) && (fec1.visualizar_mes() <= fec2.visualizar_mes()) && (fec1.visualizar_dia() <= fec2.visualizar_dia() ))
-	    return true;
-	else
-	    return false;
-}
-
-bool operator >=(const Fecha& fec1, const Fecha& fec2)
-{
-	if ((fec1.visualizar_dia() >= fec2.visualizar_dia()) && (fec1.visualizar_mes() >= fec2.visualizar_mes()) && (fec1.visualizar_anyo() >= fec2.visualizar_anyo()))
-	    return true;
-	else
-	    return false;
-}
-
-bool operator !=(const Fecha& fec1, const Fecha& fec2)
-{
-	if ((fec1.visualizar_dia() == fec2.visualizar_dia()) && (fec1.visualizar_mes() == fec2.visualizar_mes()) && (fec1.visualizar_anyo() == fec2.visualizar_anyo()))
-	    return false;
-	else
-	    return true;
 }
 
 /*------------------FIN OPERADORES---------------------*/
@@ -378,6 +334,17 @@ ostream& Fecha::observadorPublico() const
 	return cout << "Día " << weekday[timeinfo.tm_wday] << " " << d_ << " de " << month[timeinfo.tm_mon] << " del " << a_ << "." << endl;
 }
 
+const char* Fecha::cadena()const
+{
+	static char f_explicita[40];
+	tm timeinfo = { 0, 0, 0, d_, m_ - 1, a_ - 1900, 0, 0, -1 };
+	mktime(&timeinfo);
+	const char* const weekday[7] = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
+	const char* const month[12] = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+	sprintf(f_explicita,"Día %s %2d de %s de %4i.\n", weekday[timeinfo.tm_wday], dia(), month[timeinfo.tm_mon], anno());
+	return f_explicita;
+}
+
 void Fecha::visualizar() const
 {
    if(d_ > 0 && d_ < 10) cout << "0"; cout << d_ << "/";if(m_ > 0 && m_ < 10) cout << "0"; cout << m_ << "/" << a_ << endl;
@@ -448,9 +415,57 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 	return true;
 }
 
+/*---OPERADORES EXTERNOS---*/
+bool operator ==(const Fecha& fec1, const Fecha& fec2)
+{
+	if ((fec1.visualizar_dia() == fec2.visualizar_dia()) && (fec1.visualizar_mes() == fec2.visualizar_mes()) && (fec1.visualizar_anyo() == fec2.visualizar_anyo()))
+		return true;
+	else
+		return false;
+}
+
+bool operator <(const Fecha& fec1, const Fecha& fec2)
+{
+	if ((fec1.visualizar_anyo() < fec2.visualizar_anyo()) && (fec1.visualizar_mes() < fec2.visualizar_mes()) && (fec1.visualizar_dia() < fec2.visualizar_dia()))
+	    return true;
+	else
+	    return false;
+}
+
+bool operator >(const Fecha& fec1, const Fecha& fec2)
+{
+	if ((fec1.visualizar_dia() > fec2.visualizar_dia()) && (fec1.visualizar_mes() > fec2.visualizar_mes()) && (fec1.visualizar_anyo() > fec2.visualizar_anyo()))
+	    return true;
+	else
+	    return false;
+}
+
+bool operator <=(const Fecha& fec1, const Fecha& fec2)
+{
+	if ( (fec1.visualizar_anyo() <= fec2.visualizar_anyo()) && (fec1.visualizar_mes() <= fec2.visualizar_mes()) && (fec1.visualizar_dia() <= fec2.visualizar_dia() ))
+	    return true;
+	else
+	    return false;
+}
+
+bool operator >=(const Fecha& fec1, const Fecha& fec2)
+{
+	if ((fec1.visualizar_dia() >= fec2.visualizar_dia()) && (fec1.visualizar_mes() >= fec2.visualizar_mes()) && (fec1.visualizar_anyo() >= fec2.visualizar_anyo()))
+	    return true;
+	else
+	    return false;
+}
+
+bool operator !=(const Fecha& fec1, const Fecha& fec2)
+{
+	if ((fec1.visualizar_dia() == fec2.visualizar_dia()) && (fec1.visualizar_mes() == fec2.visualizar_mes()) && (fec1.visualizar_anyo() == fec2.visualizar_anyo()))
+	    return false;
+	else
+	    return true;
+}
+
 ostream& operator <<(ostream& os, const Fecha& fec)
 {
-	
     os << "Fecha etiquetada: ";
 		if(fec.visualizar_dia() > 0 && fec.visualizar_dia() < 10) os << "0";
 	os << fec.visualizar_dia() << "/";
@@ -461,9 +476,36 @@ ostream& operator <<(ostream& os, const Fecha& fec)
 
 istream& operator >>(istream& is, Fecha& fec)
 {
-	char fc[21];
-	is.width(21);
-	is >> fc;
-	fec = Fecha(fc);
+	static char fecha[11];
+	is >> fecha;
+	fec=Fecha(fecha);
 	return is;
+}
+
+Fecha operator + (int incremento, const Fecha& fec)
+{
+	Fecha tmp(fec);
+	tmp += incremento;
+	return tmp;
+}
+
+Fecha operator + (const Fecha& fec, int incremento)
+{
+	Fecha tmp(fec);
+	tmp += incremento;
+	return tmp;
+}
+
+Fecha operator - (int decremento, const Fecha& fec)
+{
+	Fecha tmp(fec);
+	tmp -= decremento;
+	return tmp;
+}
+
+Fecha operator - (const Fecha& fec, int decremento)
+{
+	Fecha tmp(fec);
+	tmp -= decremento;
+	return tmp;
 }

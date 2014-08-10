@@ -33,33 +33,33 @@ class Cadena
 	public:
 		/*Constructores*/
 		//Constructor predeterminado
-		Cadena ():tamano_(0){texto_=new char[1];texto_[0]='\0';}
+		explicit Cadena (){tamano_=1;texto_=new char[tamano_];texto_[0]=' ';};
 		//Constructor de conversión
-		Cadena (unsigned int longitud, const char caracter);
+		Cadena (unsigned int longitud, char caracter)throw();
 		//Constructor de copia de un objeto Cadena
-		Cadena (const Cadena& frase);
+		Cadena (const Cadena& frase)throw();
 		//Constructor de copia de una cadena a bajo nivel.
-		Cadena (const char* texto);
+		Cadena (const char* texto)throw();
 		//Constructor de espacios vacíos.
-		explicit Cadena(unsigned int tamano);
+		explicit Cadena(unsigned int tamano)throw();
 
 		//operadores sobrecargados
 		Cadena& operator +=(const Cadena& frase);
 		Cadena& operator =(const char* texto);
 		Cadena& operator =(const Cadena& frase);
-		char operator[](unsigned int i) const;
 		char& operator[](unsigned int i);
+		char operator[](unsigned int i) const;
 
 		//Funcion que extrae una subcadena dentro de otra
 		//La variable 'inicio' indica el indice donde comenzara a contar, contando
 		//el numero de caracteres especificado en la variable 'num_caracteres'.
-		Cadena subcadena(unsigned int inicio, unsigned int num_caracteres)throw(out_of_range);
+		Cadena subcadena(unsigned int inicio, unsigned int num_caracteres)const throw(out_of_range);
 		const char* c_str()const{return texto_;}
 		char at(unsigned int i)const throw(out_of_range);
 		char& at(unsigned int i)throw(out_of_range);
 
 		//funciones observadoras
-		char* imprimir()const{return texto_;}
+		char* Cad()const{return texto_;}
 		//recibe un objeto Cadena para verificar su longitud
 		unsigned int longitud(Cadena& c)const;
 		//devuelve el atributo tamano_ del objeto cadena actual
@@ -72,7 +72,7 @@ class Cadena
 		friend istream& operator >>(istream& in,Cadena& texto);
 
 		//Destructor de Cadena
-		~Cadena(){delete []texto_;}
+		~Cadena(){delete [] texto_;};
 
 	private:
 		char* texto_;

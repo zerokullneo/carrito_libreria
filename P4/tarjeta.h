@@ -38,13 +38,15 @@ class Numero
 {
 	private:
 		Cadena numero_;
+
+	public:
+		//Atributo que indica la no validez del número.
+		enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
+
 		//Clase de verificación de número incorrecto.
 		class Incorrecto
 		{
 			public:
-				//Atributo que indica la no validez del número.
-				enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
-
 				//constructor de la clase Incorrecto.
 				Incorrecto(Razon r);
 				//Método observador del atributo de razon_.
@@ -52,7 +54,7 @@ class Numero
 			private:
 				Razon razon_;
 		};
-	public:
+
 		//constructor del numero de tarjeta
 		Numero(const Cadena& n)throw (Incorrecto);
 
@@ -60,7 +62,7 @@ class Numero
 		operator const char*()const{return numero_.c_str();}
 		
 		//Validación del número de tarjeta, según el algoritmo de Lhun.static
-		int isValidNumber(char* number);
+		int isValidNumber(char* number)throw();
 };
 
 class Tarjeta
@@ -80,6 +82,7 @@ class Tarjeta
 
 		//Métodos observadores de los atributos de Tarjeta.
 		Numero tarjeta()const{return tarjeta_;}
+		Numero numero()const{return tarjeta_;}
 		Fecha caducidad()const{return f_caducidad_;}
 		Cadena titular_facial()const{return titular_facial_;}
 		const Usuario* titular()const{return titular_;}
