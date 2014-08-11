@@ -70,8 +70,8 @@ class Fecha
 		int anno()const{return a_;}
 		int mes()const{return m_;}
 		int dia()const{return d_;}
-		bool operator + (int incremento);
-		bool operator - (int decremento);
+		bool operator +(int incremento);
+		bool operator -(int decremento);
 
 		class Invalida
 		{

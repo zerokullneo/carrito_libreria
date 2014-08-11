@@ -32,16 +32,16 @@ class Cadena
 {
 	public:
 		/*Constructores*/
-		//Constructor predeterminado
-		explicit Cadena (){tamano_=1;texto_=new char[tamano_];texto_[0]=' ';};
+		//Constructor predeterminado texto_[0]=' ';
+		explicit Cadena (){tamano_=0;texto_=new char[tamano_];};
 		//Constructor de conversión
 		Cadena (unsigned int longitud, char caracter)throw();
+		//Constructor de espacios vacíos.
+		explicit Cadena(unsigned int tamano)throw();
 		//Constructor de copia de un objeto Cadena
 		Cadena (const Cadena& frase)throw();
 		//Constructor de copia de una cadena a bajo nivel.
 		Cadena (const char* texto)throw();
-		//Constructor de espacios vacíos.
-		explicit Cadena(unsigned int tamano)throw();
 
 		//operadores sobrecargados
 		Cadena& operator +=(const Cadena& frase);
@@ -61,9 +61,9 @@ class Cadena
 		//funciones observadoras
 		char* Cad()const{return texto_;}
 		//recibe un objeto Cadena para verificar su longitud
-		unsigned int longitud(Cadena& c)const;
+		unsigned int longitud(Cadena& c)const{return c.tamano_;}
 		//devuelve el atributo tamano_ del objeto cadena actual
-		unsigned int longitud()const{return tamano_-1;}
+		unsigned int longitud()const{return tamano_;}
 		//const char* imprimirP()const;
 		void imprimirP()const;
 

@@ -82,18 +82,25 @@ Fecha::Fecha(int dia)
 Fecha::Fecha(const char* string_fecha)
 {
 	char fech[11];
-	
-	strncpy(fech, string_fecha,strlen(string_fecha));
-	
-	char *fecha=fech;
-	fecha = strtok(fecha,"/-");
-	d_ = atoi(fecha);
-	fecha = strtok(NULL, "/-");
-	m_ = atoi(fecha);
-	fecha = strtok(NULL, "/-");
-	a_ = atoi(fecha);
 
-	comprueba_fecha(d_, m_, a_);
+	if(sscanf(string_fecha,"%i/%i/%i", &d_, &m_, &a_)==0)
+	{
+        throw Invalida("Entrada Incorrecta.");
+	}
+	else
+	{
+		strncpy(fech, string_fecha,strlen(string_fecha));
+	
+		char *fecha=fech;
+		fecha = strtok(fecha,"/-");
+		d_ = atoi(fecha);
+		fecha = strtok(NULL, "/-");
+		m_ = atoi(fecha);
+		fecha = strtok(NULL, "/-");
+		a_ = atoi(fecha);
+
+		comprueba_fecha(d_, m_, a_);
+	}
 }
 
 Fecha::Invalida::Invalida(const char* t)
@@ -125,8 +132,9 @@ Fecha& Fecha::operator ++()
 
 Fecha Fecha::operator ++(int)
 {
+	Fecha f(*this);
 	this->sumadias(1);
-	return *this;
+	return f;
 }
 
 Fecha& Fecha::operator --()
@@ -137,8 +145,9 @@ Fecha& Fecha::operator --()
 
 Fecha Fecha::operator --(int)
 {
+	Fecha f(*this);
 	this->restadias(1);
-	return *this;
+	return f;
 }
 
 Fecha& Fecha::operator =(const Fecha& fec)
@@ -339,9 +348,9 @@ const char* Fecha::cadena()const
 	static char f_explicita[40];
 	tm timeinfo = { 0, 0, 0, d_, m_ - 1, a_ - 1900, 0, 0, -1 };
 	mktime(&timeinfo);
-	const char* const weekday[7] = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
-	const char* const month[12] = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-	sprintf(f_explicita,"Día %s %2d de %s de %4i.\n", weekday[timeinfo.tm_wday], dia(), month[timeinfo.tm_mon], anno());
+	const char* const weekday[7] = {"domingo","lunes","martes","miércoles","jueves","viernes","sábado"};
+	const char* const month[12] = {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
+	sprintf(f_explicita,"%s %d de %s de %4d", weekday[timeinfo.tm_wday], dia(), month[timeinfo.tm_mon], anno());
 	return f_explicita;
 }
 
@@ -355,7 +364,7 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 {
     if ((year < YEAR_MINIMO) || (year > YEAR_MAXIMO))
 	{
-        throw Invalida("Año Incorrecto\n");//year
+        throw Invalida("Año Incorrecto.");//year
 	}
 
     if (mes > 0 && mes < 13)
@@ -371,7 +380,7 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
                                 {
                                     if (dia < 1 || dia > 31)
 									{
-                                        throw Invalida("dia31\n");//dia
+                                        throw Invalida("dia31");//dia
 									}
 									break;
                                 }
@@ -392,24 +401,24 @@ bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 			{
 				if (dia < 1 || dia > 29)
 				{
-					throw Invalida("dia29\n");//dia
+					throw Invalida("dia29");//dia
 				}
 			}
             else
                 if (dia < 0 || dia > 28)
                 {
-                    throw Invalida("dia28\n");//dia
+                    throw Invalida("dia28");//dia
                 }
 			break;
         }
 		default:
 		{
-			throw Invalida("defmes\n");//mes
+			throw Invalida("defmes");//mes
 		}
     }
 	else
 	{
-		throw Invalida("mes\n");//mes
+		throw Invalida("mes");//mes
 	}
 	
 	return true;
@@ -426,7 +435,7 @@ bool operator ==(const Fecha& fec1, const Fecha& fec2)
 
 bool operator <(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_anyo() < fec2.visualizar_anyo()) && (fec1.visualizar_mes() < fec2.visualizar_mes()) && (fec1.visualizar_dia() < fec2.visualizar_dia()))
+	if((fec1.dia() < fec2.dia()) || ((fec1.dia() >= fec2.dia() && (fec1.mes() < fec2.mes())) || ((fec1.mes() >= fec2.mes()) && fec1.anno() < fec2.anno())))
 	    return true;
 	else
 	    return false;
@@ -434,7 +443,7 @@ bool operator <(const Fecha& fec1, const Fecha& fec2)
 
 bool operator >(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_dia() > fec2.visualizar_dia()) && (fec1.visualizar_mes() > fec2.visualizar_mes()) && (fec1.visualizar_anyo() > fec2.visualizar_anyo()))
+	if((fec1.dia() > fec2.dia()) || ((fec1.dia() <= fec2.dia() && (fec1.mes() > fec2.mes())) || ((fec1.mes() <= fec2.mes()) && fec1.anno() > fec2.anno())))
 	    return true;
 	else
 	    return false;
@@ -442,7 +451,7 @@ bool operator >(const Fecha& fec1, const Fecha& fec2)
 
 bool operator <=(const Fecha& fec1, const Fecha& fec2)
 {
-	if ( (fec1.visualizar_anyo() <= fec2.visualizar_anyo()) && (fec1.visualizar_mes() <= fec2.visualizar_mes()) && (fec1.visualizar_dia() <= fec2.visualizar_dia() ))
+	if((fec1.dia() <= fec2.dia()) || ((fec1.dia() > fec2.dia() && (fec1.mes() <= fec2.mes())) || ((fec1.mes() > fec2.mes()) && fec1.anno() <= fec2.anno())))
 	    return true;
 	else
 	    return false;
@@ -450,7 +459,7 @@ bool operator <=(const Fecha& fec1, const Fecha& fec2)
 
 bool operator >=(const Fecha& fec1, const Fecha& fec2)
 {
-	if ((fec1.visualizar_dia() >= fec2.visualizar_dia()) && (fec1.visualizar_mes() >= fec2.visualizar_mes()) && (fec1.visualizar_anyo() >= fec2.visualizar_anyo()))
+	if((fec1.dia() >= fec2.dia()) || ((fec1.dia() < fec2.dia() && (fec1.mes() >= fec2.mes())) || ((fec1.mes() < fec2.mes()) && fec1.anno() >= fec2.anno())))
 	    return true;
 	else
 	    return false;
@@ -466,11 +475,7 @@ bool operator !=(const Fecha& fec1, const Fecha& fec2)
 
 ostream& operator <<(ostream& os, const Fecha& fec)
 {
-    os << "Fecha etiquetada: ";
-		if(fec.visualizar_dia() > 0 && fec.visualizar_dia() < 10) os << "0";
-	os << fec.visualizar_dia() << "/";
-		if(fec.visualizar_mes() > 0 && fec.visualizar_mes() < 10) os << "0";
-	os << fec.visualizar_mes() << "/" << fec.visualizar_anyo() << endl;
+    os << fec.cadena();
     return os;
 }
 

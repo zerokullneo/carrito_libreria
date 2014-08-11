@@ -26,7 +26,7 @@ int main()
 	Cadena userApll("Barba Gonzalez");
 	Cadena userDir("su casa");
 	const Clave userPass("holas");
-	istringstream isM("4/10/2000");
+	istringstream isM("2/4/2006");
 	ostringstream os("");
 	cout << "---" << endl;
 	isM >> f;
@@ -40,8 +40,16 @@ int main()
 	
 	cout << "Main\n" << NombreM << endl << cadM << "." << endl;
 	cout << "---Cadena---" << endl;
-	cout << fecM.cadena() << endl;
-	cout << "---Fecha---" << endl;
+	
+	cout << "Extraccion: una palabra --- ";
+	istringstream is("bueno bonito barato");
+	Cadena c("algo");
+	is >> c;
+	if(c == "bueno" && is.peek() == ' ') cout << "OK." << endl;
+	cout << c << endl;
+
+	cout << endl << "---Fecha---" << endl;
+
 	cout << "Fecha de Nacimiento: "; fecM.visualizar();
 	cout << "Fecha como cadena: "; fString.visualizar();
 Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
