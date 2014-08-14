@@ -27,8 +27,8 @@
 #include "../../cabeceras.h"
 #include "../Cadena/cadena.h"
 
-#define YEAR_MINIMO 1000
-#define YEAR_MAXIMO 2500
+#define YEAR_MINIMO 1600
+#define YEAR_MAXIMO 2200
 
 #ifndef _FECHA_H_
 #define _FECHA_H_
@@ -70,8 +70,8 @@ class Fecha
 		int anno()const{return a_;}
 		int mes()const{return m_;}
 		int dia()const{return d_;}
-		bool operator +(int incremento);
-		bool operator -(int decremento);
+		bool operator + (int incremento);
+		bool operator - (int decremento);
 
 		class Invalida
 		{

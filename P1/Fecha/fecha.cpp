@@ -124,26 +124,26 @@ Fecha& Fecha::operator -=(int decremento)
 	return *this;
 }
 
-Fecha& Fecha::operator ++()
+Fecha& Fecha::operator ++()//postincremento
 {
 	this->sumadias(1);
 	return *this;
 }
 
-Fecha Fecha::operator ++(int)
+Fecha Fecha::operator ++(int)//preincremento
 {
 	Fecha f(*this);
 	this->sumadias(1);
 	return f;
 }
 
-Fecha& Fecha::operator --()
+Fecha& Fecha::operator --()//postdecremento
 {
 	this->restadias(1);
 	return *this;
 }
 
-Fecha Fecha::operator --(int)
+Fecha Fecha::operator --(int)//predecremento
 {
 	Fecha f(*this);
 	this->restadias(1);
@@ -182,114 +182,81 @@ bool Fecha::operator -(int decremento)
 /*------------------FIN OPERADORES---------------------*/
 
 /*--------------------MODIFICADORAS--------------------*/
+bool bisiesto(int a)
+{
+	return !(a%4) && ((a%100) || !(a%400));
+}
 
 Fecha& Fecha::sumadias(int incmt_d)
 {
-    //for(incmt_d; incmt_d > 0; incmt_d--)
-	while(incmt_d > 0)
+	int dm[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+	this->d_ += incmt_d;
+	if(bisiesto(this->a_)) dm[1] = 29; else dm[1] = 28;
+
+	while(this->d_ > dm[this->m_-1])
 	{
-		switch(d_ + incmt_d)
+		this->d_ -= dm[this->m_-1];
+		this->m_+=1;
+		if(this->m_ > 12)
 		{
-			case 32:
-			{
-				if(m_ + (incmt_d % 12) > 12)
-				{
-					sumayear(1);
-					sumames(1);
-				}
-				else
-					m_ = m_ + (incmt_d % 12);
-				d_ = (d_ + incmt_d) % 31;
-				break;
-			}
-			case 31:
-			{
-				if(m_ + (incmt_d % 12) > 12)
-				{	
-					sumayear(1);
-					sumames(1);
-				}
-				else
-					m_ = m_ + (incmt_d % 12);
-				d_ = (d_ + incmt_d) % 30;
-				break;
-			}
-			case 30:
-			{
-				if(m_ + (incmt_d % 12) > 12)
-				{	
-					sumayear(1);
-					sumames(1);
-				}
-				else
-					m_ = m_ + (incmt_d % 12);
-				d_ = (d_ + incmt_d) % 29;
-				break;
-			}
-			case 29:
-			{
-				if(m_ + (incmt_d % 12) > 12)
-				{	
-					sumayear(1);
-					sumames(1);
-				}
-				else
-					m_ = m_ + (incmt_d % 12);
-				d_ = (d_ + incmt_d) % 28;
-				break;
-			}
-			default:
-			{
-				d_ += 1;
-				break;
-			}
+			this->m_ = 1;
+			this->a_+=1;
+			if(bisiesto(this->a_)) dm[1] = 29; else dm[1] = 28;
 		}
-		incmt_d --;
 	}
+
+	if(a_ >	YEAR_MAXIMO)
+		throw Invalida("Año Incorrecto.");//year
+
 	return *this;
 }
 
 Fecha& Fecha::restadias(int decmt_d)
 {
-	while(decmt_d > 0)
+	int dm[] = {0,31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},sum,i;
+
+	this->d_ -= decmt_d;
+	if(bisiesto(this->a_)) dm[1] = 29; else dm[1] = 28;
+
+	sum = this->d_;
+
+	for(((dm[this->m_-1] < 1) ? i = dm[12] :(i = dm[this->m_-1])); (sum < i || sum < dm[this->m_-1])&& (sum <= (dm[this->m_]));)
 	{
-		if((d_ - decmt_d) < 1)
+		if(sum == 0)
 		{
-			if(m_ - (decmt_d % 12) < 1)
+			this->m_= this->m_ - 1;
+			if(this->m_ < 1)
 			{
-				restayear(1);
-				restames(1);
+				this->m_ = 12;
+				this->a_-=1;
+				if(bisiesto(this->a_)) dm[1] = 29; else dm[1] = 28;
 			}
-
-			else m_ = m_ - (decmt_d % 12);
-
-			switch(m_)
-			{
-				case 1:case 3:case 5:case 7:case 8:case 10:case 12:
-				{
-					d_ = 31;
-					break;
-				}
-				case 4:case 6:case 9:case 11:
-				{
-					d_ = 30;
-					break;
-				}
-				case 2:
-				{
-					if ((a_ % 4) == 0) d_ = 29;
-					else d_ = 28;
-					break;
-				}
-			}
-
-		//d_ = d_ % 31;
+			this->d_ = this->d_ + dm[this->m_];
+			sum = dm[this->m_];
 		}
 		else
-			d_ -= 1;
+		{
+			this->m_ = this->m_ - 1;
 
-		decmt_d--;
+			if(this->m_ < 1)
+			{
+				this->m_ = 12;
+				this->a_-=1;
+				if(bisiesto(this->a_)) dm[1] = 29; else dm[1] = 28;
+			}
+			if((sum = this->d_ + dm[this->m_]) < 32)
+			{
+				this->d_ = this->d_ + dm[this->m_];
+				sum = this->d_ + dm[this->m_];
+			}
+			else
+				this->m_ = this->m_ + 1;
+		}
 	}
+
+	if(a_ <	YEAR_MINIMO)
+		throw Invalida("Año Incorrecto.");//year
 	return *this;
 }
 
@@ -298,7 +265,6 @@ Fecha& Fecha::sumames(int incmt_m)
     if (incmt_m == 12)
     {
         this->m_ = 1;
-       // this->a_ ++;
     }
     else
         this->m_ = incmt_m;
@@ -311,7 +277,6 @@ Fecha& Fecha::restames(int decmt_m)
     if (decmt_m == 1)
     {
         this->m_ = 12;
-        //this->a_ --;
     }
     else
         this->m_ = decmt_m;
@@ -362,69 +327,68 @@ void Fecha::visualizar() const
 
 bool Fecha::comprueba_fecha(int& dia, int& mes, int& year)
 {
-    if ((year < YEAR_MINIMO) || (year > YEAR_MAXIMO))
+	if ((year < YEAR_MINIMO) || (year > YEAR_MAXIMO))
 	{
-        throw Invalida("Año Incorrecto.");//year
+		throw Invalida("Año Incorrecto.");//year
 	}
 
-    if (mes > 0 && mes < 13)
-    switch (mes)
-    {
-        case 1:
-            case 3:
-                case 5:
-                    case 7:
-                        case 8:
-                            case 10:
-                                case 12:
-                                {
-                                    if (dia < 1 || dia > 31)
-									{
-                                        throw Invalida("dia31");//dia
-									}
-									break;
-                                }
-        case 4:
-            case 6:
-                case 9:
-                    case 11:
-                    {
-                        if (dia < 1 || dia > 30)
-                        {
-                            throw Invalida("dia30");//dia
-						}
-						break;
-                    }
-        case 2:
-        {
-            if ((year % 4) == 0)
-			{
-				if (dia < 1 || dia > 29)
-				{
-					throw Invalida("dia29");//dia
-				}
-			}
-            else
-                if (dia < 0 || dia > 28)
-                {
-                    throw Invalida("dia28");//dia
-                }
-			break;
-        }
-		default:
-		{
-			throw Invalida("defmes");//mes
-		}
-    }
-	else
+	if(mes > 0 && mes < 13)
 	{
-		throw Invalida("mes");//mes
+		if(dia > 31)
+			throw Invalida("Dia fuera de rango");
+		else
+		{
+			switch(mes)
+			{
+				case 1:
+					case 3:
+						case 5:
+							case 7:
+								case 8:
+									case 10:
+										case 12:
+										{
+											if(dia < 1 || dia > 31)
+												throw Invalida("dia31");//dia
+											break;
+										}
+				case 4:
+					case 6:
+						case 9:
+							case 11:
+							{
+								if(dia < 1 || dia > 30)
+									throw Invalida("dia30");//dia
+								break;
+							}
+				case 2:
+				{
+					if((year % 4) == 0)
+					{
+						if (dia < 1 || dia > 29)
+							throw Invalida("dia29");//dia
+					}
+					else
+					{
+						if(dia < 0 || dia > 28)
+							throw Invalida("dia28");//dia
+					}
+					break;
+				}
+				default:
+					throw Invalida("defmes");//mes
+			}
+		}
 	}
-	
+	else
+		throw Invalida("mes");//mes
+
 	return true;
 }
 
+
 /*---OPERADORES EXTERNOS---*/
+
 bool operator ==(const Fecha& fec1, const Fecha& fec2)
 {
 	if ((fec1.visualizar_dia() == fec2.visualizar_dia()) && (fec1.visualizar_mes() == fec2.visualizar_mes()) && (fec1.visualizar_anyo() == fec2.visualizar_anyo()))
