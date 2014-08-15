@@ -67,14 +67,18 @@ bool Clave::verifica(const char* pass) const
 /*Fin Clase clave*/
 
 /*Clase Usuario*/
-Usuario::Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass):
-identificador_(id), nombre_(nom), apellidos_(apll), direccion_(dir), contrasenia_(pass)
-{}
+//Columna de identificadores de usuarios.
+static Usuario::Usuarios id_;
 
-Usuario::Id_duplicado::Id_duplicado(const Cadena& id_d)
+Usuario::Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass)throw(Usuario::Id_duplicado,Clave::Incorrecta):
+identificador_(id), nombre_(nom), apellidos_(apll), direccion_(dir), contrasenia_(pass)
 {
-	idd_ = id_d;
-	cerr << idd();
+	//comprobamos si ese identificador de usuario ya existe.
+	if (id_.insert(id).second == false) throw Id_duplicado(id);
+}
+
+Usuario::Id_duplicado::Id_duplicado(const Cadena& id_d):idd_(id_d)
+{
 }
 
 void Usuario::es_titular_de(Tarjeta& T)

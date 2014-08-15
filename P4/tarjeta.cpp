@@ -84,15 +84,16 @@ Tarjeta::~Tarjeta()
 Numero::Numero(const Cadena& n)throw (Numero::Incorrecto)
 {
 	char digitos[20];
-	int i, j = 0;
+	unsigned int i, j = 0;
 	
-	for(i = 0; n[i] != '\0'; i++)
+	for(i = 0; i <= n.longitud(); i++)
 		if (isdigit(n[i]))
 		{
 			digitos[j] = n[i];
 			j++;
 		}
-	
+	digitos[i+1] = '\0';
+
 	if(strlen(digitos) < 13 || strlen(digitos) > 19)
 		throw Incorrecto(LONGITUD);
 
@@ -125,25 +126,25 @@ Numero::Incorrecto::Incorrecto(Razon r):razon_(r)
 /*FIN CLASE NUMERO*/
 
 /*OPERADORES*/
-bool operator <(const Numero& n1,const Numero& n2)
-{
-	if(n1.operator const char*() < n2.operator const char*())
-		return true;
-	else
-		return false;
-}
-
-bool operator ==(const Numero& n1,const Numero& n2)
-{
-	if(n1.operator const char*() == n2.operator const char*())
-		return true;
-	else
-		return false;
-}
-
 bool operator <(const Tarjeta& t1, const Tarjeta& t2)
 {
-	if(t1.tarjeta() < t2.tarjeta())
+	if(strcmp(t1.numero(), t2.numero()) < 0)
+		return true;
+	else
+		return false;
+}
+
+bool operator ==(const Tarjeta& t1, const Tarjeta& t2)
+{
+	if(strcmp(t1.numero(), t2.numero()) == 0)
+		return true;
+	else
+		return false;
+}
+
+bool operator <(const Numero& n1, const Numero& n2)
+{
+	if(strcmp( n1.numero_.c_str(), n2.numero_.c_str()) < 0)
 		return true;
 	else
 		return false;

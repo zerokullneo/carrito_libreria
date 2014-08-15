@@ -65,7 +65,7 @@ class Clave
 class Usuario
 {
 	public:
-		typedef set<int*,Usuario*> Usuarios;
+		typedef set<Cadena> Usuarios;
 		typedef map<Numero, Tarjeta*> Tarjetas;
 		typedef map<Articulo*, unsigned> Articulos;
 
@@ -83,7 +83,7 @@ class Usuario
 		};
 
 		//Constructor
-		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass);
+		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass)throw(Usuario::Id_duplicado,Clave::Incorrecta);
 
 		//Métodos observadores de los atributos.
 		Cadena id()const {return identificador_;}
@@ -112,7 +112,6 @@ class Usuario
 		Clave contrasenia_;
 		Articulos articulos_;
 		Tarjetas tarjetas_;
-
 };
 
 std::ostream& operator << (std::ostream& out , const Usuario& u);

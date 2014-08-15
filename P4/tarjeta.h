@@ -63,6 +63,8 @@ class Numero
 		
 		//Validación del número de tarjeta, según el algoritmo de Lhun.static
 		int isValidNumber(char* number)throw();
+		
+		friend bool operator <(const Numero&, const Numero&);
 };
 
 class Tarjeta
@@ -103,9 +105,9 @@ class Tarjeta
 		Cadena titular_facial_;
 };
 
-bool operator <(const Numero& n1,const Numero& n2);
-bool operator ==(const Numero& n1,const Numero& n2);
-bool operator < (const Tarjeta& t1, const Tarjeta& t2);
+bool operator <(const Tarjeta& t1, const Tarjeta& t2);
+bool operator ==(const Tarjeta& t1, const Tarjeta& t2);
+bool operator <(const Numero& n1, const Numero& n2);
 ostream& operator << (ostream& out, const Tarjeta& tjt);
 
 #endif //TARJETA_H
