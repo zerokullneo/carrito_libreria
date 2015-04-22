@@ -1,12 +1,12 @@
 /***************************************************************************
- *            articulo.h
+ *            articulo.cpp
  *
  *  mar mayo 6 12:52:48 2014
  *  Copyright  2014  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * articulo.h
+ * articulo.cpp
  *
  * Copyright (C) 2014 - Jose M Barba Gonzalez
  *
