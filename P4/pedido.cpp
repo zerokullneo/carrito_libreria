@@ -29,78 +29,87 @@
 #include "pedido-articulo.h"
 #include "articulo.h"
 
-int Pedido::N_pedidos = 0;
+int Pedido::n_pedidos = 0;
 
-Pedido::Pedido(Usuario_Pedido& U_P, Pedido_Articulo& P_A, Usuario& U, const Tarjeta& T,const Fecha& F)throw(Vacio,Impostor,SinStock,Tarjeta::Caducada):tarjeta_(const_cast<Tarjeta *>(&T)),fecha_(F)
+Pedido::Pedido(Usuario_Pedido& u_p, Pedido_Articulo& p_a, Usuario& u, const Tarjeta& t, const Fecha& f):num_(n_pedidos+1),total_(0.0),tarjeta_(&t),fecha_pedido_(f)
 {
-	if(tarjeta_->caducidad() < fecha_)
-		throw(Tarjeta::Caducada(fecha_));
-	if(!U.n_articulos())
-		throw(Vacio(U));
+	if(u.compra().empty())
+		throw(Vacio(u));
 
-	Usuario::Tarjetas t(U.tarjetas());
-	if(tarjeta_->titular() != &U)
-		throw Impostor(U);
+	if(tarjeta_->titular() != &u)
+		throw Impostor(u);
 
-	total_ = 0.0;
-	Usuario::Articulos A(U.compra());
-	bool NoHayStock = false;
-	Usuario::Articulos::iterator i;
-	for(i = A.begin(); i != A.end() && !NoHayStock; i++)
+	if(tarjeta_->caducidad() < fecha_pedido_)
+		throw Tarjeta::Caducada(tarjeta_->caducidad());
+
+	Usuario::Tarjetas tjt(u.tarjetas());
+
+	Usuario::Articulos art(u.compra());
+
+	Usuario::Articulos::iterator it;
+
+	for(it = art.begin(); it != art.end(); it++)
 	{
-		//Comprobar si se trata de un puntero a un objeto a InformeDigital
-		if(dynamic_cast<InformeDigital*>(i->first) != 0)
+		LibroDigital* ld = dynamic_cast<LibroDigital*>(it->first);
+		ArticuloAlmacenable* aa = dynamic_cast<ArticuloAlmacenable*>(it->first);
+		//Comprobar si se trata de un puntero a un objeto a LibroDigital
+		if(ld)
 		{
-			if(static_cast<InformeDigital*>(i->first)->f_expir()>fecha_)
+			if(fecha_pedido_ <= ld->f_expir())
 			{
-				//añadir el precio del  articulo al total_
-				total_ += (*(i->first)).precio() * (*i).second;
+				u.compra(*(it->first),(*it).second);
+				//añadir el precio del articulo al total_
+				total_ += (*(it->first)).precio() * (*it).second;
 				//Asociar Pedido con Articulo
-				P_A.pedir(*(i->first),*this,(i->first)->precio(),(*i).second);
+				p_a.pedir(*this,(*(it->first)),(*(it->first)).precio(),(*it).second);
 			}
 			else
-				U.compra(*(i->first),0);
+			{
+				u.compra(*it->first,0);
+				ld->f_expir();
+			}
+		}
+		else if(aa)
+		{
+			if(aa->stock() < (*it).second)
+			{
+				u.compra(*it->first,0);
+				throw SinStock(*it->first);
+			}
+			else
+			{
+				u.compra(*(it->first),(*it).second);
+				//añadir el precio del articulo al total_
+				total_ += (*(it->first)).precio() * (*it).second;
+				//Asociar Pedido con Articulo
+				p_a.pedir(*this,(*(it->first)),(*(it->first)).precio(),(*it).second);
+				//Actualizacion de el stock
+				aa->stock() -= (*it).second;
+			}
 		}
 		else
 		{
-			if((*i).second > static_cast<ArticuloAlmacenable*>(i->first)->stock())
-				NoHayStock=true;
-			else
-			{
-				//Actualizacion de el stock
-				static_cast<ArticuloAlmacenable*>(i->first)->stock() -= (*i).second;
-				//añadir el precio del  articulo al total_
-				total_ += (*(i->first)).precio() * (*i).second;
-				//Asociar Pedido con Articulo
-				P_A.pedir(*(i->first),*this,(i->first)->precio(),(*i).second);
-			}
+			ld->f_expir();
 		}
 	}
+	if(!u.n_articulos())
+		throw Vacio(u);
 
-	if(!U.n_articulos())
-		throw(Vacio(U));
-		
 	//Vaciar el Carrito
-	for(Usuario::Articulos::iterator j = A.begin(); j != A.end(); j++)
-		U.compra(*(j->first),0);
-	//Puntero Art_ptr apunta a A.end() o bien al primer articulo sin stock
-	Articulo* Art_ptr = (--i)->first;
+	for(Usuario::Articulos::iterator jt = art.begin(); jt != art.end(); jt++)
+		u.compra(*(jt->first),0);
 
-	//Lanzar La excepcion SinStock
-	if(NoHayStock)
-		throw(SinStock(*Art_ptr));
-
-	num_ = ++N_pedidos;
-	
 	//Asociar usuario con Pedido
-	U_P.asocia(U,*this);
+	u_p.asocia(u,*this);
+
+	++n_pedidos;
 }
 
-ostream& operator <<(ostream& out,const Pedido& P)
+ostream& operator <<(ostream& out,const Pedido& p)
 {
-	out << "Núm. pedido:\t" << P.numero() << endl;
-	out << "Fecha:\t"<< P.fecha().observadorPublico() << endl;
-	out << "Pagado con:\t" << P.tarjeta()->tarjeta() << endl;
-	out << "Importe:\t" << P.total() << "€";
+	out << "Núm. pedido:\t" << p.numero() << endl;
+	out << "Fecha:\t"<< p.fecha().cadena() << endl;
+	out << "Pagado con:\t" << p.tarjeta()->tarjeta() << endl;
+	out << "Importe:\t" << p.total() << " €";
 	return out;
 }

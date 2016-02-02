@@ -30,15 +30,28 @@
 #include "../cabeceras.h"
 #include "../P1/Cadena/cadena.h"
 #include "../P1/Fecha/fecha.h"
-#include "autor.h"
 
-class Autor;
+class Autor
+{
+	public:
+		Autor(Cadena nom, Cadena apll, Cadena dir):nombre_(nom), apellidos_(apll), direccion_(dir){};
+
+		//Métodos observadores de los atributos.
+		Cadena nombre()const {return nombre_;}
+		Cadena apellidos()const {return apellidos_;}
+		Cadena direccion()const {return direccion_;}
+
+	private:
+		Cadena nombre_;
+		Cadena apellidos_;
+		Cadena direccion_;
+};
 
 class Articulo
 {
-
 	public:
 		typedef set<Autor*> Autores;
+
 		class Autores_vacios
 		{
 			public:
@@ -50,22 +63,21 @@ class Articulo
 		Cadena titulo()const{return titulo_;}
 		Fecha f_publi()const{return f_publi_;}
 		double precio()const{return precio_;}
-		unsigned int stock()const{return stock_;}
+		virtual unsigned int stock()const{return stock_;}
 		const Autores& autores()const{return autores_;}
-		
-		//Métodos modificadores
-		//modifica el atributo precio_ con el nuevo valor indicado en pvp.
+
+		//Métodos modificadores modifica el atributo precio_ con el nuevo valor indicado en pvp.
+		void precio(double& pvp){precio_ = pvp;}
 		double& precio(){return precio_;}
 		//modifica el atributo stock_ con el nuevo valor indicado en stk.
-		unsigned int& stock(unsigned int& stk){return stock_ = stk;}
-		virtual ostream& imp_esp(ostream&) const =0;
-
-
+		virtual void stock(unsigned int& stk){stock_ = stk;}
+		virtual unsigned int& stock(){return stock_;}
+		virtual ostream& imp_esp(ostream&) const = 0;
 		virtual ~Articulo(){};
 
 	protected:
 		//Constructores
-		Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp);
+		Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned int stk=1);
 
 	private:
 		Autores autores_;
@@ -78,29 +90,31 @@ class Articulo
 
 class ArticuloAlmacenable: public Articulo
 {
-	protected:
-		ArticuloAlmacenable(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int s);
-		~ArticuloAlmacenable() {}
-
 	public:
 		//Método Observador del stock del artículo.
-		unsigned int stock()const{return stockAA_;}
+		unsigned int stock()const{return stockaa_;}
 		//Método Modificador del stock del artículo.
-		unsigned int& stock(){return stockAA_;}
+		void stock(unsigned int& stk){stockaa_ = stk;}
+		unsigned int& stock(){return stockaa_;}
+
+	protected:
+		//Constructores
+		ArticuloAlmacenable(const Autores& a, const Cadena& r, const Cadena& t, const Fecha& f, double p, unsigned int s=1);
+		virtual ~ArticuloAlmacenable() {}
 
 	private:
-		unsigned int stockAA_;
+		unsigned int stockaa_;
 };
 
-class InformeDigital: public Articulo
+class LibroDigital: public Articulo
 {
 	public:
-		InformeDigital(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,const Fecha& e);
+		LibroDigital(const Autores& a, const Cadena& r, const Cadena& t, const Fecha& f, double p, const Fecha& e);
 		//Método observador de la fecha de expiración.
 		const Fecha& f_expir()const{return expiracion_;}
 		//Operador de flujo de salida con el formato de fecha día de mes de aaaa.
 		ostream& imp_esp(ostream&)const;
-	
+
 	private:
 		Fecha expiracion_;
 };
@@ -108,7 +122,7 @@ class InformeDigital: public Articulo
 class Libro: public ArticuloAlmacenable
 {
 	public:
-		Libro(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int pg,unsigned int s);
+		Libro(const Autores& a, const Cadena& r, const Cadena& t, const Fecha& f, double p, unsigned int pg, unsigned int s=1);
 		//Método observador de Número de Páginas de un Libro.
 		unsigned int n_pag()const{return paginas_;}
 		//Operador de flujo de salida con el formato "paginas, unidades" de un Libro
@@ -121,7 +135,7 @@ class Libro: public ArticuloAlmacenable
 class Cederron:public ArticuloAlmacenable
 {
 	public:
-		Cederron(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned tm,unsigned int s);
+		Cederron(const Autores& a, const Cadena& r, const Cadena& t, const Fecha& f, double p, unsigned tm, unsigned int s=1);
 		//Método observador del tamaño en MB de un CD.
 		unsigned tam()const{return tamano_;}
 		//Operador de flujo de salida con el formato "MB, unidades" de un CD

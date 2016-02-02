@@ -27,8 +27,8 @@
 #include "articulo.h"
 
 /*CLASE ARTICULO*/
-Articulo::Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp):
-autores_(aut),referencia_(ref), titulo_(tit), f_publi_(fec), precio_(pvp)
+Articulo::Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned int stk):
+autores_(aut),referencia_(ref), titulo_(tit), f_publi_(fec), precio_(pvp), stock_(stk)
 {
 	if(autores_.empty())
 		throw Autores_vacios();
@@ -36,22 +36,22 @@ autores_(aut),referencia_(ref), titulo_(tit), f_publi_(fec), precio_(pvp)
 /*FIN CLASE ARTICULO*/
 
 /*CLASE ARTICULOALMACENABLE*/
-ArticuloAlmacenable::ArticuloAlmacenable(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int s):Articulo(a,r,t,f,p),stockAA_(s)
+ArticuloAlmacenable::ArticuloAlmacenable(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int s):Articulo(a,r,t,f,p),stockaa_(s)
 {
 }
 /*FIN CLASE ARTICULOALMACENABLE*/
 
-/*CLASE INFORMEDIGITAL*/
-InformeDigital::InformeDigital(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,const Fecha& e):Articulo(a,r,t,f,p),expiracion_(e)
+/*CLASE LIBRODIGITAL*/
+LibroDigital::LibroDigital(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,const Fecha& e):Articulo(a,r,t,f,p),expiracion_(e)
 {
 }
 
-ostream& InformeDigital::imp_esp(ostream& out) const
+ostream& LibroDigital::imp_esp(ostream& out) const
 {
-	out << expiracion_.observadorPublico();
+	out << "A la venta hasta el " << expiracion_.cadena() << ".";
 	return out;
 }
-/*FIN CLASE INFORMEDIGITAL*/
+/*FIN CLASE LIBRODIGITAL*/
 
 /*CLASE LIBRO*/
 Libro::Libro(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int pg,unsigned int s):ArticuloAlmacenable(a,r,t,f,p,s),paginas_(pg)
@@ -66,11 +66,11 @@ ostream& Libro::imp_esp(ostream& out) const
 /*FIN CLASE LIBRO*/
 
 /*CLASE CEDERRON*/
-Cederron::Cederron(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned tm,unsigned int s):ArticuloAlmacenable(a,r,t,f,p,s),tamano_(tm)
+Cederron::Cederron(const Autores& a, const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned tm,unsigned int s):ArticuloAlmacenable(a,r,t,f,p,s),tamano_(tm)
 {
 }
 
-ostream& Cederron :: imp_esp(ostream& out) const
+ostream& Cederron::imp_esp(ostream& out) const
 {
 	out << tamano_ << " MB, " << this->stock() << " unidades.";
 	return out;
@@ -79,6 +79,17 @@ ostream& Cederron :: imp_esp(ostream& out) const
 
 ostream& operator <<(ostream& out, const Articulo& art)
 {
-	out << "[" << art.referencia() << "] \"" << art.titulo() << "\", " << art.f_publi().visualizar_anyo() << ". " << art.precio() << "€" << endl;
+	Articulo::Autores::const_iterator aut = art.autores().begin();
+	size_t num_aut = 1;
+	out << "[" << art.referencia() << "] \"" << art.titulo() << "\", de ";
+	for(;aut != art.autores().end(); ++aut)
+	{
+		out << (*aut)->apellidos();//muestra los apellidos de cada autor
+		if(num_aut != art.autores().size() ) out << ", ";//muestra una coma por cada autor hasta uno antes del último
+		num_aut++;
+	}
+	out << ". " << art.f_publi().anno() << ". " << setprecision(2) << fixed << art.precio() << " €";
+	out << endl << "\t";
+	art.imp_esp(out);
 	return out;
 }

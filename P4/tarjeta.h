@@ -36,9 +36,6 @@ class Usuario;
 
 class Numero
 {
-	private:
-		Cadena numero_;
-
 	public:
 		//Atributo que indica la no validez del número.
 		enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
@@ -47,40 +44,60 @@ class Numero
 		class Incorrecto
 		{
 			public:
-				//constructor de la clase Incorrecto.
-				Incorrecto(Razon r);
+				//Constructor de la clase Incorrecto.
+				Incorrecto(Razon r):razon_(r){};
 				//Método observador del atributo de razon_.
 				Razon razon()const {return razon_;}
 			private:
 				Razon razon_;
 		};
 
-		//constructor del numero de tarjeta
-		Numero(const Cadena& n)throw (Incorrecto);
+		//constructor del numero de tarjeta.
+		Numero(const Cadena& n);
 
-		//operador de conversión a cadena de bajo nivel
+		//operador de conversión a cadena de bajo nivel.
 		operator const char*()const{return numero_.c_str();}
-		
-		//Validación del número de tarjeta, según el algoritmo de Lhun.static
-		int isValidNumber(char* number)throw();
-		
+
+		//comparacion de dos Numeros.
 		friend bool operator <(const Numero&, const Numero&);
+
+	private:
+		Cadena numero_;
+		struct EsBlanco
+		{
+			EsBlanco(){}
+			locale loc;
+			bool operator() (char c) const { return isspace(c,loc); }
+		};
+
+		struct EsDigito
+		{
+			EsDigito(){}
+			bool operator() (char c) const { return not isdigit(c); }
+		};
 };
 
 class Tarjeta
 {
 	public:
-		//Clase de excepcion Caducada
+		//Clase de excepcion Caducada.
 		class Caducada
 		{
 			public:
+				//Constructor predeterminado.
 				Caducada(const Fecha& f):caducada_(f){};
+				//Método observador.
 				Fecha cuando()const{return caducada_;};
 			private:
 				Fecha caducada_;
 		};
 
-		Tarjeta(const Numero& tjt,Usuario& usuario,const Fecha& cad)throw(Caducada);
+		Tarjeta(const Numero& tjt, Usuario& usuario, const Fecha& f_cad);
+
+		//Evitar la copia de una Tarjeta
+		Tarjeta(const Tarjeta&)=delete;
+		//Evitar la asignacion de una Tarjeta
+		Tarjeta& operator=(const Tarjeta&)=delete;
 
 		//Métodos observadores de los atributos de Tarjeta.
 		Numero tarjeta()const{return tarjeta_;}
@@ -88,19 +105,13 @@ class Tarjeta
 		Fecha caducidad()const{return f_caducidad_;}
 		Cadena titular_facial()const{return titular_facial_;}
 		const Usuario* titular()const{return titular_;}
-		void anula_titular();
-		friend void caducar(Tarjeta& t, const Fecha& f);
+		void anula_titular() noexcept;
 
 		~Tarjeta();
 
 	private:
-		//Evitar la copia de una Tarjeta
-		Tarjeta(const Tarjeta&);
-		//Evitar la asignacion de una Tarjeta
-		Tarjeta& operator=(const Tarjeta&);
-
 		Numero tarjeta_;
-		const Usuario* titular_;
+		Usuario* titular_;
 		Fecha f_caducidad_;
 		Cadena titular_facial_;
 };
@@ -109,5 +120,4 @@ bool operator <(const Tarjeta& t1, const Tarjeta& t2);
 bool operator ==(const Tarjeta& t1, const Tarjeta& t2);
 bool operator <(const Numero& n1, const Numero& n2);
 ostream& operator << (ostream& out, const Tarjeta& tjt);
-
 #endif //TARJETA_H

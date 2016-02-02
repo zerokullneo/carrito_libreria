@@ -30,83 +30,80 @@
 #include "articulo.h"
 #include "tarjeta.h"
 
-/*Clase clave*/
-Clave::Clave(const char* clav)throw(Clave::Incorrecta)
+/*CLASE CLAVE*/
+Clave::Clave(const char* clav)
 {
 	if(strlen(clav) < 5)throw Incorrecta(CORTA);
 
-	const char* c = crypt(clav,"@#");
+	const char* c = crypt(clav,"0123456789./");
 	clave_ = c;
 
-	if(!clave_.longitud())throw Incorrecta(ERROR_CRYPT);
+	if(!clave_.length())throw Incorrecta(ERROR_CRYPT);
 }
 
-Clave::Incorrecta::Incorrecta(Razon r):r_(r)
+bool Clave::verifica(const char* pass) const noexcept
 {
-	cerr << "Clave: ";
-		switch(razon())
-		{
-			case 0:
-				cerr<<"CORTA";
-				break;
-			case 1:
-				cerr<<"ERROR_CRYPT";
-				break;
-		}
-	cerr << endl;
-}
+	pass = crypt(pass,"0123456789./");
 
-bool Clave::verifica(const char* pass) const
-{
-	pass = crypt(pass,"@#");
 	if(0 == strcmp(pass, clave_.c_str()))
 		return true;
 	else
 		return false;
 }
-/*Fin Clase clave*/
+/*FIN CLASE CLAVE*/
 
-/*Clase Usuario*/
+/*CLASE USUARIO*/
 //Columna de identificadores de usuarios.
 static Usuario::Usuarios id_;
 
-Usuario::Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass)throw(Usuario::Id_duplicado,Clave::Incorrecta):
+Usuario::Usuario(const Cadena& id, const Cadena& nom, const Cadena& apll, const Cadena& dir, const Clave& pass):
 identificador_(id), nombre_(nom), apellidos_(apll), direccion_(dir), contrasenia_(pass)
 {
 	//comprobamos si ese identificador de usuario ya existe.
-	if (id_.insert(id).second == false) throw Id_duplicado(id);
+	if(id_.insert(identificador_).second == false)
+		throw Id_duplicado(id);
 }
 
-Usuario::Id_duplicado::Id_duplicado(const Cadena& id_d):idd_(id_d)
+void Usuario::es_titular_de(Tarjeta& tjt) noexcept
 {
+	//insertamos el par Numero-Tarjeta en el map de tarjetas_
+	tarjetas_.insert(pair<Numero,Tarjeta*>(tjt.tarjeta(),&tjt));
 }
 
-void Usuario::es_titular_de(Tarjeta& T)
+void Usuario::no_es_titular_de(Tarjeta& tjt) noexcept
 {
-	tarjetas_.insert(pair<Numero,Tarjeta*>(T.tarjeta(),&T));
+	//eliminamos el par de tarjetas_ dada la tarjeta tjt
+	tarjetas_.erase(tjt.tarjeta());
+	//anulamos el titular de tjt
+	tjt.anula_titular();
 }
 
-void Usuario::no_es_titular_de(Tarjeta& T)
+void Usuario::compra(Articulo& art, unsigned i) noexcept
 {
-	tarjetas_.erase(T.tarjeta());
-}
-
-void Usuario::compra(Articulo& A, unsigned i)
-{
-	if(i == 0)
-		articulos_.erase(&A);
+	if(i == 0)//si se recibe un 0 como cantidad se vacía el carro.
+		articulos_.erase(&art);
 	else
 	{
-		if(!articulos_.insert(pair<Articulo*,unsigned>(&A,i)).second)
-			articulos_[&A] = i;
+		//si no existe el Articulo se inserta en el par y se indica la cantidad
+		if(!articulos_.insert(pair<Articulo*,unsigned>(&art,i)).second)
+			articulos_[&art] = i;
 	}
 }
 
+Usuario::~Usuario()
+{
+	//Eliminamos todas las tarjetas que tenga el usuario.
+	for(Usuario::Tarjetas::const_iterator it=tarjetas().begin(); it!=tarjetas().end(); ++it)
+		(it->second)->anula_titular();
+	//Cuando esten todas eliminadas, borramos el id de ususario 
+	id_.erase(identificador_);
+}
+/*FIN CLASE USUARIO*/
+
 ostream& operator <<(ostream& out, const Usuario& u)
 {
-	out << u.id() << " [" << u.clave().clave() << "] " << u.nombre() << " " << u.apellidos() << std::endl;
-	out << u.direccion() << endl;
-	out << "Tarjetas:\n";
+	out << u.id() << " [" << u.clave().clave() << "] " << u.nombre() << " " << u.apellidos() << endl << u.direccion() << endl << "Tarjetas:\n";
+
 	for(Usuario::Tarjetas::const_iterator it = u.tarjetas().begin(); it != u.tarjetas().end(); it++)
 		out << *((*it).second) << endl;
 
@@ -116,14 +113,15 @@ ostream& operator <<(ostream& out, const Usuario& u)
 ostream& mostrar_carro(ostream& out, const Usuario& u)
 {
 	out << "Carrito de compras de " << u.id() << " [Artículos: " << u.n_articulos() << "]\n";
+
 	if(u.n_articulos() != 0)
 	{
 		out << " Cant. Artículo\n";
 		out << "=======================================================================\n";
 		for(Usuario::Articulos::const_iterator it = u.compra().begin(); it != u.compra().end(); it++)
 		{
-			out << (*it).second << " " << "[" << it->first->referencia() << "] \"" << it->first->titulo() << "\", " << it->first->f_publi().visualizar_anyo();
-			out << ". " << setprecision(2) << fixed << it->first->precio() << "€" << endl;
+			out << (*it).second << " " << "[" << it->first->referencia() << "] \"" << it->first->titulo() << "\", " << it->first->f_publi().anno();
+			out << ". " << setprecision(2) << fixed << it->first->precio() << " €" << endl;
 		}
 	}
 

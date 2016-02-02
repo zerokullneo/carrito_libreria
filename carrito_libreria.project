@@ -2,19 +2,28 @@
 <CodeLite_Project Name="carrito_libreria" InternalType="Console">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00010001N0005Debug000000000000]]>
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
     </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
-		"name":	"Debug",
-		"enabled":	false,
-		"buildDirectory":	"build",
-		"sourceDirectory":	"$(ProjectPath)",
-		"generator":	"",
-		"buildType":	"",
-		"arguments":	[],
-		"parentProject":	""
-	}]]]>
+  "name": "Debug",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }]]]>
     </Plugin>
   </Plugins>
   <Description/>
@@ -26,18 +35,27 @@
     <File Name="P1/Cadena/cadena.h"/>
     <File Name="P1/Fecha/fecha.cpp"/>
     <File Name="P1/Fecha/fecha.h"/>
-    <File Name="articulo.h"/>
-    <File Name="usuario.h"/>
-    <File Name="tarjeta.h"/>
     <File Name="P4/articulo.cpp"/>
     <File Name="P4/tarjeta.cpp"/>
     <File Name="P4/usuario.cpp"/>
     <File Name="P4/pedido.h"/>
     <File Name="P4/pedido.cpp"/>
-    <File Name="P4/autor.h"/>
     <File Name="P4/usuario-pedido.h"/>
     <File Name="P4/pedido-articulo.cpp"/>
     <File Name="P4/pedido-articulo.h"/>
+    <File Name="P2/luhn.cpp"/>
+    <File Name="P4/articulo.h"/>
+    <File Name="P4/tarjeta.h"/>
+    <File Name="P4/usuario.h"/>
+    <File Name="P4/test-auto.cpp"/>
+    <File Name="P4/test-auto.h"/>
+    <File Name="P4/test-caso0-cadena-auto.cpp"/>
+    <File Name="P4/test-caso0-fecha-auto.cpp"/>
+    <File Name="P4/test-caso1-auto.cpp"/>
+    <File Name="P4/test-caso3-auto.cpp"/>
+    <File Name="P4/test-caso4-auto.cpp"/>
+    <File Name="P4/test-caso4-consola.cpp"/>
+    <File Name="fct.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -49,17 +67,15 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-ansi;-pedantic;-O0;-Wall" C_Options="-g;-ansi;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
-        <IncludePath Value="."/>
-      </Compiler>
+    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O1;-O;-ansi;-pedantic;-W;-std=c++14;-std=c++11;-Wall" C_Options="-g;-O0;-ansi;-pedantic;-W;-std=c99;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
       <Linker Options="-lcrypt" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
-      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
         <DebuggerSearchPaths/>
         <PostConnectCommands/>
         <StartupCommands/>
@@ -80,15 +96,15 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no">
+      <Completion EnableCpp11="no" EnableCpp14="no">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
+    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O3;-O;-ansi;-pedantic;-W;-std=c++14;-std=c++11;-Wall" C_Options="-O3;-ansi;-pedantic;-std=c99;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
@@ -98,7 +114,7 @@
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
-      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
         <DebuggerSearchPaths/>
         <PostConnectCommands/>
         <StartupCommands/>
@@ -119,7 +135,7 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no">
+      <Completion EnableCpp11="no" EnableCpp14="no">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>

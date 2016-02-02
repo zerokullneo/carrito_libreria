@@ -38,9 +38,6 @@ class Numero;
 
 class Clave
 {
-	private:
-		Cadena clave_;
-
 	public:
 		//Atributo que indica la no validez de la clave.
 		enum Razon{CORTA, ERROR_CRYPT};
@@ -49,17 +46,24 @@ class Clave
 		class Incorrecta
 		{
 			public:
-				Incorrecta(Razon r);
+				//Constructor
+				Incorrecta(Razon r):r_(r){};
+				//Observadora
 				Razon razon()const{return r_;}
+
 			private:
 				Razon r_;
 		};
 
-		Clave(const char* clav)throw (Incorrecta);
-		
+		//constructor
+		Clave(const char* clav);
+		//método observador
 		Cadena clave()const{return clave_;}
-		
-		bool verifica(const char* pass) const;
+		//método verificador
+		bool verifica(const char* pass) const noexcept;
+
+	private:
+		Cadena clave_;
 };
 
 class Usuario
@@ -69,12 +73,12 @@ class Usuario
 		typedef map<Numero, Tarjeta*> Tarjetas;
 		typedef map<Articulo*, unsigned> Articulos;
 
+		//Clase de excepcion Id duplicado
 		class Id_duplicado
 		{
 			public:
 				//Constructor predeterminado
-				Id_duplicado(const Cadena& id_d);
-
+				Id_duplicado(Cadena id_d):idd_(id_d){};
 				//Método observador
 				Cadena idd()const {return idd_;}
 
@@ -83,7 +87,12 @@ class Usuario
 		};
 
 		//Constructor
-		Usuario(Cadena id, Cadena nom, Cadena apll, Cadena dir, Clave pass)throw(Usuario::Id_duplicado,Clave::Incorrecta);
+		Usuario(const Cadena& id, const Cadena& nom, const Cadena& apll, const Cadena& dir, const Clave& pass);
+
+		//Evitar la copia de un objeto Usuario
+		Usuario(const Usuario&)=delete;
+		//Evitar la asignacion de un objeto Usuario
+		Usuario& operator =(const Usuario&)=delete;
 
 		//Métodos observadores de los atributos.
 		Cadena id()const {return identificador_;}
@@ -96,15 +105,14 @@ class Usuario
 		const Articulos& compra()const{return articulos_;}
 
 		//Métodos modificadores
-		void es_titular_de(Tarjeta& T);
-		void no_es_titular_de(Tarjeta& T);
-		void compra(Articulo& A, unsigned i=1);
+		void es_titular_de(Tarjeta& tjt) noexcept;
+		void no_es_titular_de(Tarjeta& tjt) noexcept;
+		void compra(Articulo& art, unsigned i=1) noexcept;
+
+		//Destructor
+		~Usuario();
 
 	private:
-		//Evitar la copia de un objeto Usuario
-		Usuario(const Usuario&);
-		Usuario& operator =(const Usuario&);
-
 		Cadena identificador_;
 		Cadena nombre_;
 		Cadena apellidos_;

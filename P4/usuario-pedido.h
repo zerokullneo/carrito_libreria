@@ -24,6 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef USUARIO_PEDIDO_H
+#define USUARIO_PEDIDO_H
+
 #include "../cabeceras.h"
 
 class Pedido;
@@ -33,8 +36,12 @@ class Usuario_Pedido
 {
 	public:
 		typedef set<Pedido*> Pedidos;
+
+		//métodos asociativos
 		void asocia(Usuario& u, Pedido& p);
 		void asocia(Pedido& p,Usuario& u);
+
+		//métodos observadores
 		Pedidos pedidos(Usuario& u);
 		Usuario* cliente(Pedido& p);
 
@@ -45,13 +52,14 @@ class Usuario_Pedido
 
 inline void Usuario_Pedido::asocia(Usuario& u, Pedido& p)
 {
+	//asociación de usuario-pedido en ambas direcciones
 	Usuario_Pedidos_[&u].insert(&p);
 	Pedido_Usuario_.insert(make_pair(&p,&u));
 }
 
 inline void Usuario_Pedido::asocia(Pedido& p, Usuario& u)
 {
-	this->asocia(u,p);
+	asocia(u,p);
 }
 
 inline Usuario_Pedido::Pedidos Usuario_Pedido::pedidos(Usuario& u)
@@ -63,3 +71,4 @@ inline Usuario* Usuario_Pedido::cliente(Pedido& p)
 {
 	return Pedido_Usuario_[&p];  
 }
+#endif /*USUARIO_PEDIDO_H*/

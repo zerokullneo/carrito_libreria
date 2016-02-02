@@ -31,45 +31,68 @@
 class Cadena
 {
 	public:
+		typedef char* iterator;
+		typedef const char* const_iterator;
+		typedef std::reverse_iterator<iterator> reverse_iterator;
+		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+		static const size_t npos = -1;//numero de posiciones a copiar.
+
 		/*Constructores*/
 		//Constructor predeterminado texto_[0]=' ';
-		explicit Cadena (){tamano_=0;texto_=new char[tamano_];};
+		explicit Cadena(){tamano_ = 0;texto_ = new char[1];texto_[0]='\0';}
 		//Constructor de conversión
-		Cadena (unsigned int longitud, char caracter)throw();
+		Cadena(unsigned int longitud, char caracter);
 		//Constructor de espacios vacíos.
-		explicit Cadena(unsigned int tamano)throw();
+		explicit Cadena(unsigned int tamano);
 		//Constructor de copia de un objeto Cadena
-		Cadena (const Cadena& frase)throw();
+		Cadena(const Cadena& frase);
+		//Constructor de movimiento de un objeto Cadena
+		Cadena(Cadena&& frase);
 		//Constructor de copia de una cadena a bajo nivel.
-		Cadena (const char* texto)throw();
+		Cadena(const char* texto);
+		//Constructor de una sub-cadena de bajo nivel char*.
+		Cadena(const char* texto, size_t n);
+		//Constructor de una sub-cadena desde una posicion sobre un objeto Cadena.
+		Cadena(const Cadena& frase, unsigned int pos, size_t n);
+		//Constructor de uns sub-cadena de un objeto Cadena de un tamaño determinado.
+		Cadena(const Cadena& frase, unsigned int pos);
 
 		//operadores sobrecargados
-		Cadena& operator +=(const Cadena& frase);
-		Cadena& operator =(const char* texto);
-		Cadena& operator =(const Cadena& frase);
-		char& operator[](unsigned int i);
-		char operator[](unsigned int i) const;
+		Cadena& operator +=(const Cadena& frase) noexcept;
+		Cadena& operator =(const char* texto) noexcept;
+		//Asignacion de copia
+		Cadena& operator =(const Cadena& frase) noexcept;
+		//Asignacion de movimiento
+		Cadena& operator =(Cadena&& frase) noexcept;
+		char& operator[](unsigned int i) noexcept;
+		char operator[](unsigned int i) const noexcept;
 
 		//Funcion que extrae una subcadena dentro de otra
 		//La variable 'inicio' indica el indice donde comenzara a contar, contando
 		//el numero de caracteres especificado en la variable 'num_caracteres'.
-		Cadena subcadena(unsigned int inicio, unsigned int num_caracteres)const throw(out_of_range);
-		const char* c_str()const{return texto_;}
-		char at(unsigned int i)const throw(out_of_range);
-		char& at(unsigned int i)throw(out_of_range);
+		Cadena substr(unsigned int inicio, unsigned int num_caracteres) const throw(out_of_range);
+		char at(unsigned int i) const throw(out_of_range);
+		char& at(unsigned int i) throw(out_of_range);
 
 		//funciones observadoras
-		char* Cad()const{return texto_;}
+		char* Cad() const noexcept {return texto_;}
+		const char* c_str() const noexcept {return texto_;};
 		//recibe un objeto Cadena para verificar su longitud
-		unsigned int longitud(Cadena& c)const{return c.tamano_;}
+		unsigned int length(Cadena& c)const noexcept {return c.tamano_;}
 		//devuelve el atributo tamano_ del objeto cadena actual
-		unsigned int longitud()const{return tamano_;}
+		unsigned int length()const noexcept {return tamano_;}
 		//const char* imprimirP()const;
-		void imprimirP()const;
+		void imprimirP()const noexcept {cout << texto_;};
 
-		//Insercción y extracción de flujo
-		friend ostream& operator <<(ostream& out,const Cadena& texto);
-		friend istream& operator >>(istream& in,Cadena& texto);
+		//funciones sobre iteradores
+		iterator begin() const noexcept;
+		iterator end() const noexcept;
+		const_iterator cbegin() noexcept;
+		const_iterator cend() noexcept;
+		reverse_iterator rbegin() const noexcept;
+		reverse_iterator rend() const noexcept;
+		const_reverse_iterator crbegin() const noexcept;
+		const_reverse_iterator crend() const noexcept;
 
 		//Destructor de Cadena
 		~Cadena(){delete [] texto_;};
@@ -89,6 +112,6 @@ bool operator <=(const Cadena& texto1,const Cadena& texto2);
 bool operator <(const Cadena& texto1,const Cadena& texto2);
 
 //Insercción y extracción de flujo
-//ostream& operator <<(ostream& out,const Cadena& texto);
-//istream& operator >>(istream& in,Cadena& texto);
-#endif	/* _CADENA_H_ */
+ostream& operator <<(ostream& out,const Cadena& texto);
+istream& operator >>(istream& in,Cadena& texto);
+#endif	/* CADENA_H_ */

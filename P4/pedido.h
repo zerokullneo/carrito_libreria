@@ -42,49 +42,42 @@ class Usuario_Pedido;
 
 class Pedido
 {
-	private:
-		static int N_pedidos;
-		int num_;
-		double total_;
-		Tarjeta* tarjeta_;
-		Fecha fecha_;
-
 	public:
 		// Excepcion no hay articulos en el carro
 		class Vacio
 		{
 			public:
-				Vacio(const Usuario& u):u(const_cast<Usuario *>(&u)){}
+				Vacio(const Usuario& u):u(&u){}
 				const Usuario& usuario()const{return *u;}
 			private:
-				Usuario* u;
+				const Usuario* u;
 		};
 		
 		//Excepcion tarjeta de pago y tarjeta de usuario no coinciden
 		class Impostor
 		{
 			public:
-				Impostor(const Usuario& u):u(const_cast<Usuario *>(&u)){}
+				Impostor(const Usuario& u):u(&u){}
 				const Usuario& usuario()const{return *u;}
 			private:
-				Usuario* u;
+				const Usuario* u;
 		};
 
 		//Excepcion Articulo sin stock
 		class SinStock
 		{
 			public:
-				SinStock(const Articulo& a):a(const_cast<Articulo *>(&a)){}
+				SinStock(const Articulo& a):a(&a){}
 				const Articulo& articulo()const{return *a;}
 			private:
-				Articulo* a;
+				const Articulo* a;
 		};
 
 		//Constructor
-		Pedido(Usuario_Pedido& U_P,Pedido_Articulo& P_A,Usuario& U,const Tarjeta& T,const Fecha& F=Fecha())throw(Vacio,Impostor,SinStock,Tarjeta::Caducada);
+		Pedido(Usuario_Pedido& u_p, Pedido_Articulo& p_a, Usuario& u, const Tarjeta& t, const Fecha& f=Fecha());
 
 		//Metodos Observadores
-		static int n_total_pedidos()throw(){return N_pedidos;}
+		static int n_total_pedidos(){return n_pedidos;}
 		//El numero del pedido
 		int numero()const{return num_;}
 		//Tarjeta de pago del pedido
@@ -92,9 +85,18 @@ class Pedido
 		//El precio total del pedido
 		double total()const{return total_;}
 		//Fecha del pedido
-		Fecha fecha()const{return fecha_;}
+		Fecha fecha()const{return fecha_pedido_;}
+
+		~Pedido(){};
+
+	private:
+		static int n_pedidos;
+		int num_;
+		double total_;
+		const Tarjeta* tarjeta_;
+		Fecha fecha_pedido_;
 };
 
-ostream& operator <<(ostream& out, const Pedido& P);
+ostream& operator <<(ostream& out, const Pedido& p);
 
 #endif //PEDIDO_H

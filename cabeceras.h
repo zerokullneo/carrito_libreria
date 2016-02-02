@@ -32,8 +32,8 @@
 /*
 #include "P1/Cadena/cadena.h"
 #include "P1/Fecha/fecha.h"
-#include "../P1/Cadena/fct.h"
-#include "../P1/Fecha/fct.h"
+#include "fct.h"
+#include "fct.h"
 #include "articulo.h"
 #include "autor.h"
 #include "pedido-articulo.h"

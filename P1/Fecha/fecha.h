@@ -27,21 +27,17 @@
 #include "../../cabeceras.h"
 #include "../Cadena/cadena.h"
 
-#define YEAR_MINIMO 1600
-#define YEAR_MAXIMO 2200
-
 #ifndef _FECHA_H_
 #define _FECHA_H_
 class Fecha
-{	
+{
 	public:
-		explicit Fecha ();
+		//Limites de fecha
+		static const int AnnoMaximo = 2037;
+		static const int AnnoMinimo = 1902;
+
 		//Constructor de enteros con los 3 parámetros.
-		Fecha(int dia, int mes, int year);
-		//Constructor de enteros con los 2 parámetros.
-		Fecha(int dia, int mes);
-		//Constructor de enteros con los 1 parámetro.
-		Fecha(int dia);
+		Fecha(int dia=0, int mes=0, int year=0);
 		//Constructor de conversión de Cadena a Fecha.
 		Fecha(const char* string_fecha);
 
@@ -61,40 +57,36 @@ class Fecha
 		Fecha& sumayear(int incmt_a);
 		Fecha& restayear(int decmt_a);
 		//funciones observadoras
-		ostream& observadorPublico()const;
-		const char* cadena()const;
-		void visualizar()const;
-		int visualizar_anyo()const{return a_;}
-		int visualizar_mes()const{return m_;}
-		int visualizar_dia()const{return d_;}
-		int anno()const{return a_;}
-		int mes()const{return m_;}
-		int dia()const{return d_;}
+		ostream& observadorPublico()const noexcept;
+		const char* cadena()const noexcept;
+		void visualizar()const noexcept;
+        char* literal()const{static char cad[1]; sprintf(cad,"%d/%d/%4d",d_, m_, a_); return cad;}
+		int anno()const noexcept {return a_;}
+		int mes()const noexcept {return m_;}
+		int dia()const noexcept {return d_;}
 		bool operator + (int incremento);
 		bool operator - (int decremento);
 
 		class Invalida
 		{
 			public:
-				Invalida(const char* t);
-				
-				const char* por_que(const char* t)const{return tp_;}
+				Invalida(const char* t):tp_(t){};
+
+				const char* por_que() const {return tp_;}
+
 			private:
 				const char* tp_;
 		};
 
 	private:
 		int d_, m_, a_;
-		int getd_, getm_, geta_;
-		time_t get_fecha_;
-		struct tm * info_fecha_;
-		inline void unix_secs(){time(&get_fecha_);};
-		inline void unix_tm(){info_fecha_ = localtime(&get_fecha_);};
-		inline void fecha_default(){getd_ = info_fecha_->tm_mday, getm_ = ((info_fecha_->tm_mon) + 1), geta_ = ((info_fecha_->tm_year) + 1900);}
-		inline void defecto_(){unix_secs();unix_tm();fecha_default();};
+		const time_t get_fecha_ = time(0);
+		const tm * info_fecha_ = localtime(&get_fecha_);
+		inline void default_d_(){d_ = info_fecha_->tm_mday;}
+		inline void default_m_(){m_ = ((info_fecha_->tm_mon) + 1);}
+		inline void default_a_(){a_ = ((info_fecha_->tm_year) + 1900);}
 
 		bool comprueba_fecha(int& dia, int& mes, int& year);
-		void observadorPrivado()const{cout << "%i/" << d_ << "%i/" << m_ << "%i" << a_ << endl;}
 };
 
 /*operadores sobrecargados de mas de un argumento*/
@@ -116,14 +108,20 @@ bool operator >=(const Fecha& fec1, const Fecha& fec2);
 //Sobrecarga el operador Distinto para poder comparar dos clases Fecha.
 bool operator !=(const Fecha& fec1, const Fecha& fec2);
 
+//Sobrecarga el operador suma para poder sumar dias a una clase Fecha.
 Fecha operator + (int incremento, const Fecha& fec);
 Fecha operator + (const Fecha& fec, int incremento);
+
+//Sobrecarga el operador suma para poder restar dias a una clase Fecha.
 Fecha operator - (int decremento, const Fecha& fec);
 Fecha operator - (const Fecha& fec, int decremento);
+
+//Sobrecarga el operador suma para poder restar dos clase Fecha.
+long int operator - (const Fecha& f1, const Fecha& f2);
 
 //Sobrecarga el operador Flujo de Salida para que la fecha sea legible por pantalla.
 ostream& operator <<(ostream& os, const Fecha& fec);
 
 //Sobrecarga el operador Flujo de Entrada para construir una Fecha de forma directa.
 istream& operator >>(istream& is, Fecha& fec);
-#endif	/* _FECHA_H_ */
+#endif	/* FECHA_H_ */

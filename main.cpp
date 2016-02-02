@@ -1,13 +1,16 @@
-#include "cabeceras.h"
+/*#include "cabeceras.h"
 #include "P1/Fecha/fecha.h"
 #include "P1/Cadena/cadena.h"
 #include "P4/articulo.h"
 #include "P4/tarjeta.h"
 
-Articulo::Autores crea_autores(Autor& autor);
+#include <iostream>
+using namespace std;
+//Articulo::Autores crea_autores(Autor& autor);
 
 int main()
 {
+	cout << "Comienzo de Main." << endl;
 	const Cadena NombreM("Jose Manuel Barba Gonzalez");
 	Fecha fecM(21,2,1982);
 	Fecha fpubli(1,1,1970);
@@ -36,7 +39,7 @@ int main()
 	Autor autM(userNom,userApll,userDir);
 	Articulo::Autores autores = crea_autores(autM);
 	Libro artM(autores,art_id,art_nom,fpubli,50.55,200,100);
-	InformeDigital InfDigM(autores,art_id,art_nom,fpubli,50.55,fexp);
+	LibroDigital InfDigM(autores,art_id,art_nom,fpubli,50.55,fexp);
 	
 	cout << "Main\n" << NombreM << endl << cadM << "." << endl;
 	cout << "---Cadena---" << endl;
@@ -61,7 +64,11 @@ Fecha g(--fecM);g.visualizar();g.restadias(3);g.visualizar();
 	cout << "\n---Articulo Libro---\n" << artM;
 	cout << "\n---Articulo InformeDigital---\n" << "A la venta hasta el "; InfDigM.imp_esp(os);
 	cout << "\n---Tarjeta---\n" << TjtM.tarjeta() << endl;
-	cout << "\n---Usuario---\n" << userM.id() << "|" << userM.nombre() << " " << userM.apellidos() << "|" << userM.direccion() << "|" << userPass.clave() << endl;
+	cout << "\n---Usuario---\n" << userM.id() << "|" << userM.nombre() << " " << userM.apellidos() << "|" << userM.direccion() << "|" << userM.clave().clave() << endl;
+	
+	try {Usuario userN(userid,NombreM,userApll,userDir,userPass);}
+	catch(const Usuario::Id_duplicado& exc){cout << exc.idd() << " duplicado" << endl;}
+	//cout << "\n" << userN.id() << "|" << userN.nombre() << " " << userN.apellidos() << "|" << userN.direccion() << "|" << userN.clave().clave() << endl;
 
 	if(userPass.verifica("holas"))
 		cout << "Verificada" << endl;
@@ -75,4 +82,4 @@ Articulo::Autores crea_autores(Autor& autor) {
   Articulo::Autores autores;
   autores.insert(&autor);
   return autores;
-}
+}*/

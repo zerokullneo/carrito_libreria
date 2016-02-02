@@ -42,25 +42,26 @@ class LineaPedido
 		explicit LineaPedido(double p,unsigned c=1);
 		double precio_venta()const{return precio_venta_;}
 		unsigned cantidad()const{return cantidad_;}
+
 	private:
 		double precio_venta_;
 		unsigned cantidad_;
 };
 
-ostream& operator <<(ostream& out, const LineaPedido& L);
+ostream& operator <<(ostream& out, const LineaPedido& l);
 
 /*##########Clase OrdenaPedidos##########*/
 class OrdenaPedidos
 {
 	public:
-		bool operator()(Pedido* P1,Pedido* P2)const;
+		bool operator()(Pedido* p1,Pedido* p2)const;
 };
 
 /*##########Clase OrdenaArticulos##########*/
 class OrdenaArticulos
 {
 	public:
-		bool operator()(Articulo* A1, Articulo* A2)const;
+		bool operator()(Articulo* a1, Articulo* a2)const;
 };
 
 /*##########Clase Pedido_Articulo##########*/
@@ -69,20 +70,21 @@ class Pedido_Articulo
 	public:
 		typedef map<Articulo*,LineaPedido,OrdenaArticulos> ItemsPedido;
 		typedef map<Pedido*,LineaPedido,OrdenaPedidos> Pedidos;
-		void pedir(Pedido& pedido,Articulo& articulo,double precio, unsigned cantidad =1);
-		void pedir(Articulo& articulo,Pedido& pedido,double precio, unsigned cantidad =1);
-		ItemsPedido& detalle(Pedido& P);
-		Pedidos& ventas(Articulo& A);
+
+		void pedir(Pedido& pedido,Articulo& articulo,double precio, unsigned cantidad = 1);
+		void pedir(Articulo& articulo,Pedido& pedido,double precio, unsigned cantidad = 1);
+
+		ItemsPedido& detalle(Pedido& p);
+		Pedidos& ventas(Articulo& a);
+
 		void mostrarDetallePedidos(ostream& out)const;
 		void mostrarVentasArticulos(ostream& out)const;
-		friend ostream& operator <<(ostream& out, const Pedido_Articulo::ItemsPedido& I);
-		friend ostream& operator <<(ostream& out, const Pedido_Articulo::Pedidos& P);
 
 	private:
 		map<Pedido*,ItemsPedido,OrdenaPedidos> Pedido_Articulo_;
 		map<Articulo*,Pedidos,OrdenaArticulos> Articulo_Pedido_;
 };
 
-ostream& operator <<(ostream& out, const Pedido_Articulo::ItemsPedido& I);
-ostream& operator <<(ostream& out, const Pedido_Articulo::Pedidos& P);
+ostream& operator <<(ostream& out, const Pedido_Articulo::ItemsPedido& i);
+ostream& operator <<(ostream& out, const Pedido_Articulo::Pedidos& p);
 #endif //PEDIDO_ARTICULO_H
