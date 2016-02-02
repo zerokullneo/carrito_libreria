@@ -1,12 +1,12 @@
 /***************************************************************************
- *            tarjeta.h
+ *            tarjeta.cpp
  *
  *  mie mayo 7 11:37:48 2014
  *  Copyright  2014  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * tarjeta.h
+ * tarjeta.cpp
  *
  * Copyright (C) 2014 - Jose M Barba Gonzalez
  *
@@ -116,6 +116,12 @@ ostream& operator <<(ostream& out, const Tarjeta& tjt)
 {
 	out << tjt.tarjeta() << endl;
 	out << tjt.titular_facial()<<endl;
+<<<<<<< HEAD
 	out << "Caduca: " << setw(2) << setfill('0') << tjt.caducidad().mes() << "/" << ((tjt.caducidad().anno())%100);
 	return out;
 }
+=======
+	out << "Caduca: " << setw(2) << setfill('0') << tjt.caducidad().visualizar_mes() << "/" << ((tjt.caducidad().visualizar_anyo())%100);
+  return out;
+}
+>>>>>>> 4dff984320367db56fbc7690c8e7ec6853a5d5ef

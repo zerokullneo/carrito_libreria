@@ -1,12 +1,12 @@
 /***************************************************************************
- *            usuario.h
+ *            usuario.cpp
  *
  *  mie mayo 7 11:37:48 2014
  *  Copyright  2014  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * usuario.h
+ * usuario.cpp
  *
  * Copyright (C) 2014 - Jose M Barba Gonzalez
  *
