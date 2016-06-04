@@ -100,7 +100,7 @@ int main()
   Cadena t("Por haber hecho el esfuerzo de teclear este programa. Repito:\n");
   Cadena u;			// constructor predeterminado
   u = t + s;			// pruebas de asignación, concatenación
-  u = u;
+  //u = u;
   cout << u;
   Cadena v;
   v = "Hola";			// asignación con conversión desde const char*

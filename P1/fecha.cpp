@@ -392,7 +392,7 @@ istream& operator >>(istream& is, Fecha& fec)
 	int istream_tam = is.readsome(fecha,12);
 	is.seekg(0, is.beg);
 
-	if((istream_tam < 8) or (istream_tam > 11))
+	if(/*(istream_tam < 6) or */(istream_tam > 11))
 		throw(Fecha::Invalida("Desbordamiento de fecha."));
 
 	if((sscanf(fecha,"%d/%d/%d", &dt, &mt, &at)) != 3)
