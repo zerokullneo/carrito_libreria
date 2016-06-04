@@ -1,4 +1,4 @@
-/* $Id: test-caso0-fecha-auto.cpp 348 2016-05-11 19:23:33Z gerardo $
+/* $Id: test-caso0-fecha-auto.cpp 364 2016-06-01 16:49:26Z gerardo $
  * 
  * Pruebas unitarias automáticas para la clase Fecha (P0-P1)
  *
@@ -35,12 +35,10 @@ FCTMF_FIXTURE_SUITE_BGN(test_fecha) {
   }
   
   FCT_SETUP_BGN() {
-    // 1.º establecemos la zona horaria a UTC para evitar cosas raras
-    setenv("TZ", "", 1);
-    tzset();
-    // y después obtenemos la hora UTC del sistema
+ 
+    // Obtenemos la hora UTC del sistema
     const time_t ahora =   time(nullptr);
-    const tm*    fecha = gmtime(& ahora);
+    const tm*    fecha = localtime(& ahora);
     annoSistema = fecha->tm_year + 1900;
     mesSistema  = fecha->tm_mon  +    1;
     diaSistema  = fecha->tm_mday +    0;

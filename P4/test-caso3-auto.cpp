@@ -1,4 +1,4 @@
-/* $Id: test-caso3-auto.cpp 354 2016-05-12 20:45:23Z gerardo $
+/* $Id: test-caso3-auto.cpp 365 2016-06-01 20:27:56Z gerardo $
  * ©2014 Antonio G.ª Dguez.
  * ©2015-16 el resto de profesores de POO
  *
@@ -8,35 +8,36 @@
 using namespace std;
 
 namespace {
-  const Cadena referencia("1234XYZ");
-  const Cadena titulo("Prueba");
-  const Fecha  fecha(10, 10, 2000);
-  const Cadena sId("pperez");
-  const Cadena sNombre("Perico");
-  const Cadena sApellidos("Perez Palotes");
-  const Cadena sDireccion("13 Rue del Percebe");
+ 
+  const Cadena referencia("1234XYZ"),
+    titulo("Prueba"),
+    sId("pperez"),
+    sNombre("Perico"),
+    sApellidos("Perez Palotes"),
+    sDireccion("13 Rue del Percebe");
   const Clave  clave("pedrofueacomprarpan");
-  const Numero nTarjeta("01234 56789 012 8");
-  const Numero nTarjeta2("01234567890128");
-  const Numero nTarjeta3("11234567890126");
-  const Fecha  fHoy;
-  const Fecha  fUnaSemana = fHoy + 7;
-  const Fecha  fSiguienteAnno(1, 1, fHoy.anno() + 1);
-
-  Autor autor("Harry", "Potter", "Hogwarts");
+  const Numero nTarjeta("01234 56789 012 8"),
+    nTarjeta2("01234567890128"),
+    nTarjeta3("11234567890126");
+  const Fecha  fecha(10, 10, 2000),
+    fHoy,
+    fUnaSemana = fHoy + 7,
+    fSiguienteAnno(1, 1, fHoy.anno() + 1),
+    fAyer = fHoy - 1;
+  Autor        autor("Harry", "Potter", "Hogwarts");
   Articulo::Autores autores { &autor };
   Libro articulo1(autores, "111", "The Standard Template Library",
 		  fHoy, 42.10, 200, 50);
   Cederron articulo2(autores, "110", "Fundamentos de C++",
 		     fHoy, 35.95, 100, 50);
   Usuario* pU { nullptr };
-    
+  Usuario* pU2{ nullptr };
+  
   Usuario_Pedido  *pAsocUsuarioPedido;
   Pedido_Articulo *pAsocPedidoArticulo;
-  Usuario         *pU2;
+  
   Tarjeta         *pTarjetaU;
   const Tarjeta   *pTarjetaU2;
-  const Fecha     fAyer = (-1) + fHoy;
   
   const Pedido  *pPed1, *pPed2;
   const unsigned cantidad_A1_P1 = 1;
@@ -54,7 +55,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     bPrimera = false;
     cerr << "\n---------- PRÁCTICA 3 ----------\n" << endl;
   }
-
+ 
   // --- Pruebas de la clase LineaPedido
 
   FCT_TEST_BGN(LineaPedido - valor por defecto en 2do. parametro constructor) {
@@ -106,7 +107,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
   FCT_TEST_BGN(Pedido - carrito vacio) {
     try {
       Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU, *pTarjetaU, fHoy };
+	             *pU, *pTarjetaU, fHoy };
       fct_chk(!"Se esperaba una excepción Pedido::Vacio");
     }
     catch(const Pedido::Vacio& ex) {
@@ -119,7 +120,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     pU2->compra(articulo1, 3);
     try {
       Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU2, *pTarjetaU, fHoy };
+	             *pU2, *pTarjetaU, fHoy };
       fct_chk(!"Se esperaba una excepción Pedido::Impostor");
     }
     catch(const Pedido::Impostor& ex) {
@@ -132,7 +133,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     pU->compra(articulo1, 9001);
     try {
       Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU, *pTarjetaU, fHoy };
+	             *pU, *pTarjetaU, fHoy };
       fct_chk(!"Se esperaba una excepción Pedido::SinStock");
     }
     catch (const Pedido::SinStock& ex) {
@@ -146,7 +147,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     pU->compra(articulo1, 4649);
     try {
       Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU, *pTarjetaU, fHoy + 30 };
+	             *pU, *pTarjetaU, fHoy + 30 };
       fct_chk(!"Se esperaba una excepción Tarjeta::Caducada");
     }
     catch (const Tarjeta::Caducada& ex) {
@@ -161,7 +162,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     pU->compra(articulo2, cantidad);
     const unique_ptr<const Pedido> pPed {
       new Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU, *pTarjetaU, fHoy } 
+	                 *pU, *pTarjetaU, fHoy } 
     };
     
     // Actualización de carrito y stock
@@ -181,7 +182,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     // Asociación Artículo-Pedido
     const Pedido_Articulo::ItemsPedido itPed {
       pAsocPedidoArticulo->detalle(* const_cast<Pedido*>(pPed.get())) 
-	};
+	   };
     if (itPed.size() == 2) {
       // Los artículos deben ir ordenados por código de referencia
       auto it = itPed.cbegin();
@@ -200,13 +201,12 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     pU->compra(articulo1, 1);
     pU->compra(articulo2, 1);
     const double totalEsperado { articulo1.precio() + articulo2.precio() };
-    const unique_ptr<const Pedido> pPed {
-      new Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU, *pTarjetaU, fHoy}
-    };
+    const unique_ptr<const Pedido> 
+      pPed(new Pedido(*pAsocUsuarioPedido, *pAsocPedidoArticulo, 
+		      *pU, *pTarjetaU));
     fct_chk_eq_int(pPed->numero(), 2);
     fct_chk(pPed->tarjeta() == pTarjetaU);
-    fct_chk(pPed->fecha() == fHoy);
+    fct_chk(pPed->fecha() == Fecha());
     fct_chk_eq_dbl(pPed->total(), totalEsperado);
   }
   FCT_TEST_END();
@@ -217,7 +217,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     const double totalEsperado { articulo1.precio() + articulo2.precio() };
     const unique_ptr<const Pedido> pPed {
       new Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU, *pTarjetaU }
+	                 *pU, *pTarjetaU }
     };
     const string sPed { toString(*pPed) };
     chk_incl_cstr(sPed, "Núm. pedido:");
@@ -238,7 +238,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     pU->compra(articulo1, 1);
     const unique_ptr<const Pedido> pPed {
       new Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU, *pTarjetaU, fHoy }
+	                 *pU, *pTarjetaU, fHoy }
     };
     const Pedido_Articulo::ItemsPedido detalle {
       pAsocPedidoArticulo->detalle(*const_cast<Pedido*>(pPed.get()))
@@ -260,7 +260,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     pU->compra(articulo1, cantidad);
     const unique_ptr<const Pedido> pPed {
       new Pedido { *pAsocUsuarioPedido, *pAsocPedidoArticulo,
-	  *pU, *pTarjetaU, fHoy }
+	                 *pU, *pTarjetaU, fHoy }
     };
     const Pedido_Articulo::ItemsPedido detalle {
       pAsocPedidoArticulo->detalle(*const_cast<Pedido*>(pPed.get()))
@@ -370,7 +370,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_informes) {
     ostringstream os;
     pAsocPedidoArticulo->mostrarVentasArticulos(os);
     const string sDetalle { os.str() };
-    /*
+    /**
       Construimos expresiones regulares que buscan las cantidades
       como palabras separadas del resto por espacios. Es decir, si
       la cantidad es 1, ' 1' a final de línea, '1 ' a principio de

@@ -1,4 +1,4 @@
-/* $Id: test-caso1-2-auto.cpp 354 2016-05-12 20:45:23Z gerardo $
+/* $Id: test-caso1-2-auto.cpp 365 2016-06-01 20:27:56Z gerardo $
  * Pruebas unitarias automáticas para los casos de uso 1 y 2 del S. G. L.: P2
  * ©2014 Antonio G.ª Dguez.
  * ©2015-16 el resto de profesores de POO
@@ -8,34 +8,9 @@
 
 using namespace std;
 
-// Variables para el siguiente conjunto de casos de prueba. ¡No tocar!
 namespace {
-  const Cadena referencia("1234XYZ");
-  const Cadena titulo("Prueba");
-  const Fecha  fecha(10, 10, 2000);
-  const Cadena sId("pperez");
-  const Cadena sNombre("Perico");
-  const Cadena sApellidos("Perez Palotes");
-  const Cadena sDireccion("13 Rue del Percebe");
-  const Clave  clave("pedrofueacomprarpan");
-  const Numero nTarjeta("01234 56789 012 8");
-  const Numero nTarjeta2("01234567890128");
-  const Numero nTarjeta3("11234567890126");
-  const Fecha  fHoy;
-  const Fecha  fUnaSemana = fHoy + 7;
-  const Fecha  fSiguienteAnno(1, 1, fHoy.anno() + 1);
-
-  Autor autor("Harry", "Potter", "Hogwarts");
-  Articulo::Autores autores = crea_autores(autor);
-
-  Libro articulo1(autores, "111", "The Standard Template Library",
-                  fHoy, 42.10, 200, 50);
-  Cederron articulo2(autores, "110", "Fundamentos de C++",
-                     fHoy, 35.95, 100, 50);
   Usuario* pU { nullptr };
-
   using TIPO = Tarjeta::Tipo;
-
   bool bPrimera = true;
 }
 
@@ -45,6 +20,27 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
     bPrimera = false;
     cerr << "\n---------- PRÁCTICA 2 ----------\n" << endl;
   }
+  // Variables para el siguiente conjunto de casos de prueba. ¡No tocar!
+  const Cadena referencia("1234XYZ"),
+    titulo("Prueba"),
+    sId("pperez"),
+    sNombre("Perico"),
+    sApellidos("Perez Palotes"),
+    sDireccion("13 Rue del Percebe");
+  const Clave  clave("pedrofueacomprarpan");
+  const Numero nTarjeta("01234 56789 012 8"),
+    nTarjeta2("01234567890128"),
+    nTarjeta3("11234567890126");
+  const Fecha fecha(10, 10, 2000),
+    fHoy, 
+    fUnaSemana = fHoy + 7,
+    fSiguienteAnno(1, 1, fHoy.anno() + 1);
+  Autor autor("Harry", "Potter", "Hogwarts");
+  Articulo::Autores autores = crea_autores(autor);
+  Libro articulo1(autores, "111", "The Standard Template Library",
+                  fHoy, 42.10, 200, 50);
+  Cederron articulo2(autores, "110", "Fundamentos de C++",
+                     fHoy, 35.95, 100, 50);
 
   FCT_SETUP_BGN() {
     pU = new Usuario(sId, sNombre, sApellidos, sDireccion, clave);
@@ -52,10 +48,8 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   FCT_SETUP_END();
 
   FCT_TEARDOWN_BGN() {
-    if (pU) {
       delete pU;
       pU = nullptr;
-    }
   }
   FCT_TEARDOWN_END();
 
@@ -229,10 +223,10 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
 
   FCT_TEST_BGN(Tarjeta - observadores) {
     const Tarjeta tarjeta(TIPO::AmericanExpress, nTarjeta, *pU, fUnaSemana);
-    fct_chk(tarjeta.tipo() == TIPO::AmericanExpress);
-    fct_chk(tarjeta.numero() == nTarjeta);
-    fct_chk(tarjeta.caducidad() == fUnaSemana);
-    fct_chk(tarjeta.titular() == pU);
+    fct_chk(tarjeta.tipo     () == TIPO::AmericanExpress);
+    fct_chk(tarjeta.numero   () == nTarjeta             );
+    fct_chk(tarjeta.caducidad() == fUnaSemana           );
+    fct_chk(tarjeta.titular  () == pU                   );
     fct_chk_eq_istr(tarjeta.titular_facial().c_str(), "PERICO PEREZ PALOTES");
   }
   FCT_TEST_END();
@@ -284,7 +278,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
     Tarjeta tarjeta(TIPO::JCB, nTarjeta, *pU, fUnaSemana);
     pU->no_es_titular_de(tarjeta);
     u2.es_titular_de(tarjeta); // No hace nada
-    fct_chk(u2.tarjetas().empty());
+    fct_chk(u2. tarjetas().empty());
     fct_chk(pU->tarjetas().empty());
   }
   FCT_TEST_END();
