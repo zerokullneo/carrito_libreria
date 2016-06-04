@@ -24,8 +24,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "tarjeta.h"
-#include "usuario.h"
+#include "tarjeta.hpp"
+#include "usuario.hpp"
 
 /*VALIDACIÓN DEL NÚMERO DE TARJETA*/
 
@@ -34,19 +34,19 @@ bool luhn(const Cadena& numero, size_t n);
 /*FIN VALIDACIÓN*/
 
 /*CLASE TARJETA*/
-Tarjeta::Tarjeta(const Numero& tjt, Usuario& usuario, const Fecha& f_cad):
-tarjeta_(tjt), titular_(&usuario), f_caducidad_(f_cad), titular_facial_((usuario.nombre() + " " + usuario.apellidos()))
+Tarjeta::Tarjeta(const Tipo tipo, const Numero& tjt, Usuario& usuario, const Fecha& f_cad):
+tipo_(tipo), tarjeta_(tjt), titular_(&usuario), f_caducidad_(f_cad), titular_facial_((usuario.nombre() + " " + usuario.apellidos()))
 {
-    const Fecha f_hoy;
-    if((f_hoy > f_cad) == true)
-        throw Caducada(f_cad);
+	const Fecha f_hoy;
+	if((f_hoy > f_cad) == true)
+		throw Caducada(f_cad);
 
-    titular_->es_titular_de(*this);
+	titular_->es_titular_de(*this);
 }
 
 void Tarjeta::anula_titular() noexcept
 {
-    titular_ = 0;//puntero nulo sobre el titular
+	titular_ = 0;//puntero nulo sobre el titular
 }
 
 Tarjeta::~Tarjeta()
@@ -112,10 +112,35 @@ bool operator <(const Numero& n1, const Numero& n2)
 		return false;
 }
 
+ostream& operator << (ostream& out, Tarjeta::Tipo t)
+{
+	using T = Tarjeta::Tipo;
+	switch(t)
+	{
+		case T::VISA:
+			out << "VISA";
+			break;
+		case T::Mastercard:
+			out << "Mastercard";
+			break;
+		case T::Maestro:
+			out << "Maestro";
+			break;
+		case T::JCB:
+			out << "JCB";
+			break;
+		case T::AmericanExpress:
+			out << "AmericanExpress";
+			break;
+	}
+	return out;
+}
+
 ostream& operator <<(ostream& out, const Tarjeta& tjt)
 {
-	out << tjt.tarjeta() << endl;
-	out << tjt.titular_facial()<<endl;
+	out << tjt.tipo() << endl;
+	out << tjt.numero() << endl;
+	out << tjt.titular_facial() << endl;
 	out << "Caduca: " << setw(2) << setfill('0') << tjt.caducidad().mes() << "/" << ((tjt.caducidad().anno())%100);
 	return out;
 }

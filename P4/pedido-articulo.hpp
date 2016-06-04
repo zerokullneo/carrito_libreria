@@ -1,14 +1,14 @@
 /***************************************************************************
- *            articulo_pedido.h
+ *            pedidido-articulo.hpp
  *
- *  mie mayo 28 14:30:35 2014
- *  Copyright  2014  Jose M Barba Gonzalez
+ *  mie mayo 28 14:30:35 2016
+ *  Copyright  2016  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * articulo_pedido.h
+ * pedido-articulo.hpp
  *
- * Copyright (C) 2014 - Jose M Barba Gonzalez
+ * Copyright (C) 2016 - Jose M Barba Gonzalez
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +27,9 @@
 #ifndef PEDIDO_ARTICULO_H
 #define PEDIDO_ARTICULO_H
 
-#include "../cabeceras.h"
-#include "pedido.h"
-#include "articulo.h"
-#include "tarjeta.h"
+#include "pedido.hpp"
+#include "articulo.hpp"
+#include "tarjeta.hpp"
 
 class Articulo;
 class Pedido;

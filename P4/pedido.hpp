@@ -1,14 +1,14 @@
 /***************************************************************************
- *            pedido.h
+ *            pedido.hpp
  *
- *  mie mayo 28 14:30:35 2014
- *  Copyright  2014  Jose M Barba Gonzalez
+ *  mie mayo 28 14:30:35 2016
+ *  Copyright  2016  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * pedido.h
+ * pedido.hpp
  *
- * Copyright (C) 2014 - Jose M Barba Gonzalez
+ * Copyright (C) 2016 - Jose M Barba Gonzalez
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,18 +27,17 @@
 #ifndef PEDIDO_H
 #define PEDIDO_H
 
-#include "../cabeceras.h"
-#include "../P1/Fecha/fecha.h"
-#include "../P1/Cadena/cadena.h"
-#include "usuario.h"
-#include "tarjeta.h"
-#include "articulo.h"
+#include "../P1/fecha.hpp"
+#include "../P1/cadena.hpp"
+#include "usuario.hpp"
+#include "tarjeta.hpp"
+#include "articulo.hpp"
 
 class Tarjeta;
 class Usuario;
 class Articulo;
 class Pedido_Articulo;
-class Usuario_Pedido; 
+class Usuario_Pedido;
 
 class Pedido
 {
@@ -52,7 +51,7 @@ class Pedido
 			private:
 				const Usuario* u;
 		};
-		
+
 		//Excepcion tarjeta de pago y tarjeta de usuario no coinciden
 		class Impostor
 		{

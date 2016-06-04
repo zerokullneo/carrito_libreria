@@ -1,157 +1,193 @@
-# $Id: Makefile 255 2015-05-25 11:36:52Z gerardo $
+# $Id: Makefile 331 2016-04-22 20:18:41Z gerardo $
 # Makefile para el caso 4 de la LIBRERÍA
-# ©2010-15 Inma, Gerardo, Fidel, Juanma, Antonio
+# ©2010-16 los profesores de POO, para P4
 #
+## Variables, macros, más macros y más variables, que es lo mismo. ##
 # --- Parte configurable ---
 
 # NOMBREALUMNO es el nombre del directorio donde el alumno guarda las
 # prácticas de POO (C++). Dentro de ese directorio debe haber uno para
 # cada práctica llamado NOMBREPRACTICA, que será de la forma P<n>,
-# siendo <n> el número de práctica: P0, P1, etc.
-
+# siendo <n> el número de práctica: P0, P1, P2, P3 y P4.
+# NOMBREALUMNO debe ser de la forma: Apellido1_Apellido2_Nombre_de_pila.
+# Ejemplo: Para Pánfilo Pancracio Povedilla Putiérrez sería:
+# Povedilla_Putierrez_PanfiloPancracio, y debajo de ese directorio estarían
+# P1, P4, fct.h y luhn.cpp (y P0, P2 y P3).
+# Véanse las instrucciones de entrega.
 NOMBREALUMNO   = Barba_Gonzalez_JoseManuel
 NOMBREPRACTICA = P4
 
-# CADENADIR y FECHADIR son los directorios donde están respectivamente
-# los módulos objeto y cabeceras de Cadena y Fecha:
-# Makefile, cadena.{oh} y fecha.{oh}.
-# TESTHDR es el directorio donde está la cabecera para el test automático, fct.h
-# LUHNDIR es el directorio donde está luhn.{cpp,o} ¡Si se cambia, hay que
-# cambiar P2 en la regla dist y poner donde esté!
-DIRFECHACADENA=P1
-CADENADIR= ../${DIRFECHACADENA}/Cadena
-FECHADIR = ../${DIRFECHACADENA}/Fecha
-TESTHDR  = ../
-LUHNDIR  = ../P2
+# DIRFECHACADENA es el directorio donde están las cabeceras, fuentes o módulos
+# objeto de Cadena y Fecha, y su Makefile.
+#
+# TESTHDR es el directorio donde está la cabecera del test automático, fct.h
+# Si se cambia TESTHDR, hay que cambiar la ubicación de fct.h en la regla dist.
+#
+# DIRLUHN es el directorio donde está el fichero luhn.cpp con la función luhn
+DIRFECHACADENA=../P1
+TESTHDR = ..
+DIRLUHN = ..
 
-# ¿Compilador C++ de LLVM (clang++) o de GNU (g++, c++, g++-VERSIÓN)?
-#CXX      = clang++
-CXX = g++
+# Compilador de C++ preferido: el de LLVM (clang++), el de GNU (g++),
+# el de GNU en la versión 5 (g++-5), el de Intel (icpc)...
+CXX = clang++
 
 # ¿Qué estándar seguir?
-# ansi o c++98 o c++03: estándar de 1998, corregido en 2003
-# c++0x: borrador del estándar de 2011
-# c++11: estándar de 2011
-# c++1y: estándar actual de 2014 (clang++ admite c++14 en vez de c++1y)
-# c++1z: estándar hipotético de 2017
-# RECOMENDADO EN EL CURSO 2014-15: c++11
-STD=c++11
+# ansi o c++98 o c++03: estándar de 1998, corregido en 2003. NO USAR YA.
+# c++0x: borrador del estándar de 2011. Usar si el compilador es antiguo.
+# c++11: estándar de 2011 - Versión mínima necesaria.
+# c++14: estándar de 2014 - Recomendado si su compilador lo admite.
+# c++1y: borrador del est. de 2014. Si su compilador es antiguo pero no mucho.
+# c++1z: estándar previsto para 2017. Experimental, no recomendado.
+STD=c++14
 
-CXXFLAGS = -g -pedantic -Wall -std=${STD} ${INCLUDES}
+# Opciones para el compilador. Añada o quite las que prefiera pero deje
+# la primera. Recomendado: no quite ninguna.
+CXXFLAGS = -std=${STD} -g -pedantic -Wall
+# Opciones del preprocesador. No las cambie.
+CPPFLAGS = -I${DIRFECHACADENA} -I${TESTHDR}
 
 # --- Fin parte configurable
 
-INCLUDES  = -I${CADENADIR} -I${FECHADIR} -I${TESTHDR}
-LOCALLIBS = ${CADENADIR}/cadena.o ${FECHADIR}/fecha.o ${LUHNDIR}/luhn.o
+LOCALLIBS = cadena.o fecha.o luhn.o
 EXTLIBS   = -lcrypt
 LIBS      = ${LOCALLIBS} ${EXTLIBS}
-VPATH     = .:${CADENADIR}:${FECHADIR}
+VPATH     = .:${DIRFECHACADENA}:${DIRLUHN}
 
-COMM_SRCS = usuario.cpp tarjeta.cpp articulo.cpp pedido.cpp \
-	pedido-articulo.cpp ${LUHNDIR}/luhn.cpp
-COMM_HDRS = articulo.h pedido-articulo.h pedido.h tarjeta.h usuario.h \
-	usuario-pedido.h
+# Estos son los ficheros que tiene que hacer el alumno. El resto se le da.
+# Nota: usuario-pedido.cpp no hace falta, pero si se hace, añádase a OWN_SRCS
+# y quítese explícitamente de OWN_HDRS.
+OWN_SRCS  = usuario.cpp tarjeta.cpp articulo.cpp pedido-articulo.cpp pedido.cpp
+OWN_HDRS  = $(OWN_SRCS:.cpp=.hpp) usuario-pedido.hpp
+
+OWN_OBJS  = $(OWN_SRCS:.cpp=.o)
+
 MAIN_SRCS = test-caso4-consola.cpp
-MAIN_OBJS = $(COMM_SRCS:.cpp=.o) $(MAIN_SRCS:.cpp=.o)
-MAIN_EXE  = test-caso4-consola
+MAIN_OBJS = $(MAIN_SRCS:.cpp=.o)
+MAIN_EXE  = ${MAIN_SRCS:.cpp=}
+
 TEST_SRCS = test-caso0-cadena-auto.cpp test-caso0-fecha-auto.cpp \
-  test-caso1-auto.cpp test-caso3-auto.cpp test-caso4-auto.cpp test-auto.cpp
-TEST_HDRS = test-auto.h ${TESTHDR}/fct.h
-TEST_OBJS = $(COMM_SRCS:.cpp=.o) $(TEST_SRCS:.cpp=.o)
+  test-caso1-2-auto.cpp test-caso3-auto.cpp test-caso4-auto.cpp test-auto.cpp
+TEST_HDRS = test-auto.hpp
+TEST_OBJS = $(TEST_SRCS:.cpp=.o)
 TEST_EXE  = test-p1_4-auto
 
-SRCS = ${COMM_SRCS} ${TEST_SRCS} ${MAIN_SRCS}
-HDRS = ${COMM_HDRS} ${TEST_HDRS}
+CHECK_SRCS= catalogo_check.cpp
+CHECK_EXE = ${CHECK_SRCS:.cpp=}
+
+SRCS      = ${OWN_SRCS} $(MAIN_SRCS) ${TEST_SRCS} $(CHECK_SRCS) \
+            Makefile Make_check.mk
+HDRS      = $(OWN_HDRS) $(TEST_HDRS)
+
 NOMBRETAR = ../../${NOMBREALUMNO}.tar.gz
 NOMBREDIR = ${NOMBREALUMNO}/${NOMBREPRACTICA}
 
-## OBJETIVOS PRINCIPALES #######################################################
+## Objetivos principales ## 
 
-.PHONY: all clean dist distclean test-consola test-auto
-
+# Construye los programas de prueba
 all: ${MAIN_EXE} ${TEST_EXE}
 
-Debug: ${MAIN_EXE} ${TEST_EXE}
+# Ejecuta los programas de prueba
+tests: test-consola test-auto
 
+# Construye el test de consola y lo ejecuta
 test-consola: ${MAIN_EXE}
 	./$<
 
+# Construye el test automático y lo ejecuta
 test-auto: ${TEST_EXE}
 	./$<
 
-check: catalogo_check
-	ln usuario-pedido.h usuario-pedido.hpp
-	./$< ${COMM_SRCS} usuario-pedido.hpp -- -std=c++11 ${INCLUDES}
-	${RM} usuario-pedido.hpp
+# Hace comprobaciones en el código fuente
+check: ${CHECK_EXE} ${OWN_SRCS}
+	./$< ${OWN_SRCS} usuario-pedido.hpp -- -std=${STD} ${CPPFLAGS}
 
-clean:
-	${RM} ${MAIN_EXE} ${MAIN_OBJS} ${TEST_EXE} ${TEST_OBJS} \
-	${LUHNDIR}/luhn.d ${LUHNDIR}/luhn.o *.d *~ \#*
-	${MAKE} -C ${FECHADIR}  clean
-	${MAKE} -C ${CADENADIR} clean
+# Ejecuta los tests comprobando que no haya fugas de memoria
+# - valgrind: http://valgrind.org
+valgrind: ${MAIN_EXE} ${TEST_EXE}
+	valgrind --quiet ./${TEST_EXE} --logger=minimal
+	valgrind --quiet ./${MAIN_EXE}
 
+## Compilación ## 
 
-## COMPILACIÓN #################################################################
-
-${MAIN_EXE}: ${MAIN_OBJS} ${LOCALLIBS}
+# Construye el programa de prueba de consola
+${MAIN_EXE}: ${MAIN_OBJS} ${OWN_OBJS} ${LOCALLIBS}
 	${CXX} -o $@ ${LDFLAGS} $^ ${EXTLIBS}
 
-${TEST_EXE}: ${TEST_OBJS} ${LOCALLIBS}
+# Construye el programa de pruebas unitarias automáticas
+${TEST_EXE}: ${TEST_OBJS} ${OWN_OBJS} ${LOCALLIBS}
 	${CXX} -o $@ ${LDFLAGS} $^ ${EXTLIBS}
 
-# Detección automática de dependencias en código fuente C++ con GCC #
+# Construye el programa de comprobaciones sobre el código fuente
+${CHECK_EXE}: ${CHECK_SRCS}
+	${MAKE} -f Make_check.mk
 
+# Detección automática de dependencias en código fuente C++ #
 %.d: %.cpp
-	@$(CXX) -MM $(CXXFLAGS) $< > $@
-	@sed -ri 's,($*)\.o[ :]*,\1.o $@ : ,g' $@
+	@$(CXX) -MM ${CPPFLAGS} $(CXXFLAGS) $< > $@
+	@sed --regexp-extended --in-place 's,($*)\.o[ :]*,\1.o $@ : ,g' $@
 
--include $(COMM_SRCS:.cpp=.d) $(MAIN_SRCS:.cpp=.d) $(TEST_SRCS:.cpp=.d)
+-include $(OWN_SRCS:.cpp=.d) $(MAIN_SRCS:.cpp=.d) $(TEST_SRCS:.cpp=.d)
 
-## COBERTURA / PERFILADO #######################################################
+# Porque Cadena y Fecha aún son susceptibles de cambios...
+cadena.o: ${DIRFECHACADENA}/cadena.hpp
+fecha.o : ${DIRFECHACADENA}/fecha.hpp
 
-# Descomentando estas dos líneas de CXXFLAGS y LDFLAGS se activa el soporte
-# para las pruebas de cobertura y el perfilado de los programas.
-# Una vez tenemos esto y recompilamos por completo (generando una serie de
-# ficheros .gcno para gcov), podemos ejecutar el programa de la forma usual,
-# y se generarán gmon.out (para gprof) y un .gcda (para gcov) para cada .cpp
-# y .h del programa ejecutado.
+
+## Cobertura / Perfilado 
+
+# Descomentando estas dos líneas de CXXFLAGS y LDFLAGS se activa el soporte 
+# para las pruebas de cobertura y el perfilado de los programas. 
+# Una vez tenemos esto y recompilamos por completo (generando una serie de 
+# ficheros .gcno para gcov), podemos ejecutar el programa de la forma usual, 
+# y se generarán gmon.out (para gprof) y un .gcda (para gcov) para cada .cpp 
+# y .hpp del programa ejecutado.
 #
 # Desde el directorio donde está gmon.out, podremos hacer:
 #
 # gprof ejecutable
 #
-# para ver (en la salida estándar) qué funciones han consumido más tiempo.
+# para ver en la salida estándar qué funciones han consumido más tiempo. 
 # Y podremos usar:
 #
 # gcov fichero.cpp
 #
 # para ver qué líneas se han ejecutado y cuáles no en fichero.cpp.gcov.
 
-#CXXFLAGS = -g -pg -fprofile-arcs -ftest-coverage -std=${STD} -pedantic -Wall ${INCLUDES}
-#LDFLAGS = -pg -fprofile-arcs
+#CXXFLAGS = -pg -g -fprofile-arcs -ftest-coverage -std=${STD} -pedantic -Wall
+#LDFLAGS  = -pg -fprofile-arcs
 
-# Posibles herramientas de pruebas a considerar:
-# - valgrind (para fugas de memoria, http://valgrind.org/)
-# - dehydra  (para análisis estático del código, https://developer.mozilla.org/en/Dehydra)
+## Limpieza
+#  normal...
+clean:
+	${RM} ${MAIN_EXE} ${MAIN_OBJS} ${TEST_EXE} ${TEST_OBJS} \
+	      ${OWN_OBJS} ${LOCALLIBS} *.d *~ \#* *.{aux,log,dvi,toc} core
+	${MAKE} --directory=${DIRFECHACADENA} clean
+	${MAKE} --file=Make_check.mk clean
 
-## EMPAQUETADO #################################################################
+# ... y del archivo a entregar.
+distclean: clean
+	${RM} ${NOMBRETAR}
 
-${NOMBRETAR}: ${SRCS} ${HDRS} ${LUHNDIR}/luhn.cpp Makefile
+## Empaquetado para entrega
+
+# Esto lo debería usar el alumnado a la hora de la entrega:
+# crea el archivo .tar.gz en el directorio padre de las prácticas
+# tras borrar lo sobrante.
+dist: clean ${NOMBRETAR}
+
+${NOMBRETAR}: ${SRCS} ${HDRS}
 ifeq ($(strip $(NOMBREALUMNO)),)
 	@echo ""
 	@echo "ATENCIÓN: debe definir en el Makefile la variable NOMBREALUMNO"
 	@echo "con el nombre del directorio superior a este."
 	@echo " Vea las instrucciones de entrega de las prácticas."
 else
-	tar -cvz -C../.. -f ${NOMBRETAR} ${NOMBREALUMNO}/${NOMBREPRACTICA} \
-				${NOMBREALUMNO}/${DIRFECHACADENA} \
-				${NOMBREALUMNO}/P2/luhn.cpp \
-				${NOMBREALUMNO}/P2/fct.h
+	tar --create --verbose --gzip --directory=../.. -f ${NOMBRETAR} \
+		${NOMBREDIR} ${NOMBREALUMNO}/${DIRFECHACADENA}          \
+		${NOMBREALUMNO}/${DIRLUHN}/luhn.cpp                     \
+		${NOMBREALUMNO}/${TESTHDR}fct.h
 endif
 
-# Esto lo deberían usar los alumnos a la hora de la entrega:
-# crea el archivo .tar.gz en el directorio padre tras borrar lo sobrante.
-dist: clean ${NOMBRETAR}
-
-distclean: clean
-	${RM} ${NOMBRETAR}
+# Objetivos falsos
+.PHONY: all clean tests dist distclean valgrind test-consola test-auto

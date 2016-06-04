@@ -1,14 +1,14 @@
 /***************************************************************************
- *            usuario.h
+ *            usuario.hpp
  *
- *  mie mayo 7 11:37:48 2014
- *  Copyright  2014  Jose M Barba Gonzalez
+ *  mie mayo 7 11:37:48 2016
+ *  Copyright  2016  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * usuario.h
+ * usuario.hpp
  *
- * Copyright (C) 2014 - Jose M Barba Gonzalez
+ * Copyright (C) 2016 - Jose M Barba Gonzalez
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,11 +27,11 @@
 #ifndef USUARIO_H
 #define USUARIO_H
 
-#include "../cabeceras.h"
-#include "../P1/Cadena/cadena.h"
-#include "../P1/Fecha/fecha.h"
-#include "articulo.h"
-#include "tarjeta.h"
+#include <unordered_map>
+#include "../P1/cadena.hpp"
+#include "../P1/fecha.hpp"
+#include "articulo.hpp"
+#include "tarjeta.hpp"
 
 class Tarjeta;
 class Numero;
@@ -41,7 +41,7 @@ class Clave
 	public:
 		//Atributo que indica la no validez de la clave.
 		enum Razon{CORTA, ERROR_CRYPT};
-		
+
 		//Clase de verificación de clave incorrecta.
 		class Incorrecta
 		{
@@ -71,7 +71,7 @@ class Usuario
 	public:
 		typedef set<Cadena> Usuarios;
 		typedef map<Numero, Tarjeta*> Tarjetas;
-		typedef map<Articulo*, unsigned> Articulos;
+		typedef unordered_map<Articulo*, unsigned> Articulos;
 
 		//Clase de excepcion Id duplicado
 		class Id_duplicado

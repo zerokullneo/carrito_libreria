@@ -1,14 +1,14 @@
 /***************************************************************************
- *            tarjeta.h
+ *            tarjeta.hpp
  *
- *  mie mayo 7 11:37:48 2014
- *  Copyright  2014  Jose M Barba Gonzalez
+ *  mie mayo 7 11:37:48 2016
+ *  Copyright  2016  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * tarjeta.h
+ * tarjeta.hpp
  *
- * Copyright (C) 2014 - Jose M Barba Gonzalez
+ * Copyright (C) 2016 - Jose M Barba Gonzalez
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +27,13 @@
 #ifndef TARJETA_H
 #define TARJETA_H
 
-#include "../cabeceras.h"
-#include "usuario.h"
-#include "../P1/Cadena/cadena.h"
-#include "../P1/Fecha/fecha.h"
+#include <iomanip>
+#include <cstddef>
+#include <algorithm>
+#include <locale>
+#include "usuario.hpp"
+#include "../P1/cadena.hpp"
+#include "../P1/fecha.hpp"
 
 class Usuario;
 
@@ -80,6 +83,7 @@ class Numero
 class Tarjeta
 {
 	public:
+		enum Tipo{VISA,Mastercard,Maestro,JCB,AmericanExpress};
 		//Clase de excepcion Caducada.
 		class Caducada
 		{
@@ -92,7 +96,8 @@ class Tarjeta
 				Fecha caducada_;
 		};
 
-		Tarjeta(const Numero& tjt, Usuario& usuario, const Fecha& f_cad);
+		//Constructor de Tarjeta
+		Tarjeta(const Tipo tipo, const Numero& tjt, Usuario& usuario, const Fecha& f_cad);
 
 		//Evitar la copia de una Tarjeta
 		Tarjeta(const Tarjeta&)=delete;
@@ -100,7 +105,7 @@ class Tarjeta
 		Tarjeta& operator=(const Tarjeta&)=delete;
 
 		//Métodos observadores de los atributos de Tarjeta.
-		Numero tarjeta()const{return tarjeta_;}
+		Tipo tipo()const {return tipo_;}
 		Numero numero()const{return tarjeta_;}
 		Fecha caducidad()const{return f_caducidad_;}
 		Cadena titular_facial()const{return titular_facial_;}
@@ -110,6 +115,7 @@ class Tarjeta
 		~Tarjeta();
 
 	private:
+		Tipo tipo_;
 		Numero tarjeta_;
 		Usuario* titular_;
 		Fecha f_caducidad_;
@@ -119,5 +125,6 @@ class Tarjeta
 bool operator <(const Tarjeta& t1, const Tarjeta& t2);
 bool operator ==(const Tarjeta& t1, const Tarjeta& t2);
 bool operator <(const Numero& n1, const Numero& n2);
+ostream& operator << (ostream& out, const Tarjeta::Tipo t);
 ostream& operator << (ostream& out, const Tarjeta& tjt);
 #endif //TARJETA_H

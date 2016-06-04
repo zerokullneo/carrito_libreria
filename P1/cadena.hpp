@@ -1,33 +1,41 @@
 /***************************************************************************
- *            cadena.h
- *
- *  vie diciembre 20 01:53:35 2013
- *  Copyright  2013  Jose M Barba Gonzalez
- *  <user@host>
- ****************************************************************************/
+* cadena.hpp
+*
+* mie, mar 16 2016 19:00:45
+* Copyright 2016 Jose M Barba Gonzalez
+* <user@host>
+****************************************************************************/
 /*
- * cadena.h
- *
- * Copyright (C) 2013 - Jose M Barba Gonzalez
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
+* cadena.hpp
+*
+* Copyright (C) 2016 - Jose M Barba Gonzalez
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 
-#include "../../cabeceras.h"
+#ifndef CADENA_HPP
+#define CADENA_HPP
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <stdexcept>
+#include <vector>
+#include <iterator>
 
-#ifndef _CADENA_H_
-#define _CADENA_H_
+using namespace std;
+
 class Cadena
 {
 	public:
@@ -39,11 +47,11 @@ class Cadena
 
 		/*Constructores*/
 		//Constructor predeterminado texto_[0]=' ';
-		explicit Cadena(){tamano_ = 0;texto_ = new char[1];texto_[0]='\0';}
+		explicit Cadena(){tam_ = 0;s_ = new char[1];s_[0]='\0';}
 		//Constructor de conversión
-		Cadena(unsigned int longitud, char caracter);
+		Cadena(size_t longitud, char caracter);
 		//Constructor de espacios vacíos.
-		explicit Cadena(unsigned int tamano);
+		explicit Cadena(size_t tamano);
 		//Constructor de copia de un objeto Cadena
 		Cadena(const Cadena& frase);
 		//Constructor de movimiento de un objeto Cadena
@@ -52,10 +60,8 @@ class Cadena
 		Cadena(const char* texto);
 		//Constructor de una sub-cadena de bajo nivel char*.
 		Cadena(const char* texto, size_t n);
-		//Constructor de una sub-cadena desde una posicion sobre un objeto Cadena.
-		Cadena(const Cadena& frase, unsigned int pos, size_t n);
-		//Constructor de uns sub-cadena de un objeto Cadena de un tamaño determinado.
-		Cadena(const Cadena& frase, unsigned int pos);
+		//Constructor de una sub-cadena desde una posicion sobre un objeto Cadena de un tamaño determinado.
+		Cadena(const Cadena& frase, size_t pos, size_t n=-1);
 
 		//operadores sobrecargados
 		Cadena& operator +=(const Cadena& frase) noexcept;
@@ -64,42 +70,42 @@ class Cadena
 		Cadena& operator =(const Cadena& frase) noexcept;
 		//Asignacion de movimiento
 		Cadena& operator =(Cadena&& frase) noexcept;
-		char& operator[](unsigned int i) noexcept;
-		char operator[](unsigned int i) const noexcept;
+		char& operator[](size_t i) noexcept;
+		char operator[](size_t i) const noexcept;
 
 		//Funcion que extrae una subcadena dentro de otra
 		//La variable 'inicio' indica el indice donde comenzara a contar, contando
 		//el numero de caracteres especificado en la variable 'num_caracteres'.
-		Cadena substr(unsigned int inicio, unsigned int num_caracteres) const throw(out_of_range);
-		char at(unsigned int i) const throw(out_of_range);
-		char& at(unsigned int i) throw(out_of_range);
+		Cadena substr(size_t inicio, size_t num_caracteres) const throw(out_of_range);
+		char at(size_t i) const throw(out_of_range);
+		char& at(size_t i) throw(out_of_range);
 
 		//funciones observadoras
-		char* Cad() const noexcept {return texto_;}
-		const char* c_str() const noexcept {return texto_;};
+		char* Cad() const noexcept {return s_;}
+		const char* c_str() const noexcept {return s_;};
 		//recibe un objeto Cadena para verificar su longitud
-		unsigned int length(Cadena& c)const noexcept {return c.tamano_;}
+		size_t length(Cadena& c)const noexcept {return c.tam_;}
 		//devuelve el atributo tamano_ del objeto cadena actual
-		unsigned int length()const noexcept {return tamano_;}
+		size_t length()const noexcept {return tam_;}
 		//const char* imprimirP()const;
-		void imprimirP()const noexcept {cout << texto_;};
+		void imprimirP()const noexcept {cout << s_;};
 
 		//funciones sobre iteradores
 		iterator begin() const noexcept;
 		iterator end() const noexcept;
-		const_iterator cbegin() noexcept;
-		const_iterator cend() noexcept;
+		const_iterator cbegin() const noexcept;
+		const_iterator cend() const noexcept;
 		reverse_iterator rbegin() const noexcept;
 		reverse_iterator rend() const noexcept;
 		const_reverse_iterator crbegin() const noexcept;
 		const_reverse_iterator crend() const noexcept;
 
 		//Destructor de Cadena
-		~Cadena(){delete [] texto_;};
+		~Cadena(){delete [] s_;};
 
 	private:
-		char* texto_;
-		unsigned int tamano_;
+		char* s_;
+		size_t tam_;
 };
 
 //operadores sobrecargados externos de mas de un elemento
@@ -114,4 +120,5 @@ bool operator <(const Cadena& texto1,const Cadena& texto2);
 //Insercción y extracción de flujo
 ostream& operator <<(ostream& out,const Cadena& texto);
 istream& operator >>(istream& in,Cadena& texto);
-#endif	/* CADENA_H_ */
+
+#endif // CADENA_HPP

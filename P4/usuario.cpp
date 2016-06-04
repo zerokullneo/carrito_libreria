@@ -26,16 +26,31 @@
 
 #define _XOPEN_SOURCE
 #include <unistd.h>
-#include "usuario.h"
-#include "articulo.h"
-#include "tarjeta.h"
+#include <random>
+#include <assert.h>
+#include "usuario.hpp"
+#include "articulo.hpp"
+#include "tarjeta.hpp"
+
+struct  GNA {
+	GNA() {	srand(time(0));}
+	};
+
+GNA g;
 
 /*CLASE CLAVE*/
 Clave::Clave(const char* clav)
 {
 	if(strlen(clav) < 5)throw Incorrecta(CORTA);
 
-	const char* c = crypt(clav,"0123456789./");
+	const char* const salt_chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789./";
+
+	char salt[] = {salt_chars[rand()%64],salt_chars[rand()%64]};
+
+	const char* c = crypt(clav,salt);
+
+	if (c == nullptr) throw Incorrecta(ERROR_CRYPT);
+
 	clave_ = c;
 
 	if(!clave_.length())throw Incorrecta(ERROR_CRYPT);
@@ -43,12 +58,10 @@ Clave::Clave(const char* clav)
 
 bool Clave::verifica(const char* pass) const noexcept
 {
-	pass = crypt(pass,"0123456789./");
 
-	if(0 == strcmp(pass, clave_.c_str()))
-		return true;
-	else
-		return false;
+	char* poss = crypt(pass,clave_.c_str());
+
+	return (0 == strcmp(poss, clave_.c_str()));
 }
 /*FIN CLASE CLAVE*/
 
@@ -66,14 +79,16 @@ identificador_(id), nombre_(nom), apellidos_(apll), direccion_(dir), contrasenia
 
 void Usuario::es_titular_de(Tarjeta& tjt) noexcept
 {
-	//insertamos el par Numero-Tarjeta en el map de tarjetas_
-	tarjetas_.insert(pair<Numero,Tarjeta*>(tjt.tarjeta(),&tjt));
+	if(tjt.titular() == this)
+		if(tarjetas_.find(tjt.numero()) == tarjetas_.end())
+			//insertamos el par Numero-Tarjeta en el map de tarjetas_
+			tarjetas_.insert(pair<Numero,Tarjeta*>(tjt.numero(),&tjt));
 }
 
 void Usuario::no_es_titular_de(Tarjeta& tjt) noexcept
 {
 	//eliminamos el par de tarjetas_ dada la tarjeta tjt
-	tarjetas_.erase(tjt.tarjeta());
+	tarjetas_.erase(tjt.numero());
 	//anulamos el titular de tjt
 	tjt.anula_titular();
 }
@@ -92,11 +107,11 @@ void Usuario::compra(Articulo& art, unsigned i) noexcept
 
 Usuario::~Usuario()
 {
-	//Eliminamos todas las tarjetas que tenga el usuario.
-	for(Usuario::Tarjetas::const_iterator it=tarjetas().begin(); it!=tarjetas().end(); ++it)
-		(it->second)->anula_titular();
-	//Cuando esten todas eliminadas, borramos el id de ususario 
+	//Eliminación de usuario.
 	id_.erase(identificador_);
+	//Eliminamos todas las tarjetas que tenga el usuario.
+	for(Usuario::Tarjetas::const_iterator it=tarjetas_.begin(); it!=tarjetas_.end(); it++)
+		(it->second)->anula_titular();
 }
 /*FIN CLASE USUARIO*/
 

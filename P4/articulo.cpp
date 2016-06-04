@@ -1,14 +1,14 @@
 /***************************************************************************
  *            articulo.cpp
  *
- *  mar mayo 6 12:52:48 2014
- *  Copyright  2014  Jose M Barba Gonzalez
+ *  mar mayo 6 12:52:48 2016
+ *  Copyright  2016  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
  * articulo.cpp
  *
- * Copyright (C) 2014 - Jose M Barba Gonzalez
+ * Copyright (C) 2016 - Jose M Barba Gonzalez
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,24 +24,24 @@
  * along with this protitgram. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "articulo.h"
+#include "articulo.hpp"
 
-/*CLASE ARTICULO*/
-Articulo::Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned int stk):
-autores_(aut),referencia_(ref), titulo_(tit), f_publi_(fec), precio_(pvp), stock_(stk)
+/*CLASE ARTICULO - */
+Articulo::Articulo(const Autores& aut, const Cadena& refr, const Cadena& tit, const Fecha& fec, double pvp, unsigned int stk):
+autores_(aut),referencia_(refr), titulo_(tit), f_publi_(fec), precio_(pvp), stock_(stk)
 {
-	if(autores_.empty())
+	if(autores_.empty())//excepción en caso que no se hayan asignado autores_
 		throw Autores_vacios();
 }
 /*FIN CLASE ARTICULO*/
 
-/*CLASE ARTICULOALMACENABLE*/
+/*CLASE ARTICULOALMACENABLE - */
 ArticuloAlmacenable::ArticuloAlmacenable(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int s):Articulo(a,r,t,f,p),stockaa_(s)
 {
 }
 /*FIN CLASE ARTICULOALMACENABLE*/
 
-/*CLASE LIBRODIGITAL*/
+/*CLASE LIBRODIGITAL - */
 LibroDigital::LibroDigital(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,const Fecha& e):Articulo(a,r,t,f,p),expiracion_(e)
 {
 }
@@ -53,7 +53,7 @@ ostream& LibroDigital::imp_esp(ostream& out) const
 }
 /*FIN CLASE LIBRODIGITAL*/
 
-/*CLASE LIBRO*/
+/*CLASE LIBRO - */
 Libro::Libro(const Autores& a,const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned int pg,unsigned int s):ArticuloAlmacenable(a,r,t,f,p,s),paginas_(pg)
 {
 }
@@ -65,7 +65,7 @@ ostream& Libro::imp_esp(ostream& out) const
 }
 /*FIN CLASE LIBRO*/
 
-/*CLASE CEDERRON*/
+/*CLASE CEDERRON - */
 Cederron::Cederron(const Autores& a, const Cadena& r,const Cadena& t,const Fecha& f,double p,unsigned tm,unsigned int s):ArticuloAlmacenable(a,r,t,f,p,s),tamano_(tm)
 {
 }
@@ -79,15 +79,15 @@ ostream& Cederron::imp_esp(ostream& out) const
 
 ostream& operator <<(ostream& out, const Articulo& art)
 {
-	Articulo::Autores::const_iterator aut = art.autores().begin();
-	size_t num_aut = 1;
+    Articulo::Autores::const_iterator aut = art.autores().begin();
+    size_t num_aut = 1;
 	out << "[" << art.referencia() << "] \"" << art.titulo() << "\", de ";
 	for(;aut != art.autores().end(); ++aut)
-	{
-		out << (*aut)->apellidos();//muestra los apellidos de cada autor
-		if(num_aut != art.autores().size() ) out << ", ";//muestra una coma por cada autor hasta uno antes del último
-		num_aut++;
-	}
+    {
+        out << (*aut)->apellidos();//muestra los apellidos de cada autor
+        if(num_aut != art.autores().size() ) out << ", ";//muestra una coma por cada autor hasta uno antes del último
+        num_aut++;
+    }
 	out << ". " << art.f_publi().anno() << ". " << setprecision(2) << fixed << art.precio() << " €";
 	out << endl << "\t";
 	art.imp_esp(out);

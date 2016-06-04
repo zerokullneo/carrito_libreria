@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Jose M Barba Gonzalez
-Date                   :=02/02/16
+Date                   :=17/02/16
 CodeLitePath           :="/home/zerokullneo/.codelite"
 LinkerName             :=/usr/bin/g++
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -60,8 +60,29 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/Cadena_cadena.cpp$(ObjectSuffix) $(IntermediateDirectory)/Fecha_fecha.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_articulo.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_tarjeta.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_usuario.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_pedido.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_pedido-articulo.cpp$(ObjectSuffix) $(IntermediateDirectory)/P2_luhn.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-auto.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/P4_test-caso0-cadena-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso0-fecha-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso1-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso3-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso4-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso4-consola.cpp$(ObjectSuffix) 
+INCLUDES  := -I${CADENADIR} -I${FECHADIR} -I${TESTHDR}
+LOCALLIBS := ${CADENADIR}/cadena.o ${FECHADIR}/fecha.o ${LUHNDIR}/luhn.o
+EXTLIBS   := -lcrypt
+LIBS      := ${LOCALLIBS} ${EXTLIBS}
+VPATH     := .:${CADENADIR}:${FECHADIR}
+COMM_SRCS := usuario.cpp tarjeta.cpp articulo.cpp pedido.cpp \
+pedido-articulo.cpp ${LUHNDIR}/luhn.cpp:=
+COMM_HDRS := articulo.h pedido-articulo.h pedido.h tarjeta.h usuario.h \
+usuario-pedido.h:=
+MAIN_SRCS := test-caso4-consola.cpp
+MAIN_OBJS := $(COMM_SRCS:.cpp=.o) $(MAIN_SRCS:.cpp=.o)
+MAIN_EXE  := test-caso4-consola
+TEST_SRCS := test-caso0-cadena-auto.cpp test-caso0-fecha-auto.cpp \
+test-caso1-auto.cpp test-caso3-auto.cpp test-caso4-auto.cpp test-auto.cpp:=
+TEST_HDRS := test-auto.h ${TESTHDR}/fct.h
+TEST_OBJS := $(COMM_SRCS:.cpp=.o) $(TEST_SRCS:.cpp=.o)
+TEST_EXE  := test-p1_4-auto
+SRCS := ${COMM_SRCS} ${TEST_SRCS} ${MAIN_SRCS}
+HDRS := ${COMM_HDRS} ${TEST_HDRS}
+NOMBRETAR := ../../${NOMBREALUMNO}.tar.gz
+NOMBREDIR := ${NOMBREALUMNO}/${NOMBREPRACTICA}
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/Cadena_cadena.cpp$(ObjectSuffix) $(IntermediateDirectory)/Fecha_fecha.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_articulo.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_tarjeta.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_usuario.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_pedido.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_pedido-articulo.cpp$(ObjectSuffix) $(IntermediateDirectory)/P2_luhn.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso0-cadena-auto.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/P4_test-caso0-fecha-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso1-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso3-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso4-auto.cpp$(ObjectSuffix) $(IntermediateDirectory)/P4_test-caso4-consola.cpp$(ObjectSuffix) 
 
 
 
@@ -163,14 +184,6 @@ $(IntermediateDirectory)/P2_luhn.cpp$(DependSuffix): P2/luhn.cpp
 
 $(IntermediateDirectory)/P2_luhn.cpp$(PreprocessSuffix): P2/luhn.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/P2_luhn.cpp$(PreprocessSuffix) "P2/luhn.cpp"
-
-$(IntermediateDirectory)/P4_test-auto.cpp$(ObjectSuffix): P4/test-auto.cpp $(IntermediateDirectory)/P4_test-auto.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/zerokullneo/github/codelite/carrito_libreria/P4/test-auto.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/P4_test-auto.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/P4_test-auto.cpp$(DependSuffix): P4/test-auto.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/P4_test-auto.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/P4_test-auto.cpp$(DependSuffix) -MM "P4/test-auto.cpp"
-
-$(IntermediateDirectory)/P4_test-auto.cpp$(PreprocessSuffix): P4/test-auto.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/P4_test-auto.cpp$(PreprocessSuffix) "P4/test-auto.cpp"
 
 $(IntermediateDirectory)/P4_test-caso0-cadena-auto.cpp$(ObjectSuffix): P4/test-caso0-cadena-auto.cpp $(IntermediateDirectory)/P4_test-caso0-cadena-auto.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/zerokullneo/github/codelite/carrito_libreria/P4/test-caso0-cadena-auto.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/P4_test-caso0-cadena-auto.cpp$(ObjectSuffix) $(IncludePath)

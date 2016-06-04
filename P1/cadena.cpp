@@ -1,10 +1,12 @@
 // cadena.cpp
-// vie diciembre 20 01:53:35 2013
-// Copyright  2013  Jose M Barba Gonzalez
+//
+// mie, mar 16 2016 19:00:45
+// Copyright 2016 Jose M Barba Gonzalez
 // <user@host>
+//
 // cadena.cpp
 //
-// Copyright (C) 2013 - Jose M Barba Gonzalez
+// Copyright (C) 2016 - Jose M Barba Gonzalez
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,118 +21,112 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#include "cadena.h"
+#include <locale>
+#include "cadena.hpp"
 
 using namespace std;
 
 /*CONSTRUCTORES*/
 //Constructor de conversión
-Cadena::Cadena(unsigned int longitud, char caracter):tamano_(longitud)
+Cadena::Cadena(size_t longitud, char caracter):tam_(longitud)
 {
-	texto_= new char[tamano_ + 1];
+	s_= new char[tam_ + 1];
 
-	if(texto_ == NULL)
+	if(s_ == NULL)
 		cerr << "Cadena: Predeterminado fallo de memoria." << endl;
 	else
 	{
-		for(unsigned int i = 0; i < tamano_; i++)
-			texto_[i]=caracter;
+		for(size_t i = 0; i < tam_; i++)
+			s_[i]=caracter;
 
-		texto_[tamano_] = '\0';
+		s_[tam_] = '\0';
 	}
 }
 
 //Constructor de espacios vacíos.
-Cadena::Cadena(unsigned int tamano):tamano_(tamano)
+Cadena::Cadena(size_t tamano):tam_(tamano)
 {
-	texto_ = new char[tamano_ + 1];
+	s_ = new char[tam_ + 1];
 
-	if(texto_ == NULL)
+	if(s_ == NULL)
 		cerr << "Cadena: unsigned int fallo de memoria." << endl;
 	else
 	{
-		for(unsigned int i = 0; i < tamano_; i++)
-			texto_[i] = ' ';
+		for(size_t i = 0; i < tam_; i++)
+			s_[i] = ' ';
 
-		texto_[tamano_]='\0';
+		s_[tam_]='\0';
 	}
 }
 
 //Constructor de copia de un objeto Cadena
-Cadena::Cadena(const Cadena& frase):tamano_(frase.length())
+Cadena::Cadena(const Cadena& frase):tam_(frase.length())
 {
-	texto_ = new char[tamano_ + 1];
-	if(texto_ == NULL)
+	s_ = new char[tam_ + 1];
+	if(s_ == NULL)
 		cerr << "Cadena: Cadena& fallo de memoria." << endl;
 	else
-		strncpy(texto_, frase.texto_, tamano_ + 1);
+		strncpy(s_, frase.s_, tam_ + 1);
 }
 
 //Constructor de movimiento de un objeto Cadena
-Cadena::Cadena(Cadena&& frase): texto_(frase.texto_), tamano_(frase.tamano_)
+Cadena::Cadena(Cadena&& frase): s_(frase.s_), tam_(frase.tam_)
 {
-    frase.texto_ = new char[1];
-    frase.texto_[0] = '\0';
-    frase.tamano_ = 0;
+	frase.s_ = nullptr;
+	frase.tam_ = 0;
 }
 
 //Constructor de copia de una cadena a bajo nivel.
-Cadena::Cadena(const char* texto):tamano_(strlen(texto))
+Cadena::Cadena(const char* texto):tam_(strlen(texto))
 {
-	texto_ = new char[tamano_ + 1];
-	if(texto_ == NULL)
+	s_ = new char[tam_ + 1];
+	if(s_ == NULL)
 		cerr << "Cadena: const char* fallo de memoria." << endl;
 	else
-		strncpy(texto_, texto, tamano_ + 1);
+	    strncpy(s_, texto, tam_ + 1);
 }
 
 //Constructor de una sub-cadena de bajo nivel char*.
-Cadena::Cadena(const char* texto, size_t n):tamano_(n)
+Cadena::Cadena(const char* texto, size_t n):tam_(n)
 {
-    texto_= new char[tamano_ + 1];
-    if(texto_ == NULL or tamano_ < 0)
-        cerr << "Cadena: const char* fallo de memoria." << endl;
-    else
-    {
-        for(unsigned int i = 0; i < tamano_; i++)
-            texto_[i] = texto[i];
-        texto_[tamano_] = '\0';
-    }
+	if(n > strlen(texto))
+		tam_ = strlen(texto);
+
+	s_ = new char[tam_ + 1];
+	if(s_ == NULL)
+		cerr << "Cadena: const char* fallo de memoria." << endl;
+	else
+	{
+		for(size_t i = 0; i < tam_; i++)
+			s_[i] = texto[i];
+
+		s_[tam_]='\0';
+	}
 }
 
 //Constructor de una sub-cadena desde una posicion sobre un objeto Cadena.
-Cadena::Cadena(const Cadena& frase, unsigned int pos, size_t n)
+Cadena::Cadena(const Cadena& frase, size_t pos, size_t n):tam_(n)
 {
-    frase.at(pos);
-    if(n == npos)
-        tamano_ = (frase.length() - pos);
-    else
-        tamano_ = n;
+	if(n == npos)
+		tam_ = n = (frase.length());
 
-    texto_= new char[tamano_+1];
-    if(texto_ == NULL or tamano_ < 0)
-        cerr << "Cadena: const char* fallo de memoria." << endl;
-    else
-    {
-        for(unsigned int i = pos; i < (pos + tamano_); i++)
-            texto_[i-pos] = frase[i];
-        texto_[tamano_] = '\0';
-    }
-}
+	if((pos + n) > frase.length())
+		tam_ = n = frase.length() - pos;
 
-//Constructor de uns sub-cadena de un objeto Cadena de un tamaño determinado.
-Cadena::Cadena(const Cadena& frase, unsigned int pos): tamano_(frase.length() - pos)
-{
-    frase.at(pos);
-    texto_= new char[tamano_ + 1];
-    if(texto_ == NULL or tamano_ < 0)
-        cerr << "Cadena: const char* fallo de memoria." << endl;
-    else
-    {
-        for(unsigned int i = pos; i < tamano_; i++)
-            texto_[i-pos] = frase[i];
-        texto_[tamano_] = '\0';
-    }
+	if(((pos >= 0) and (pos < frase.length())) and ((pos + n) <= frase.length()))
+	{
+		s_ = new char[tam_ + 1];
+		if(s_ == NULL)
+			cerr << "Cadena: const char* fallo de memoria." << endl;
+		else
+		{
+			for(size_t i = pos; i < (pos + tam_); i++)
+				s_[i-pos] = frase[i];
+			s_[tam_] = '\0';
+		}
+	}
+	else
+		throw std::out_of_range("Error Constructor sub-cadena: caracteres fuera de rango.");
 }
 /*FIN CONSTRUCTORES*/
 
@@ -139,53 +135,52 @@ Cadena::Cadena(const Cadena& frase, unsigned int pos): tamano_(frase.length() - 
 //se suma al 'texto_' existente la nueva 'frase'
 Cadena& Cadena::operator +=(const Cadena& frase) noexcept
 {
-	char* texto_aux = new char[tamano_+1];
-	strncpy(texto_aux, texto_, tamano_+1);
-	tamano_ = this->tamano_ + frase.length();
-	delete[] texto_;
-	texto_ = new char[tamano_+1];
-	strncpy(texto_, texto_aux, strlen(texto_aux)+1);
-	strncat(texto_, frase.texto_,frase.length()+1);
+	char* texto_aux = new char[tam_ + 1];
+	strncpy(texto_aux, s_, tam_ + 1);
+	tam_ = this->tam_ + frase.length();
+	delete[] s_;
+	s_ = new char[tam_ + 1];
+	strncpy(s_, texto_aux, strlen(texto_aux) + 1);
+	strncat(s_, frase.s_,frase.length() + 1);
 	return *this;
 }
 
 Cadena& Cadena::operator =(const char* texto) noexcept
 {
-	tamano_ = strlen(texto) + 1;
-	delete[] texto_;
-	texto_ = new char[tamano_];//texto_ = (char*) realloc(texto_, tamano_);
-	strncpy(texto_, texto, tamano_);
+	tam_ = strlen(texto);
+	delete[] s_;
+	s_ = new char[tam_ + 1];
+	strncpy(s_, texto, tam_ + 1);
 	return *this;
 }
 
 Cadena& Cadena::operator =(const Cadena& frase) noexcept
 {
-	tamano_ = frase.length();
-	delete[] texto_;
-	texto_ = new char[tamano_ + 1];//texto_ = (char*) realloc(texto_, tamano_);
-	strncpy(texto_, frase.texto_, tamano_ + 1);
+	tam_ = frase.length();
+	delete[] s_;
+	s_ = new char[tam_ + 1];
+	strncpy(s_, frase.s_, tam_ + 1);
 	return *this;
 }
 
 //Asignacion de movimiento
 Cadena& Cadena::operator =(Cadena&& frase) noexcept
 {
-    tamano_ = frase.tamano_;
-    texto_ = frase.texto_;
-    frase.texto_ = new char[1];
-    frase.texto_[0] = '\0';
-    frase.tamano_ = 0;
-    return *this;
+	tam_ = frase.tam_;
+	s_ = frase.s_;
+	frase.s_ = nullptr;
+	frase.tam_ = 0;
+	return *this;
 }
 
-char& Cadena::operator [](unsigned int i) noexcept
+char& Cadena::operator [](size_t i) noexcept
 {
-	return texto_[i];
+    return s_[i];
 }
 
-char Cadena::operator [](unsigned int i) const noexcept
+char Cadena::operator [](size_t i) const noexcept
 {
-	return texto_[i];
+    return s_[i];
 }
 
 Cadena operator +(const Cadena& texto1, const Cadena& texto2)
@@ -245,61 +240,61 @@ bool operator <(const Cadena& texto1, const Cadena& texto2)
 /*FIN OPERADORES*/
 
 /*SUBCADENA*/
-Cadena Cadena::substr(unsigned int inicio, unsigned int num_caracteres)const throw(out_of_range)
+Cadena Cadena::substr(size_t inicio, size_t num_caracteres)const throw(out_of_range)
 {
-	if(((inicio >= 0) and (inicio <= tamano_)) and (((num_caracteres > 0) and (num_caracteres < tamano_)) and ((inicio+num_caracteres) < tamano_)))
+	if(((inicio >= 0) and (inicio <= tam_)) and (((num_caracteres > 0) and (num_caracteres < tam_)) and ((inicio + num_caracteres) < tam_)))
 	{
-	    Cadena subtxt(num_caracteres);
-        for(unsigned int i = inicio, j = 0; j < num_caracteres; i++, j++)
-            subtxt.texto_[j]= texto_[i];
+		Cadena subtxt(num_caracteres);
+		for(size_t i = inicio, j = 0; j < num_caracteres; ++i, ++j)
+			subtxt.s_[j]= s_[i];
 
-        return subtxt;
-    }
+		return subtxt;
+	}
 
-    else
-        throw std::out_of_range("Error substr: caracteres fuera de rango.");
+	else
+		throw std::out_of_range("Error substr: caracteres fuera de rango.");
 }
 
 //at Leer caracter
-char Cadena::at(unsigned int i)const throw(out_of_range)
+char Cadena::at(size_t i)const throw(out_of_range)
 {
-	if((i >= tamano_) || (i < 0))
-		throw out_of_range("El índice indicado está fuera de rango.\n");
+	if((i >= 0 and i <= tam_) and (tam_ > 0))
+		return s_[i];
 
 	else
-		return texto_[i];
+		throw std::out_of_range("Error read at: posicion fuera de rango.");
 }
 
 //at Escribir caracter
-char& Cadena::at(unsigned int i)throw(out_of_range)
+char& Cadena::at(size_t i) throw(out_of_range)
 {
-	if((i >= tamano_) || (i < 0))
-		throw out_of_range("El índice indicado está fuera de rango.\n");
+    if((i >= 0 and i <= tam_) and (tam_ >= 0))
+        return s_[i];
 
-	else
-		return texto_[i];
+    else
+        throw std::out_of_range("Error write at: posicion fuera de rango.");
 }
 /*FIN SUBCADENA*/
 
 /*OPERACIONES SOBRE ITERADORES*/
 Cadena::iterator Cadena::begin() const noexcept
 {
-    return &texto_[0];
+    return &s_[0];
 }
 
 Cadena::iterator Cadena::end() const noexcept
 {
-    return &texto_[tamano_];
+    return &s_[tam_];
 }
 
-Cadena::const_iterator Cadena::cbegin() noexcept
+Cadena::const_iterator Cadena::cbegin() const noexcept
 {
-    return &texto_[0];
+    return &s_[0];
 }
 
-Cadena::const_iterator Cadena::cend() noexcept
+Cadena::const_iterator Cadena::cend() const noexcept
 {
-    return &texto_[tamano_];
+    return &s_[tam_];
 }
 
 Cadena::reverse_iterator Cadena::rbegin() const noexcept
@@ -339,7 +334,7 @@ istream& operator >>(istream& in, Cadena& texto)
 	in.seekg(0, in.beg);
 
 	// alojar memoria de "in":
-	char *buffer = new char [length+1];
+	char *buffer = new char [length + 1];
 	buffer[length]='\0';
 	// leer datos como un bloque:
 	while(in.get() == ' ') in.peek();//Se salta los espacios iniciales.
@@ -355,7 +350,7 @@ istream& operator >>(istream& in, Cadena& texto)
 	}
 	else
 	{
-		texto=buffer;
+		texto = buffer;
 		return in;
 	}
 }

@@ -1,14 +1,14 @@
 /***************************************************************************
  *            pedido.cpp
  *
- *  mie mayo 28 14:30:35 2014
- *  Copyright  2014  Jose M Barba Gonzalez
+ *  mie mayo 28 14:30:35 2016
+ *  Copyright  2016  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
  * pedido.cpp
  *
- * Copyright (C) 2014 - Jose M Barba Gonzalez
+ * Copyright (C) 2016 - Jose M Barba Gonzalez
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,10 +24,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pedido.h"
-#include "usuario-pedido.h"
-#include "pedido-articulo.h"
-#include "articulo.h"
+#include "pedido.hpp"
+#include "usuario-pedido.hpp"
+#include "pedido-articulo.hpp"
+#include "articulo.hpp"
 
 int Pedido::n_pedidos = 0;
 
@@ -109,7 +109,7 @@ ostream& operator <<(ostream& out,const Pedido& p)
 {
 	out << "Núm. pedido:\t" << p.numero() << endl;
 	out << "Fecha:\t"<< p.fecha().cadena() << endl;
-	out << "Pagado con:\t" << p.tarjeta()->tarjeta() << endl;
+	out << "Pagado con:\t" << p.tarjeta()->tipo() << " n.º: " << p.tarjeta()->numero() << endl;
 	out << "Importe:\t" << p.total() << " €";
 	return out;
 }

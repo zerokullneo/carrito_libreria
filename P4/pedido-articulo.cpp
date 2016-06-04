@@ -1,14 +1,14 @@
 /***************************************************************************
  *            pedido_articulo.cpp
  *
- *  mie mayo 28 14:30:35 2014
- *  Copyright  2014  Jose M Barba Gonzalez
+ *  mie mayo 28 14:30:35 20166
+ *  Copyright  2016  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
  * pedido_articulo.cpp
  *
- * Copyright (C) 2014 - Jose M Barba Gonzalez
+ * Copyright (C) 2016 - Jose M Barba Gonzalez
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pedido-articulo.h"
+#include "pedido-articulo.hpp"
 
 /*##########Clase LineaPedido##########*/
 LineaPedido::LineaPedido(double p, unsigned c):precio_venta_(p),cantidad_(c)
@@ -54,7 +54,7 @@ bool OrdenaArticulos::operator()(Articulo* a1, Articulo* a2)const
 
 void Pedido_Articulo::pedir(Pedido& pedido, Articulo& articulo, double precio, unsigned cantidad)
 {
-	//insercción en ambos sentidos de los artículos de un pedido
+    //insercción en ambos sentidos de los artículos de un pedido
 	Pedido_Articulo_[&pedido].insert(std::make_pair(&articulo,LineaPedido(precio,cantidad)));
 	Articulo_Pedido_[&articulo].insert(std::make_pair(&pedido,LineaPedido(precio,cantidad)));
 }

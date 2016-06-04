@@ -1,14 +1,14 @@
 /***************************************************************************
- *            articulo.h
+ *            articulo.hpp
  *
- *  mar mayo 6 12:52:48 2014
- *  Copyright  2014  Jose M Barba Gonzalez
+ *  mar mayo 6 12:52:48 2016
+ *  Copyright  2016  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * articulo.h
+ * articulo.hpp
  *
- * Copyright (C) 2014 - Jose M Barba Gonzalez
+ * Copyright (C) 2016 - Jose M Barba Gonzalez
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,9 +27,11 @@
 #ifndef ARTICULO_H
 #define ARTICULO_H
 
-#include "../cabeceras.h"
-#include "../P1/Cadena/cadena.h"
-#include "../P1/Fecha/fecha.h"
+#include <set>
+#include <map>
+#include <iomanip>
+#include "../P1/cadena.hpp"
+#include "../P1/fecha.hpp"
 
 class Autor
 {
@@ -76,8 +78,8 @@ class Articulo
 		virtual ~Articulo(){};
 
 	protected:
-		//Constructores
-		Articulo(const Autores& aut, const Cadena& ref, const Cadena& tit, const Fecha& fec, double pvp, unsigned int stk=1);
+		//Constructores -
+		Articulo(const Autores& aut, const Cadena& refr, const Cadena& tit, const Fecha& fec, double pvp, unsigned int stk=1);
 
 	private:
 		Autores autores_;
@@ -98,7 +100,7 @@ class ArticuloAlmacenable: public Articulo
 		unsigned int& stock(){return stockaa_;}
 
 	protected:
-		//Constructores
+		//Constructores -
 		ArticuloAlmacenable(const Autores& a, const Cadena& r, const Cadena& t, const Fecha& f, double p, unsigned int s=1);
 		virtual ~ArticuloAlmacenable() {}
 

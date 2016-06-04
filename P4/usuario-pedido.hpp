@@ -1,12 +1,12 @@
 /***************************************************************************
- *            pedido.cpp
+ *            usuario_pedido.hpp
  *
  *  mie mayo 28 14:30:35 2014
  *  Copyright  2014  Jose M Barba Gonzalez
  *  <user@host>
  ****************************************************************************/
 /*
- * pedido.cpp
+ * usuario_pedido.hpp
  *
  * Copyright (C) 2014 - Jose M Barba Gonzalez
  *
@@ -27,7 +27,8 @@
 #ifndef USUARIO_PEDIDO_H
 #define USUARIO_PEDIDO_H
 
-#include "../cabeceras.h"
+#include "pedido.hpp"
+#include "usuario.hpp"
 
 class Pedido;
 class Usuario;
@@ -69,6 +70,6 @@ inline Usuario_Pedido::Pedidos Usuario_Pedido::pedidos(Usuario& u)
 
 inline Usuario* Usuario_Pedido::cliente(Pedido& p)
 {
-	return Pedido_Usuario_[&p];  
+	return Pedido_Usuario_[&p];
 }
 #endif /*USUARIO_PEDIDO_H*/
