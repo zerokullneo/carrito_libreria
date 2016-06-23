@@ -49,10 +49,10 @@ namespace {
                  stockCederron);
   LibroDigital eBookNoExpirado(autores, sReferencia_eBook,
                                    sTitulo_eBook, fecha_eBook,
-                                   precio_eBook, 7 + Fecha());
+                                   precio_eBook, Fecha() + 7);
   LibroDigital eBookExpirado(autores, sReferencia_eBook,
                                  sTitulo_eBook, fecha_eBook,
-                                 precio_eBook, (-7) + Fecha());
+                                 precio_eBook, Fecha() - 7);
 
   // Parte común
   bool bPrimera = true;
@@ -71,7 +71,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p4) {
     pUsuarioPedido = new Usuario("fjord", "Franz", "Jordan",
                                  "Rue del Percebe, 13", Clave("supersecreta"));
     pTarjetaPedido = new Tarjeta(TIPO::VISA, Numero("11234567890126"), 
-				 *pUsuarioPedido, 7 + Fecha());
+				 *pUsuarioPedido, Fecha() + 7);
   }
   FCT_SETUP_END();
 
@@ -188,7 +188,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p4) {
   FCT_TEST_END();
 
   FCT_TEST_BGN(LibroDigital - observadores) {
-    const Fecha fManyana = 1 + Fecha();
+    const Fecha fManyana = Fecha() + 1;
     const LibroDigital eBook(autores, sReferencia_eBook, sTitulo_eBook,
                                  fecha_eBook, precio_eBook, fManyana);
     fct_chk_eq_int(autores.size(), 1);
@@ -203,7 +203,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p4) {
   FCT_TEST_END();
 
   FCT_TEST_BGN(LibroDigital - insercion en flujo) {
-    const Fecha fExpiracion = 1 + Fecha();
+    const Fecha fExpiracion = Fecha() + 1;
     const LibroDigital eBook(autores, sReferencia_eBook, sTitulo_eBook,
                                  fecha_eBook, precio_eBook, fExpiracion);
     ostringstream os;
@@ -223,7 +223,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p4) {
 
   FCT_TEST_BGN(LibroDigital - modificacion) {
     LibroDigital eBook(autores, sReferencia_eBook, sTitulo_eBook,
-                           fecha_eBook, precio_eBook, 1 + Fecha());
+                           fecha_eBook, precio_eBook, Fecha() + 1);
     const double nuevoPrecio = 10.5;
     eBook.precio() = nuevoPrecio;
     fct_chk_eq_dbl(eBook.precio(), nuevoPrecio);
@@ -261,4 +261,3 @@ FCTMF_FIXTURE_SUITE_BGN(test_p4) {
 
 }
 FCTMF_FIXTURE_SUITE_END()
-

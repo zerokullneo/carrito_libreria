@@ -42,17 +42,17 @@ int main()
   using Tipo = Tarjeta::Tipo;
   Tarjeta
     visa1(Tipo::VISA, Numero("4539 4512 0398 7356"),
-          lucas, 3*365 + Fecha(31,12,0)),
+          lucas, Fecha(31,12,0) + 3*365),
     american_express(Tipo::AmericanExpress, Numero("378282246310005"),
-                     sanani, 4*365 + Fecha(30,11,0)),
+                     sanani, Fecha(30,11,0) + 4*365),
     dinners_club(Tipo::Mastercard, Numero("30569309025904"),
-                 rosa, 5*365 + Fecha(31,7)),
+                 rosa, Fecha(31,7) + 5*365),
     mastercard(Tipo::Mastercard, Numero("555555555555 4444  "),
-               krispin, 3*365 + Fecha(31,1)),
+               krispin, Fecha(31,1) + 3*365),
     australian_bank_card(Tipo::Maestro, Numero("5610591081018250"),
-               krispin, 365 + Fecha(28,2)),
-    jcb(Tipo::VISA, Numero("3530111333300000"), rosa, 2*365 + Fecha("31/7/0")),
-    visa2(Tipo::VISA, Numero(" 4222222222222"), lucas, 365 + Fecha("28/2/0"));
+               krispin, Fecha(28,2) + 365),
+    jcb(Tipo::VISA, Numero("3530111333300000"), rosa, Fecha("31/7/0") + 2*365),
+    visa2(Tipo::VISA, Numero(" 4222222222222"), lucas, Fecha("28/2/0") + 365);
    
   // Constructor de Autor: nombre, apellidos, dirección
   Autor 
@@ -90,7 +90,7 @@ int main()
   autores.insert(&Carmela);
   LibroDigital // autor = Carmela
     eBook2(autores, "035", "Horarios", "20/3/2009)", 
-	   9., 365 * 4 + Fecha("20/6/00")),
+	   9., Fecha("20/6/00") + 365*4),
     eBook3(autores, "036", "Exámenes", "1/10/2007", 12., "30/9/2008"); // expdo.
   
   // Constructor de Cederron: autores, referencia, título, fecha publicación,
@@ -237,7 +237,7 @@ int main()
   try {
     // Creamos una tarjeta que caducó ayer. ¿Qué pasa? ¡No somos un
     // maldito banco, esto es una prueba!
-    Tarjeta caduca(Tipo::JCB, Numero("4222222222222"), lucas, (-1) + Fecha()); 
+    Tarjeta caduca(Tipo::JCB, Numero("4222222222222"), lucas, Fecha() - 1); 
     lucas.compra(arte_insulto, 2);
     Pedido no_pagado(usuario_ped, pedido_art, lucas, caduca); // pedido hoy
   }
@@ -256,4 +256,3 @@ int main()
   cout << "\nNúmero total de pedidos: " 
        << Pedido::n_total_pedidos() << '\n' << endl;
 }
-

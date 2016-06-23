@@ -53,7 +53,7 @@ ostream& operator <<(ostream& out, const LineaPedido& l);
 class OrdenaPedidos
 {
 	public:
-		bool operator()(Pedido* p1,Pedido* p2)const;
+		bool operator()(Pedido* p1, Pedido* p2)const;
 };
 
 /*##########Clase OrdenaArticulos##########*/

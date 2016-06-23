@@ -30,6 +30,7 @@
 #ifndef FECHA_HPP
 #define FECHA_HPP
 
+#include <cstdlib>
 #include <ctime>
 
 class Fecha
@@ -51,8 +52,8 @@ class Fecha
 		Fecha& operator -- ();//postdecremento
 		Fecha operator ++(int);//preincremento
 		Fecha operator --(int);//predecremento
-		bool operator + (int incremento);
-		bool operator - (int decremento);
+		Fecha operator + (int incremento);
+		Fecha operator - (int decremento);
 
 		//funciones observadoras
 		const char* cadena()const noexcept;
@@ -86,7 +87,7 @@ class Fecha
 		inline void default_m_(){m_ = ((info_fecha_->tm_mon) + 1);}
 		inline void default_a_(){a_ = ((info_fecha_->tm_year) + 1900);}
 		//Funcion comprobadora.
-		bool comprueba_fecha(int& dia, int& mes, int& anyo);
+		bool comprueba_fecha(int dia, int mes, int anyo);
 };
 
 /*operadores sobrecargados de mas de un argumento*/

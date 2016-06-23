@@ -52,6 +52,9 @@
     <File Name="P1/Makefile"/>
     <File Name="P1/test-P1-auto.cpp"/>
     <File Name="P1/test-P1-consola.cpp"/>
+    <File Name="P4/test-caso4-auto.cpp"/>
+    <File Name="P4/test-caso0-fecha-auto.cpp"/>
+    <File Name="P4/test-caso4-consola.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
